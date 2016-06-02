@@ -17,8 +17,8 @@ class E_Barrel : public Entity
 	bool solid;
 	float dmg;
 
-	LPDIRECTSOUNDBUFFER8		dSndFire;
-	Sound						*sndExplo;
+	sf::Sound					sndFire;
+	sf::Sound						sndExplo;
 	Entity						*player;
 public:
 	bool		onPlatform;

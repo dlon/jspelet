@@ -50,7 +50,7 @@ E_Boss::E_Boss() : maxHealth(3000.0f), E_BaseBoss()
 	spr.Load("data/boss.png", 2, 155, 173);
 	sprShoot.Load("data/boss.png", 1, 155, 173, 310, 0);
 
-	sndStep = eng->res->sounds.Load("data/boss1steg.wav");
+	sndStep = sf::Sound(*eng->res->sounds.Load("data/boss1steg.wav"));
 
 	attack2 = false;
 	shooting = false;
@@ -97,7 +97,9 @@ void E_Boss::Step()
 		hspeed != 0.0f) {
 		if (!sndStep->Playing()) {
 			//sndStep->Play(false);
-			sndStep->PlayLoc(x - player->x, y - player->y);
+			//sndStep->PlayLoc(x - player->x, y - player->y);
+			// FIXME-SFML: pan
+			sndStep.play();
 			eng->jack->chaseCam.EarthQuake();
 		}
 	}
@@ -284,8 +286,8 @@ E_BossRocket::E_BossRocket()
 	spriteIndex = &sprRocket;
 	sprRocket.imgSpeed = 0.1f;
 
-	sndRocket = eng->res->sounds.Load("data/explosion.wav");
-	sndShoot = eng->res->sounds.Load("data/sht.wav");
+	sndRocket = sf::Sound(*eng->res->sounds.Load("data/explosion.wav"));
+	sndShoot = sf::Sound(*eng->res->sounds.Load("data/sht.wav"));
 
 	pl = eng->jack->map.GetEntities().FindInstanceById(NULL, EID_PLAYER); // FIXME: Slow?
 
@@ -306,7 +308,8 @@ void E_BossRocket::CallTimer(int num)
 	else if (num == 1) {
 		// first exec, after pos is initialized
 		if (pl)
-			sndShoot->PlayLoc(x - pl->x, y - pl->y, true);
+			//sndShoot->PlayLoc(x - pl->x, y - pl->y, true);
+			sndShoot.play(); // FIXME-SFML: fix pan
 	}
 }
 
@@ -316,7 +319,8 @@ void E_BossRocket::Collision(Entity *with)
 
 	if (spriteIndex && with->IsPlayer()) {
 		if (pl)
-			sndRocket->PlayLoc(x - pl->x, y - pl->y, true);
+			//sndRocket->PlayLoc(x - pl->x, y - pl->y, true);
+			sndRocket.play();
 		spriteIndex = NULL;
 		// todo: explosion sprite
 
@@ -338,8 +342,8 @@ E_BossSurprise::E_BossSurprise()
 	sprSurprise.Load("data/boss1raket.png", 1, 64, 0);
 	spriteIndex = &sprSurprise;
 
-	sndDrop		= eng->res->sounds.Load("data/boss1drop.wav");
-	sndExplode	= eng->res->sounds.Load("data/explosion.wav");
+	sndDrop		= sf::Sound(*eng->res->sounds.Load("data/boss1drop.wav"));
+	sndExplode	= sf::Sound(*eng->res->sounds.Load("data/explosion.wav"));
 
 	pl = eng->jack->map.GetEntities().FindInstanceById(NULL, EID_PLAYER); // FIXME: Slow?
 
@@ -356,14 +360,16 @@ void E_BossSurprise::Step()
 
 	if (!firstExec) {
 		if (pl)
-			sndDrop->PlayLoc(x - pl->x, y - pl->y, true);
+			//sndDrop->PlayLoc(x - pl->x, y - pl->y, true);
+			sndDrop.play(); // FIXME-SFML: pan
 		firstExec = true;
 	}
 
 	if (spriteIndex && vspeed <= gravity) {
 		// hit the ground
 		if (pl)
-			sndExplode->PlayLoc(x - pl->x, y - pl->y, true);
+			//sndExplode->PlayLoc(x - pl->x, y - pl->y, true);
+			sndExplode.play(); // FIXME-SFML: pan
 		spriteIndex = NULL;
 		SetTimer(0, 60);
 	}
@@ -382,7 +388,8 @@ void E_BossSurprise::Collision(Entity *with)
 	// todo: explosion sprite
 	if (spriteIndex && with->IsPlayer()) {
 		if (pl)
-			sndExplode->PlayLoc(x - pl->x, y - pl->y, true);
+			//sndExplode->PlayLoc(x - pl->x, y - pl->y, true);
+			sndExplode.play(); // FIXME-SFML: pan
 		
 		spriteIndex = NULL;
 		SetTimer(0, 60);

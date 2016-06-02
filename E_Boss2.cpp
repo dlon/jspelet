@@ -32,7 +32,7 @@ static const float		kAttack2AnimStep = 1.0f;
 E_Boss2Trigger::E_Boss2Trigger() : player(NULL)
 {
 	shake = trigger1 = false;
-	sndShake = eng->res->sounds.Load("data/grnd0.wav");
+	sndShake = sf::Sound(*eng->res->sounds.Load("data/grnd0.wav"));
 }
 
 void E_Boss2Trigger::Step()
@@ -94,9 +94,8 @@ void E_Boss2Trigger::Step()
 		}
 
 		// shake loop
-		if (shake && !sndShake->Playing()) {
-			sndShake->Stop();
-			sndShake->Play();
+		if (shake && sndShake.getStatus() != sf::SoundSource::Status::Playing) {
+			sndShake.play();
 			eng->jack->chaseCam.EarthQuake();
 		}
 	}
@@ -123,7 +122,7 @@ void E_Boss2Trigger::CallTimer(int num)
 			eng->jack->SetSong("data/hryp.ogg");
 
 			destroy = true;
-			sndShake->Stop();
+			sndShake.stop();
 			}
 			break;
 	}
@@ -283,7 +282,7 @@ E_Boss2::E_Boss2()
 	spr1.Load("data/d3.png", 3, 320, 0); // FIXME: free when done - FIXME2: we only need 3 frames! (but there are 4)
 	spr2.Load("data/d4.png", 4, 320, 0); // FIXME: free when done
 
-	sndShake = eng->res->sounds.Load("data/grnd0.wav"); // FIXME: up frequency towards end?
+	sndShake = sf::Sound(*eng->res->sounds.Load("data/grnd0.wav")); // FIXME: up frequency towards end?
 
 	spriteIndex = &spr1;
 
@@ -342,8 +341,8 @@ void E_Boss2::Step()
 	if (input->CheckPressed(VK_NUMPAD4))
 		SetTimer(3, 1);
 
-	if (attack3 && !sndShake->Playing()) {
-		sndShake->Play(0);
+	if (attack3 && sndShake.getStatus()!=sf::SoundSource::Status::Playing) {
+		sndShake.play();
 		eng->jack->chaseCam.EarthQuake();
 	}
 }
@@ -457,9 +456,8 @@ void E_Boss2::CallTimer(int num)
 		else {
 			attack3 = 0;
 
-			// play some extra shake sound
-			sndShake->Stop();
-			sndShake->Play();
+			// (re)play some extra shake sound
+			sndShake.play();
 			eng->jack->chaseCam.EarthQuake();
 		}
 		break;
@@ -482,8 +480,9 @@ E_Boss2Fireball::E_Boss2Fireball()
 	//hspeed = -10.0f;
 	gravity = 0;
 
-	snd1 = eng->res->sounds.Load("data/fball3.wav");
-	snd1->Stop(); snd1->Play();
+	snd1 = sf::Sound(*eng->res->sounds.Load("data/fball3.wav"));
+	snd1.play();
+	// FIXME-SFML: Stop the old fireball sound
 
 	sprFireball.Load("data/d_klot.png", 2, 41, 0);
 	spriteIndex = &sprFireball;
@@ -568,7 +567,7 @@ E_Boss2GrndFire::E_Boss2GrndFire()
 
 	// TODO: shake ground
 
-	snd1 = eng->res->sounds.Load("data/grnd2.wav");
+	snd1 = sf::Sound(*eng->res->sounds.Load("data/grnd2.wav"));
 
 	// animate fire
 	spr1.imgInd = (float)(rand()%2);
@@ -583,8 +582,7 @@ void E_Boss2GrndFire::CallTimer(int num)
 	case 0: // change frame offset + height ("ascend")
 
 		if (frHeight[0] == 1) {
-			snd1->Stop();
-			snd1->Play(); // FIRST FRAME
+			snd1.play(); // FIRST FRAME
 		}
 
 		frHeight[0] += grndFireDmvI;
@@ -684,10 +682,10 @@ E_Boss2Shield::E_Boss2Shield()
 	a = 0;
 	fMode = 0; // 0=fade in,1=standby,2=fade out
 
-	snd1 = eng->res->sounds.Load("data/tp.wav");
-	snd2 = eng->res->sounds.Load("data/tp2.wav");
+	snd1 = sf::Sound(*eng->res->sounds.Load("data/tp.wav"));
+	snd2 = sf::Sound(*eng->res->sounds.Load("data/tp2.wav"));
 
-	snd1->Play();
+	snd1.play();
 
 #if 0
 	// find ground
@@ -749,14 +747,14 @@ void E_Boss2Shield::CallTimer(int num)
 	switch (num)
 	{
 	case 0:// begin fading out
-		snd2->Play();
+		snd2.play();
 		SetTimer(5, 40); // give sound a head start
 		break;
 	case 5:
 		fMode = 2;
 		break;
 	case 1:
-		if (!snd2->Playing()) {
+		if (snd2.getStatus() != sf::SoundSource::Status::Playing) {
 			destroy = true;
 		}
 		else {
@@ -808,8 +806,8 @@ E_Boss2Door::E_Boss2Door()
 
 	nSndRef++;
 
-	snd = eng->res->sounds.Load("data/shitclose.wav");
-	sndOpen = eng->res->sounds.Load("data/shitopen.wav");
+	snd = sf::Sound(*eng->res->sounds.Load("data/shitclose.wav"));
+	sndOpen = sf::Sound(*eng->res->sounds.Load("data/shitopen.wav"));
 
 	//CreateWall();
 }
@@ -860,8 +858,7 @@ void E_Boss2Door::CallTimer(int num)
 	{
 		// create wall
 	case 0:
-		snd->Stop();
-		snd->Play();
+		snd.play();
 		
 		wallHeight += 32.0f;
 		y -= 32.0f;
@@ -878,8 +875,7 @@ void E_Boss2Door::CallTimer(int num)
 			SetTimer(0, 30);
 		break;
 	case 1: // destroy wall
-		sndOpen->Stop();
-		sndOpen->Play();
+		sndOpen.play();
 		
 		wallHeight -= 32.0f;
 		y += 32.0f;

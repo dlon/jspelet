@@ -112,11 +112,8 @@ E_Barrel::E_Barrel()
 
 	player = 0;
 
-	// create sound buffer
-	Sound *sndFire = eng->res->sounds.Load("data/fire2.wav");
-	dSndFire = sndFire->ReallyBadFunction();
-
-	sndExplo = eng->res->sounds.Load("data/adl.wav");
+	sndFire = sf::Sound(*eng->res->sounds.Load("data/fire2.wav"));
+	sndExplo = sf::Sound(*eng->res->sounds.Load("data/adl.wav"));
 
 	onPlatform = false;
 	platformV = platformH = 0;
@@ -126,7 +123,6 @@ E_Barrel::~E_Barrel()
 {
 	//delete em1;
 	//delete em2;
-	dSndFire->Release();
 }
 
 void E_Barrel::CallTimer(int num)
@@ -214,45 +210,9 @@ void E_Barrel::Step()
 			curFire->Emit();
 		}
 
-		//
-		// play stereoized fire sound
-		//
-		if (!deactivated && player) {
-			// loop
-			DWORD st;
-			if (SUCCEEDED(dSndFire->GetStatus(&st)) &&
-				(st & DSBSTATUS_PLAYING) == 0)
-			{
-				dSndFire->Play(0,0,0);
-			}
-
-			// set panning
-			float dx = x - player->x;
-			float dy = y - player->y;
-
-			int px = (int)(min(fabs(dx)/1000.0f, 1.0f)*10000.0f);
-			px = max(px - 1000, 0); // center range. FIXME: Good solution?
-
-			if (dx < 0.0f)
-				px *= -1;
-			dSndFire->SetPan(px);
-
-			// set volume
-			float dc = dx*dx + dy*dy; // dist
-			float dv = dc / (400.0f*400.0f) * 0.1f; // min = 0.1f?
-			float vLoc = (1.0f - dv > 0.0f) ? (1.0f - dv) : 0.0f;
-
-			// mix volume with global volume
-			dSndFire->SetVolume(-50); dSndFire->SetVolume(-25); // ms bug workaround
-			if (Sound::GetGlobalVolume() > 0.0f) {
-				long mvol = -5000 + long( Sound::GetGlobalVolume() * vLoc * 50.0f);
-				HRESULT hr = dSndFire->SetVolume(mvol);
-			}
-			else
-				dSndFire->SetVolume(-10000); // dead 0
-		}
-		else
-			dSndFire->Stop();
+		// FIXME-SFML: add back panning based on player position
+		if (deactivated || !player)
+			sndFire.stop();
 	}
 }
 
@@ -288,7 +248,9 @@ void E_Barrel::Collision(Entity *with)
 
 		Entity *e = eng->jack->map.GetEntities().FindInstanceById(NULL, EID_PLAYER);
 		if (e)
-			sndExplo->PlayLoc(x-e->x, y-e->y, true); // TODO: move panning if not too lazy
+			sndExplo.play(); // FIXME-SFML: set panning based on Player position
+		sndFire.setLoop(true); // FIXME-SFML: set and update panning based on Player position
+		sndFire.play();
 
 		dmg = 50.0f;
 		SetTimer(0, 1);

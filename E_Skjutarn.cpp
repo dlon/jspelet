@@ -10,7 +10,7 @@ extern Engine *eng;
 E_Skjutarn::E_Skjutarn() : E_BaseEnemy(40.0f)
 {
 	mainSpr.Load("data/skjutarn.png", 1, 0,0);
-	aLazer = eng->res->sounds.Load("data/zap.wav");
+	aLazer = sf::Sound(*eng->res->sounds.Load("data/zap.wav"));
 	
 	spriteIndex = &mainSpr;
 
@@ -58,6 +58,7 @@ void E_Skjutarn::Step()
 		static_cast<E_LazerBeam*>(lazer)->SetColor(0,255,0);
 		static_cast<E_LazerBeam*>(lazer)->ShortenLife(6);
 
-		aLazer->PlayLoc(x - player->x, y - player->y, true);
+		//aLazer->PlayLoc(x - player->x, y - player->y, true);
+		aLazer.play(); // FIXME-SFML: pan
 	}
 }

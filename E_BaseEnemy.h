@@ -16,7 +16,7 @@ protected:
 	float			playerDamage;
 	E_Player	*	player;				// static E_Player *player
 	float			activRadius;
-	static Sound*	sndSpltr;
+	static sf::Sound	sndSpltr;
 	int				lifeSpan;
 public:
 	E_BaseEnemy(float maxHealth);

@@ -32,14 +32,14 @@ E_Player::E_Player()
 	sPlayerDead.Load("data/jakob_ded.png", 1, 0, 0);
 	sPlayerDead2.Load("data/ks.PNG", 2, 37, 0);
 
-	aJump		= eng->res->sounds.Load("data/hepp2.wav");
-	aPlunge		= eng->res->sounds.Load("data/splash3.wav");
-	aBlaster	= eng->res->sounds.Load("data/lazer2.wav");
-	aHurt		= eng->res->sounds.Load("data/hurt.wav");
-	aDying		= eng->res->sounds.Load("data/dying2.wav");
-	aDead		= eng->res->sounds.Load("data/dead.wav");
-	aSwim		= eng->res->sounds.Load("data/swim10.wav");
-	aCp			= eng->res->sounds.Load("data/cp.wav");
+	aJump		= sf::Sound(*eng->res->sounds.Load("data/hepp2.wav"));
+	aPlunge		= sf::Sound(*eng->res->sounds.Load("data/splash3.wav"));
+	aBlaster	= sf::Sound(*eng->res->sounds.Load("data/lazer2.wav"));
+	aHurt		= sf::Sound(*eng->res->sounds.Load("data/hurt.wav"));
+	aDying		= sf::Sound(*eng->res->sounds.Load("data/dying2.wav"));
+	aDead		= sf::Sound(*eng->res->sounds.Load("data/dead.wav"));
+	aSwim		= sf::Sound(*eng->res->sounds.Load("data/swim10.wav"));
+	aCp			= sf::Sound(*eng->res->sounds.Load("data/cp.wav"));
 
 	//aPlunge->SetVolume(-500);
 	
@@ -157,8 +157,7 @@ void E_Player::Step()
 		//aBlaster->Stop();
 		//aBlaster->SetCurrentPosition(0);
 		//aBlaster->Play(0,0,0);
-		aBlaster->Stop();
-		aBlaster->Play();
+		aBlaster.play();
 
 		// beam
 		Entity *lazer = eng->jack->map.GetEntities().CreateEntity(EID_LAZERBEAM); // add(new E_LazerBeam)
@@ -238,11 +237,10 @@ void E_Player::Step()
 
 			jump = true;
 			if (inWater) {
-				aSwim->Rewind();
-				aSwim->Play();
+				aSwim.play();
 			}
 			else
-				aJump->Play();
+				aJump.play();
 		}
 		else {
 			fallThroughTile = true;
@@ -259,11 +257,11 @@ void E_Player::Step()
 
 	// low health
 	if (health < 30.0f) {
-		if (!aDying->Playing())
-			aDying->Play(false);
+		if (aDying.getStatus() != sf::SoundSource::Status::Playing)
+			aDying.play();
 	}
 	else
-		aDying->Stop();
+		aDying.stop();
 
 	// die (out of camera)
 	if (eng->render->cam.maxY && y > eng->render->cam.maxY+500.0f) {
@@ -287,7 +285,7 @@ void E_Player::Step()
 	CheckPointInfo *cpi;
 	if (cpi = eng->jack->map.CheckPointAt(x, y, colRect.GetW(), colRect.GetH())) {
 		plCheckPointId = cpi->id;
-		aCp->Play();
+		aCp.play();
 		eng->jack->hud.CheckPoint();
 		//hud.TextPopUp();
 	}
@@ -371,7 +369,7 @@ void E_Player::PostStep()
 
 	// splash
 	if (inWater && !hasPlayedSplash && prevVspeed > 6.0f) {
-		aPlunge->Play();
+		aPlunge.play();
 		hasPlayedSplash = true;
 	}
 	else if (!inWater && hasPlayedSplash)
@@ -494,7 +492,7 @@ void E_Player::PlayDeathSequence()
 	SetTimer(0, 120);
 	dying = 1;
 
-	aDead->Play(false);
+	aDead.play();
 	eng->jack->hud.OneDown();
 }
 void E_Player::PlayDeathSequence2()
@@ -601,7 +599,7 @@ void E_Player::Hurt(float hp)
 
 	float newHealth = (health - hp) > 0.0f ? (health - hp) : 0.0f;
 	
-	aHurt->Play();
+	aHurt.play();
 	healthTimer = eng->time + 750;
 
 	hurt = 0;

@@ -4,9 +4,9 @@
 
 #include "Sprite.h"
 #include "CollisionObject.h"
-#include "Audio.h"
 #include "Archiver.h"
 #include "EntityID.h"
+#include <SFML/Audio.hpp>
 
 #define GRAVITY_LIMIT 10.0f
 #define MAX_TIMERS 13

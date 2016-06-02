@@ -32,7 +32,7 @@ public:
 
 	Sprite spr;
 	Sprite sprShoot;
-	Sound *sndStep;
+	sf::Sound sndStep;
 
 	int		GetID() { return EID_BOSSOBJECT; }
 	void	Step();
@@ -56,8 +56,8 @@ public:
 
 	Entity	*pl;
 	Sprite	sprRocket;
-	Sound	*sndRocket;
-	Sound	*sndShoot;
+	sf::Sound	sndRocket;
+	sf::Sound	sndShoot;
 
 	bool	IsEnemy()	{ return true; }
 	int		GetID()		{ return EID_BOSSROCKET; }
@@ -75,8 +75,8 @@ public:
 
 	Entity	*pl;
 	Sprite	sprSurprise;
-	Sound	*sndDrop;
-	Sound	*sndExplode;
+	sf::Sound	sndDrop;
+	sf::Sound	sndExplode;
 
 	bool	firstExec;
 

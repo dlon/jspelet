@@ -4,7 +4,6 @@
 
 #include "Entity.h"
 #include "JackHUD.h"
-#include "Sound.h"
 
 class E_Player : public Entity, public JackPlayerInfo
 {
@@ -33,14 +32,14 @@ public:
 	Sprite sPlayerJmp[3];
 	Sprite sPlayerDead;
 	Sprite sPlayerDead2;
-	Sound *aJump;
-	Sound *aPlunge;
-	Sound *aBlaster;
-	Sound *aHurt;
-	Sound *aDying;
-	Sound *aDead;
-	Sound *aSwim;
-	Sound *aCp;
+	sf::Sound aJump;
+	sf::Sound aPlunge;
+	sf::Sound aBlaster;
+	sf::Sound aHurt;
+	sf::Sound aDying;
+	sf::Sound aDead;
+	sf::Sound aSwim;
+	sf::Sound aCp;
 
 	void	UpdateHealth(float newHealth);
 	float	Life() { return health; }

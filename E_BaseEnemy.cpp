@@ -8,7 +8,7 @@
 
 extern Engine *eng;
 
-Sound *E_BaseEnemy::sndSpltr = NULL; // TODO: free?
+Sound E_BaseEnemy::sndSpltr;
 
 E_BaseEnemy::E_BaseEnemy(float maxHealth) : active(false) {
 	health		= maxHealth;
@@ -21,8 +21,8 @@ E_BaseEnemy::E_BaseEnemy(float maxHealth) : active(false) {
 	manualActivation = false;
 	lifeSpan	= -1;
 
-	if (!sndSpltr)
-		sndSpltr = eng->res->sounds.Load("data/spltr.wav");
+	if (!sndSpltr.getBuffer())
+		sndSpltr = sf::Sound(*eng->res->sounds.Load("data/spltr.wav"));
 }
 void E_BaseEnemy::PostCreate()
 {
@@ -165,7 +165,7 @@ void E_BaseEnemy::Collision(Entity *with)
 			if (with->y + with->colRect.GetH() < y + colRect.GetH() /*&&
 				x < with->x+with->colRect.GetW() && x+colRect.GetW() >= with->x - always true*/) {
 				// we're beneath it
-				sndSpltr->Play(true);
+				sndSpltr.play();
 				destroy = true;
 			}
 		}

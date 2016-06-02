@@ -3,12 +3,11 @@
 #include "E_BaseBoss.h"
 #include "JackHUD.h"
 #include "E_Player.h"
-#include "Sound.h"
 
 class E_Boss2Trigger : public Entity
 {
 	E_Player	*player;
-	Sound		*sndShake;
+	sf::Sound		sndShake;
 	bool		trigger1;
 	bool		shake;
 public:
@@ -47,7 +46,7 @@ public:
 
 	Sprite	spr1;
 	Sprite	spr2;
-	Sound	*sndShake;
+	sf::Sound	sndShake;
 
 	E_Boss2Sequencer *seq;
 
@@ -69,7 +68,7 @@ public:
 
 	Entity	*pl;
 	Sprite	sprFireball;
-	Sound*	snd1;
+	sf::Sound	snd1;
 
 	bool	IsEnemy()	{ return true; }
 	int		GetID()		{ return EID_BOSS2FIREBALL; }
@@ -90,7 +89,7 @@ public:
 	E_Boss2GrndFire();
 
 	Sprite	spr1;
-	Sound	*snd1;
+	sf::Sound	snd1;
 
 	bool	IsEnemy()	{ return true; }
 	int		GetID()		{ return EID_BOSS2GRNDFIRE; }
@@ -109,8 +108,8 @@ class E_Boss2Shield : public Entity
 	bool	solid;
 public:
 	Sprite	spr1;
-	Sound*	snd1;
-	Sound*	snd2;
+	sf::Sound	snd1;
+	sf::Sound	snd2;
 
 	E_Boss2Shield();
 
@@ -127,8 +126,8 @@ public:
 class E_Boss2Door : public Entity
 {
 public:
-	Sound*		snd;
-	Sound*		sndOpen;
+	sf::Sound		snd;
+	sf::Sound		sndOpen;
 	int			wallN;
 	E_Player *	player;
 	float		wallHeight;

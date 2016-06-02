@@ -4,7 +4,6 @@
 
 #include "E_BaseEnemy.h"
 #include "SoundFactory.h"
-#include "Sound.h"
 
 class E_Kitty : public E_BaseEnemy
 {
@@ -12,7 +11,7 @@ class E_Kitty : public E_BaseEnemy
 public:
 	Sprite	mainSpr;
 	Sprite	jumpSpr;
-	Sound*	meowSnd;
+	sf::Sound	meowSnd;
 
 	int GetID() { return EID_KITTY; }
 

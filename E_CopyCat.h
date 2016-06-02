@@ -4,7 +4,7 @@
 
 #include "E_BaseEnemy.h"
 #include "SoundFactory.h"
-#include "Sound.h"
+#include <SFML/Audio.hpp>
 
 class E_CopyCat : public E_BaseEnemy
 {

@@ -7,7 +7,6 @@
 #include "EntityMng.h"
 #include "JackHUD.h"
 #include "MapMng.h"
-#include "OggFile.h"
 #include "Groovyizer.h"
 #include "Archiver.h"
 #include "Font.h"
@@ -16,6 +15,8 @@
 #include "ScoreBoard.h"
 #include "JackeGui.h"
 #include "CSettings.h"
+
+class OggFile; // FIXME-SFML: Replace with SFML music player
 
 class Jack
 {

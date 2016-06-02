@@ -31,7 +31,7 @@ E_Kitty::E_Kitty() : E_BaseEnemy(30.0f)
 	//spriteIndex->imgSpeed = .25f;
 	spriteIndex->imgSpeed = .25f;
 
-	meowSnd = eng->res->sounds.Load("data/kattmjau.wav");
+	meowSnd = sf::Sound(*eng->res->sounds.Load("data/kattmjau.wav"));
 
 	colRect.SetX(15.0f); // FIXME: isn't this supposed to be XOffs?
 	colRect.SetW(70.0f);
@@ -73,7 +73,8 @@ void E_Kitty::Step()
 			// jump attack
 			if (vspeed == 0.0f && abs(l) < 80.0f) {
 				//meowSnd->Play(true);
-				meowSnd->PlayLoc(x - pl->x, y - pl->y, true);
+				//meowSnd->PlayLoc(x - pl->x, y - pl->y, true);
+				meowSnd.play(); // FIXME-SFML: pan
 				vspeed = -10.0f;
 			}
 		}
