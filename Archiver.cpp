@@ -1,7 +1,6 @@
 #include "Archiver.h"
 #include <assert.h>
 #include <iostream>
-#include <windows.h>
 
 Archiver& Archiver::operator<<(int i)
 {

@@ -15,3 +15,5 @@ main.cpp
 
 	barrel fire sound: re-add stereo/panning effect
 	sound may behave oddly: did the Sound::Play() not replay sounds? if so, fix these cases
+
+	Fix Archiver and CSettings. Select an appropriate directory for storing user data. (platform-dependent)

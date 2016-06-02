@@ -1,6 +1,5 @@
 #include "TextureLoader.h"
 #include <png.h>
-#include <windows.h>
 #include <cassert>
 
 static bool is_png_file(FILE *fp);

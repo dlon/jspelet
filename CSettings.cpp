@@ -1,5 +1,4 @@
 #include "CSettings.h"
-#include <windows.h>
 
 const char *CSettings::appDir = NULL;
 char CSettings::appBuffer[1024];
