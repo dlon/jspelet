@@ -1,22 +1,13 @@
 #include "TextureFactory.h"
 
-Texture *TextureFactory::LoadEx(const char *file, manipulation_func_t custom)
+sf::Texture *TextureFactory::LoadRes(const char *file)
 {
-	useCustomFunc = true;
-	customFunc = custom;
-	return Load(file); // call base method
+	sf::Texture *t = new sf::Texture;
+	t->loadFromFile(file);
+	return t;
 }
 
-Texture *TextureFactory::LoadRes(const char *file)
+void TextureFactory::FreeRes(sf::Texture *t)
 {
-	if (useCustomFunc) {
-		useCustomFunc = false;
-		return _loader->LoadTextureEx(file, customFunc); // pixel manipulation stuff
-	}
-	return _loader->LoadTexture(file);
-}
-
-void TextureFactory::FreeRes(Texture *t)
-{
-	_loader->FreeTexture(t);
+	delete t;
 }
