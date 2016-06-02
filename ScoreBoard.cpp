@@ -54,12 +54,12 @@ bool ScoreBoard::Update()
 				allowCursor = true;
 
 			if (allowCursor && pick == -1) {
-				if (input->CheckPressed(VK_UP) && cursorPos > 0)
+				if (input->CheckPressed(sf::Keyboard::Up) && cursorPos > 0)
 					cursorPos--;
-				if (input->CheckPressed(VK_DOWN) && cursorPos < 1)
+				if (input->CheckPressed(sf::Keyboard::Down) && cursorPos < 1)
 					cursorPos++;
 
-				if (input->CheckPressed(VK_RETURN)) {
+				if (input->CheckPressed(sf::Keyboard::Return)) {
 					pick = cursorPos;
 					screenTime = eng->time + 50;
 				}

@@ -332,6 +332,7 @@ void E_Boss2::Step()
 {
 	E_BaseBoss::Step();
 
+	/*
 	if (input->CheckPressed(VK_NUMPAD1))
 		SetTimer(0, 1);
 	if (input->CheckPressed(VK_NUMPAD2))
@@ -340,6 +341,7 @@ void E_Boss2::Step()
 		SetTimer(2, 1);
 	if (input->CheckPressed(VK_NUMPAD4))
 		SetTimer(3, 1);
+	*/ // FIXME-SFML: Dessa var menade att tas bort, antar jag?
 
 	if (attack3 && sndShake.getStatus()!=sf::SoundSource::Status::Playing) {
 		sndShake.play();

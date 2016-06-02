@@ -132,7 +132,7 @@ void E_Player::Step()
 
 	if (jumpFuelPoint && eng->time >= jumpFuelPoint)
 	{
-		if (!lockInput && !input->Check(VK_SPACE))
+		if (!lockInput && !input->Check(sf::Keyboard::Space))
 			vspeed += 4.0f;
 		jumpFuelPoint = 0;
 	}
@@ -142,7 +142,7 @@ void E_Player::Step()
 
 	if (!lockInput && vspeed == .0f)
 	{
-		if (input->Check(VK_SHIFT))
+		if (input->Check(sf::Keyboard::LShift))
 			sprint = true;
 		else
 			sprint = false;
@@ -178,11 +178,11 @@ void E_Player::Step()
 		speed = 1.0f;
 
 	if (!lockInput) {
-		if (!input->Check(VK_LEFT) && !input->Check(VK_RIGHT))
+		if (!input->Check(sf::Keyboard::Left) && !input->Check(sf::Keyboard::Right))
 			hspeed = 0;
-		if (input->Check(VK_LEFT) && !input->Check(VK_RIGHT))
+		if (input->Check(sf::Keyboard::Left) && !input->Check(sf::Keyboard::Right))
 			hspeed = -speed;
-		if (input->Check(VK_RIGHT) && !input->Check(VK_LEFT))
+		if (input->Check(sf::Keyboard::Right) && !input->Check(sf::Keyboard::Left))
 			hspeed = speed;
 	}
 
@@ -208,9 +208,9 @@ void E_Player::Step()
 	}
 #endif
 
-	if (!lockInput && (!vspeed || (inWater)) && input->CheckPressed(VK_SPACE))
+	if (!lockInput && (!vspeed || (inWater)) && input->CheckPressed(sf::Keyboard::Space))
 	{
-		if (inWater || !input->Check(VK_DOWN))
+		if (inWater || !input->Check(sf::Keyboard::Down))
 		{
 #if 0
 			if (!inWater /*|| pullOutOfWater*/)
@@ -248,7 +248,7 @@ void E_Player::Step()
 	}
 
 	// release jump
-	if (jump && ((!inWater && !input->Check(VK_SPACE)) || vspeed > .0f) )
+	if (jump && ((!inWater && !input->Check(sf::Keyboard::Space)) || vspeed > .0f) )
 	{
 		if (vspeed < -3.0f)
 			vspeed += 7.0f;
@@ -339,7 +339,7 @@ void E_Player::PostStep()
 	*/
 	// intentional moonwalk
 	if (hspeed > .0f) {
-		if (!input->Check(VK_LEFT)) {
+		if (!input->Check(sf::Keyboard::Left)) {
 			for (int i=0; i<3; i++) {
 				sPlayer[i].NormalFlip();
 				sPlayerJmp[i].NormalFlip();
@@ -353,7 +353,7 @@ void E_Player::PostStep()
 		}
 	}
 	if (hspeed < .0f) {
-		if (!input->Check(VK_RIGHT)) {
+		if (!input->Check(sf::Keyboard::Right)) {
 			for (int i=0; i<3; i++) {
 				sPlayer[i].MirrorFlip();
 				sPlayerJmp[i].MirrorFlip();

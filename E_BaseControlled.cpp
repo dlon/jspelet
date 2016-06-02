@@ -11,14 +11,14 @@ void E_BaseControlled::Step()
 {
 	Entity::Step();
 
-	if (dir == RIGHT && !input->Check(VK_RIGHT))
+	if (dir == RIGHT && !input->Check(sf::Keyboard::Right))
 		dir = 0;
-	else if (dir == LEFT && !input->Check(VK_LEFT))
+	else if (dir == LEFT && !input->Check(sf::Keyboard::Left))
 		dir = 0;
 	
 	if (air && vspeed == .0f)
 		air = 0;
-	else if (!air && input->CheckPressed(VK_SPACE))
+	else if (!air && input->CheckPressed(sf::Keyboard::Space))
 	{
 		air = 1;
 		Jump();
@@ -26,9 +26,9 @@ void E_BaseControlled::Step()
 
 	if (dir == 0)
 	{
-		if (input->Check(VK_RIGHT))
+		if (input->Check(sf::Keyboard::Right))
 			dir = RIGHT;
-		else if (input->Check(VK_LEFT))
+		else if (input->Check(sf::Keyboard::Left))
 			dir = LEFT;
 	}
 

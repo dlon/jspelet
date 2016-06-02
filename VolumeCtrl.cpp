@@ -64,11 +64,11 @@ void VolumeCtrl::Tick()
 	if (!m_selected)
 		return;
 
-	if (input->Check(VK_RIGHT)) { // TODO: 'CheckRepeat'
+	if (input->Check(sf::Keyboard::Right)) { // TODO: 'CheckRepeat'
 		if (m_vol + CURSOR_SPEED <= m_maxVol) m_vol += CURSOR_SPEED;
 		else m_vol = m_maxVol;
 	}
-	if (input->Check(VK_LEFT)) {
+	if (input->Check(sf::Keyboard::Left)) {
 		if (m_vol - CURSOR_SPEED >= m_minVol) m_vol -= CURSOR_SPEED;
 		else m_vol = m_minVol;
 	}

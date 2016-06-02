@@ -82,7 +82,7 @@ bool Engine::Frame()
 			}
 			else if (splashObject.alpha == 255.0f) {
 				// check input
-				if (allowEnterSplash && (input->CheckPressed(VK_RETURN) || input->CheckPressed(VK_ESCAPE)))
+				if (allowEnterSplash && (input->CheckPressed(sf::Keyboard::Return) || input->CheckPressed(sf::Keyboard::Escape)))
 					splashObject.Hide();
 			}
 			

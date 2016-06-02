@@ -2,8 +2,6 @@
 #include "Jack.h"
 #include "Input.h"
 
-#include "prof.h"
-
 extern Engine *eng;
 extern Input *input;
 
@@ -48,17 +46,17 @@ bool JackeGui::Update()
 	// FIXME: OK this time loop
 	if (menu.get() && eng->time >= tick+40) {
 		// navigation
-		if (input->CheckPressed(VK_UP))		// Todo: CheckRepeat
+		if (input->CheckPressed(sf::Keyboard::Up))		// Todo: CheckRepeat
 			menu->Up();
-		if (input->CheckPressed(VK_DOWN))
+		if (input->CheckPressed(sf::Keyboard::Down))
 			menu->Down();
 
 		bool lrbtn = false;
-		if (input->Check(VK_RIGHT)) {
+		if (input->Check(sf::Keyboard::Right)) {
 			lrbtn = true;
 			menu->Right();
 		}
-		if (input->Check(VK_LEFT)) {
+		if (input->Check(sf::Keyboard::Left)) {
 			lrbtn = true;
 			menu->Left();
 		}
@@ -75,7 +73,7 @@ bool JackeGui::Update()
 		}
 
 		// enter/esc
-		if (input->CheckPressed(VK_ESCAPE)) {
+		if (input->CheckPressed(sf::Keyboard::Escape)) {
 			if (menuType == MENU_PAUSE) {
 				Close();
 				eng->jack->pause = false; // resume
@@ -88,7 +86,7 @@ bool JackeGui::Update()
 				eng->jack->RewriteConfig(); // rewrite cfg
 			}
 		}
-		else if (input->CheckPressed(VK_RETURN)) {
+		else if (input->CheckPressed(sf::Keyboard::Return)) {
 			if (menuType == MENU_STARTUP || menuType == MENU_STARTUP_CONT) {
 				int i = menu->Decide();
 				i = menuType == MENU_STARTUP ? i+1 : i;
@@ -183,8 +181,6 @@ bool JackeGui::Update()
 
 void JackeGui::Draw()
 {
-	Prof(JackeGui_Draw);
-
 	if (!menu.get())
 		return;
 
