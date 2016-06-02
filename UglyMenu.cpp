@@ -11,10 +11,7 @@ UglyMenu::UglyMenu(const char *sFile, int nargs, int spacing, float xo, float yo
 	aSelect = sf::Sound(*eng->res->sounds.Load("data/mmselect2.wav"));
 	aDecide = sf::Sound(*eng->res->sounds.Load("data/kesh.wav"));
 
-	if (sFile)
-		tScreen = eng->res->textures.Load(sFile); // "data/screen.png"
-	else
-		tScreen = NULL;
+	tScreen = eng->res->textures.Load(sFile);
 	tCursor = eng->res->textures.Load("data/screencur.png");
 
 	i = 0;
@@ -29,6 +26,7 @@ UglyMenu::UglyMenu(const char *sFile, int nargs, int spacing, float xo, float yo
 UglyMenu::~UglyMenu()
 {
 	// TODO: Free sounds - use ref. counter?
+	// FIXME-SFML: Why can't I free all resources upon destruction?
 
 	//aClose->Play(false); // can't free this now, though
 }
@@ -40,10 +38,7 @@ void UglyMenu::Draw()
 	//eng->render->SetColor(200, 20, 20);
 	//eng->render->DrawRect(0.0f, 0.0f, 620.0f, 440.0f);
 	eng->render->SetColor();
-	if (tScreen)
-		eng->render->DrawTexture(tScreen, 0, 0);
-	else
-		eng->render->DrawRect(0, 0, 640.0f, 480.0f);
+	eng->render->DrawTexture(tScreen, 0, 0);
 	eng->render->DrawTexture(tCursor, xo, yo + float(i*spacing));
 
 	eng->render->NoViewEnd();
@@ -82,10 +77,7 @@ void OptionsMenu::Draw()
 	eng->render->NoViewBegin();
 	
 	eng->render->SetColor();
-	if (tScreen)
-		eng->render->DrawTexture(tScreen, 0, 0);
-	else
-		eng->render->DrawRect(0, 0, 640.0f, 480.0f);
+	eng->render->DrawTexture(tScreen, 0, 0);
 	eng->render->DrawTexture(tCursor, xo, yo + float(i*spacing)); // don't draw if vol ctrl is selected
 
 	musicVol.Draw(150.0f, 80.0f);

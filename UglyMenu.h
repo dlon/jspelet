@@ -23,8 +23,8 @@ public:
 	sf::Sound	aClose;
 	sf::Sound	aSelect;
 	sf::Sound	aDecide;
-	Texture	*tScreen;
-	Texture	*tCursor;
+	sf::Texture*	tScreen;
+	sf::Texture*	tCursor;
 
 	virtual void	Up();
 	virtual void	Down();
