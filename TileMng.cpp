@@ -1,7 +1,7 @@
 #include "TileMng.h"
 #include "TilesetID.h"
 #include "Engine.h"
-#include <gl/gl.h>
+#include <GL/gl.h>
 #include <algorithm>
 
 extern Engine *eng;

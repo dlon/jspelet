@@ -95,7 +95,7 @@ void E_Boss::Step()
 
 	if (!attack2 && // unless we're in the air...
 		hspeed != 0.0f) {
-		if (!sndStep->Playing()) {
+		if (sndStep.getStatus()!=sf::SoundSource::Playing) {
 			//sndStep->Play(false);
 			//sndStep->PlayLoc(x - player->x, y - player->y);
 			// FIXME-SFML: pan

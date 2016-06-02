@@ -8,7 +8,7 @@
 
 extern Engine *eng;
 
-Sound E_BaseEnemy::sndSpltr;
+sf::Sound E_BaseEnemy::sndSpltr;
 
 E_BaseEnemy::E_BaseEnemy(float maxHealth) : active(false) {
 	health		= maxHealth;

@@ -1,6 +1,7 @@
 #include "TextureLoader.h"
 #include <png.h>
 #include <cassert>
+#include <stdlib.h>
 
 static bool is_png_file(FILE *fp);
 static bool load_png(const char *file, unsigned char **buffer, unsigned *w, unsigned *h, unsigned *format); // sz = w*h*format

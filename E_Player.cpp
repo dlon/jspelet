@@ -251,7 +251,7 @@ void E_Player::Step()
 
 	// low health
 	if (health < 30.0f) {
-		if (aDying.getStatus() != sf::SoundSource::Status::Playing)
+		if (aDying.getStatus() != sf::SoundSource::Playing)
 			aDying.play();
 	}
 	else

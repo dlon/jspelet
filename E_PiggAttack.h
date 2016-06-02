@@ -4,7 +4,6 @@
 
 #include "E_BaseEnemy.h"
 #include "SoundFactory.h"
-#include "Sound.h"
 
 class E_PiggAttack : public E_BaseEnemy
 {

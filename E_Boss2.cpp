@@ -94,7 +94,7 @@ void E_Boss2Trigger::Step()
 		}
 
 		// shake loop
-		if (shake && sndShake.getStatus() != sf::SoundSource::Status::Playing) {
+		if (shake && sndShake.getStatus() != sf::SoundSource::Playing) {
 			sndShake.play();
 			eng->jack->chaseCam.EarthQuake();
 		}
@@ -343,7 +343,7 @@ void E_Boss2::Step()
 		SetTimer(3, 1);
 	*/ // FIXME-SFML: Dessa var menade att tas bort, antar jag?
 
-	if (attack3 && sndShake.getStatus()!=sf::SoundSource::Status::Playing) {
+	if (attack3 && sndShake.getStatus()!=sf::SoundSource::Playing) {
 		sndShake.play();
 		eng->jack->chaseCam.EarthQuake();
 	}
@@ -756,7 +756,7 @@ void E_Boss2Shield::CallTimer(int num)
 		fMode = 2;
 		break;
 	case 1:
-		if (snd2.getStatus() != sf::SoundSource::Status::Playing) {
+		if (snd2.getStatus() != sf::SoundSource::Playing) {
 			destroy = true;
 		}
 		else {

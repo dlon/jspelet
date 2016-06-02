@@ -51,7 +51,7 @@ Jack::Jack() : loadedGame(false),
 	
 	CSettings::ReadSettings(this);
 
-	Sound::SetGlobalVolume(sfxVol);
+	//Sound::SetGlobalVolume(sfxVol); // FIXME-SFML
 	//SetSong("data/asaszszx3.ogg");
 	//SetSong("data/shjak.ogg");
 }
@@ -152,63 +152,6 @@ bool Jack::Frame()
 	if (!postInit)
 		PostInit();
 
-#if 0
-	if (startupMenu) {
-		if (pause) {
-			if (input->CheckPressed(VK_ESCAPE)) { // resume
-				delete startupMenu; startupMenu = 0;
-				pause = false;
-			}
-		}
-		else {
-			// VK_ESC = quit
-			if (input->CheckPressed(VK_ESCAPE))
-				PostQuitMessage(0);
-		}
-
-		if (input->CheckPressed(VK_UP))		// Todo: CheckRepeat
-			startupMenu->Up();
-		if (input->CheckPressed(VK_DOWN))
-			startupMenu->Down();
-		if (input->Check(VK_RIGHT))
-			startupMenu->Right();
-		if (input->Check(VK_LEFT))
-			startupMenu->Left();
-
-		if (input->CheckPressed(VK_RETURN)) {
-			if (!pause) { // startup menu
-				switch (startupMenu->Decide()) {
-					case 0:		// TODO: continue. NOTE: Automatic save from checkpoint?
-						break;
-					case 1:		// play
-						delete startupMenu; startupMenu = 0;
-						Load();
-						break;
-				}
-			} else { // pause menu
-				switch (startupMenu->Decide()) {
-					case 0: // return
-						delete startupMenu; startupMenu = 0;
-						pause = false;
-						break;
-					case 1: // TODO: load
-						break;
-					case 2: // TODO: save
-						break;
-					case 3: // quit
-						PostQuitMessage(0);
-						break;
-				}
-			}
-		}
-
-		if (startupMenu) { // if not deleted
-			eng->render->BeginFrame();
-			startupMenu->Draw();
-			eng->render->EndFrame();
-		}
-	}
-#endif
 	if (gui.HasMenu()) {
 		tick = gui.Update();
 		gui.Draw();
@@ -251,7 +194,7 @@ bool Jack::Update()
 		}
 
 		// user pause
-		if (!pauseReset && input->CheckPressed(VK_ESCAPE)) {
+		if (!pauseReset && input->CheckPressed(sf::Keyboard::Escape)) {
 			pause = true;
 			//startupMenu = new UglyMenu("data/pause.PNG", 4, 80);
 			gui.Set(std::auto_ptr<UglyMenu>(new PauseMenu));
@@ -263,11 +206,11 @@ bool Jack::Update()
 	}
 
 	// lower music vol while th snds are playing
-	if (mLowVol==1.0f && (sndDoKorVi.getStatus()==sf::SoundSource::Status::Playing || sndBraJobbat.getStatus()==sf::SoundSource::Status::Playing)) {
+	if (mLowVol==1.0f && (sndDoKorVi.getStatus()==sf::SoundSource::Playing || sndBraJobbat.getStatus()==sf::SoundSource::Playing)) {
 		mLowVol = 0.7f;
 		ReadjustVolumes();
 	}
-	else if (mLowVol==0.7f && (!sndDoKorVi.getStatus()==sf::SoundSource::Status::Playing && !sndBraJobbat.getStatus()==sf::SoundSource::Status::Playing)) {
+	else if (mLowVol==0.7f && (!sndDoKorVi.getStatus()==sf::SoundSource::Playing && !sndBraJobbat.getStatus()==sf::SoundSource::Playing)) {
 		mLowVol = 1.0f;
 		ReadjustVolumes();
 	}
