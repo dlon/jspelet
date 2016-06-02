@@ -15,8 +15,7 @@
 #include "ScoreBoard.h"
 #include "JackeGui.h"
 #include "CSettings.h"
-
-class OggFile; // FIXME-SFML: Replace with SFML music player
+#include <SFML/Audio.hpp>
 
 class Jack
 {
@@ -41,7 +40,7 @@ public:
 #ifndef NDEBUG
 	bool		drawProfile;
 #endif
-	OggFile		musicPlayer;
+	sf::Music	musicPlayer;
 	bool		pause;
 	int			pauseReset;
 	ScoreBoard	*score;

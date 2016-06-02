@@ -78,7 +78,7 @@ void E_Boss2Trigger::Step()
 		{
 			trigger1 = true;
 
-			eng->jack->musicPlayer.Stop();
+			eng->jack->musicPlayer.stop();
 			SetTimer(0, 320);
 
 			// create walls
@@ -911,7 +911,7 @@ void E_Boss2Door::CallTimer(int num)
 		if ((int)wallHeight/32 == WALL_N && !boss)
 		{
 			DestroyWall();
-			eng->jack->musicPlayer.Stop(); // FIXME: This should be triggered when boss 2 is destr, but it's not safe in the destructor
+			eng->jack->musicPlayer.stop(); // FIXME: This should be triggered when boss 2 is destr, but it's not safe in the destructor
 		}
 		else
 			SetTimer(10, 240);

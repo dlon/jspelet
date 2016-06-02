@@ -71,15 +71,17 @@ Jack::~Jack()
 void Jack::ReadjustVolumes()
 {
 	// sfx vol
-	Sound::SetGlobalVolume(sfxVol);
+	//Sound::SetGlobalVolume(sfxVol); // FIXME-SFML
 
 	// music vol
+	/*
 	if (musicVol > 0.0f) {
 		long mvol = -5000 + long(musicVol * mLowVol * 50.0f);
 		musicPlayer.SetVolume(mvol);
 	}
 	else
 		musicPlayer.SetVolume(-10000); // dead 0
+	*/ // FIXME-SFML: adjust music volume based on what's going on
 
 	//CSettings::SaveSettings(this);
 }
@@ -97,7 +99,7 @@ void Jack::Load(bool loadState)
 	//map.Load(initialMap.c_str());
 	if (!loadState || !CSettings::GameStateExists()) {
 		LoadMap(initialMap.c_str());
-		musicPlayer.Stop();
+		musicPlayer.stop();
 		eng->SetSplash("data/Cathorel2.png");
 	}
 	else {
@@ -112,16 +114,11 @@ void Jack::SetSong(const char *file)
 {
 	if (file == 0 || file[0] == 0)
 		return;
-
-	// confirm existence
-	FILE *fp=fopen(file,"r");
-	if (!fp)
-		return;
-	fclose(fp);
-
 	// play song
-	musicPlayer.Load(file);
-	musicPlayer.Play();
+	if (!musicPlayer.openFromFile(file))
+		return;
+	musicPlayer.setLoop(true);
+	musicPlayer.play();
 
 	ReadjustVolumes();
 }
@@ -131,15 +128,11 @@ void Jack::SetSongOnce(const char *file)
 	if (file == 0 || file[0] == 0)
 		return;
 
-	// confirm existence
-	FILE *fp=fopen(file,"r");
-	if (!fp)
-		return;
-	fclose(fp);
-
 	// play song
-	musicPlayer.Load(file);
-	musicPlayer.PlayOnce();
+	if (!musicPlayer.openFromFile(file))
+		return;
+	musicPlayer.setLoop(true);
+	musicPlayer.play();
 
 	ReadjustVolumes();
 }
