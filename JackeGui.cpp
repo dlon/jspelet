@@ -136,6 +136,7 @@ bool JackeGui::Update()
 					case 2:
 						{
 						// fullscreen
+						/*
 						int msg = MessageBox(NULL,
 							"The game needs to be restarted for the changes to take effect.\nUnsaved progress will be lost. Restart now?",
 							"Screen Mode",
@@ -160,6 +161,7 @@ bool JackeGui::Update()
 								PostQuitMessage(0);
 							}
 						}
+						*/ // FIXME-SFML: enable fullscreen option
 						}
 						break;
 					case 3:

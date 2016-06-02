@@ -5,28 +5,6 @@
 extern Engine *eng;
 extern Input *input;
 
-void OpenMapDialog(char *buffer, int size) {
-	buffer[0] = 0;
-
-	OPENFILENAME ofd;
-	ofd.lStructSize = sizeof(ofd);
-	ofd.hwndOwner = NULL;
-	//ofd.hInstance;
-	ofd.lpstrFilter = "Jakob Maps\0*.jkm\0";
-	ofd.lpstrCustomFilter = 0;
-	ofd.nFilterIndex = 0;
-	ofd.lpstrFile = buffer;
-	ofd.nMaxFile = size;
-	ofd.lpstrFileTitle = NULL;
-	ofd.lpstrInitialDir = ".\\data";
-	ofd.lpstrTitle = "Load map";
-	ofd.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_NOCHANGEDIR |
-		OFN_NODEREFERENCELINKS | OFN_PATHMUSTEXIST;
-	ofd.lpstrDefExt = "jkm";
-
-	GetOpenFileName(&ofd);
-}
-
 Jack::Jack() : loadedGame(false),
 		postInit(false),
 		pause(false), pauseReset(0)
@@ -312,7 +290,8 @@ void Jack::LoadState(const char *stateFile)
 	arc >> sig;
 
 	if (sig.compare("StateFile")) {
-		MessageBox(0, "Not a state file.", stateFile, 0);
+		//MessageBox(0, "Not a state file.", stateFile, 0);
+		// FIXME-SFML: give error message
 		return;
 	}
 	//map.Serialize(arc); // good bye, oh elaborate scheme for nothing!

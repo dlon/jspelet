@@ -1,6 +1,7 @@
 #include "Archiver.h"
 #include <assert.h>
 #include <iostream>
+#include <string.h>
 
 Archiver& Archiver::operator<<(int i)
 {

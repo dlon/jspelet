@@ -14,6 +14,6 @@ main.cpp
 	does unordered_map support const char*? if not: fix
 
 	barrel fire sound: re-add stereo/panning effect
-	sound may behave oddly: did the Sound::Play() not replay sounds? if so, fix these cases
+	I expect sounds to behave oddly. did the old method Sound::Play() not replay sounds? if so, fix these cases
 
 	Fix Archiver and CSettings. Select an appropriate directory for storing user data. (platform-dependent)

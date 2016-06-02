@@ -1,5 +1,6 @@
 #include "E_LazerBeam.h"
 #include "Engine.h"
+#include <algorithm>
 
 extern Engine *eng;
 
@@ -24,7 +25,7 @@ E_LazerBeam::E_LazerBeam(int dir, bool enemyBeam)
 
 void E_LazerBeam::ShortenLife(int amount)
 {
-	SetTimer(0, max(GetTimer(0) - amount, 1));
+	SetTimer(0, std::max(GetTimer(0) - amount, 1));
 }
 
 void E_LazerBeam::CallTimer(int num)
