@@ -2,17 +2,16 @@
 #ifndef SOUNDFACTORY_H
 #define SOUNDFACTORY_H
 
-#include "Audio.h"
 #include "ResourceFactory.h"
-#include "Sound.h"
+#include <SFML/Audio.hpp>
 
-class SoundFactory : public ResourceFactory<Sound>
+class SoundFactory : public ResourceFactory<sf::SoundBuffer>
 {
 public:
 	~SoundFactory() { FreeAll(); }
 protected:
-	Sound *LoadRes(const char *file);
-	void FreeRes(Sound *t);
+	sf::SoundBuffer* LoadRes(const char *file);
+	void FreeRes(sf::SoundBuffer *sb);
 };
 
 #endif // SOUNDFACTORY_H

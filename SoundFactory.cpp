@@ -1,17 +1,15 @@
 #include "SoundFactory.h"
 
-Sound *SoundFactory::LoadRes(const char *file)
+sf::SoundBuffer *SoundFactory::LoadRes(const char *file)
 {
-	/*
-	Sound *ret;
-	if (!(ret=AudioDevice::LoadWaveFile(file)))
+	sf::SoundBuffer *ret = new sf::SoundBuffer;
+	if (!ret->loadFromFile(file))
+		delete ret;
 		return 0;
-	*/
-	return new Sound(file);
+	return ret;
 }
 
-void SoundFactory::FreeRes(Sound *t)
+void SoundFactory::FreeRes(sf::SoundBuffer *t)
 {
-	//t->Release();
 	delete t;
 }
