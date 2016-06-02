@@ -38,8 +38,8 @@ public:
 
 	// clean version
 	void Load(const char *file, int frames, int w, int h, int x=0, int y=0);
-	void Load(Texture *t, int frames, int w, int h, int x=0, int y=0);
-	void LoadHorizontal(Texture *t, int frames, int w, int h, int x=0, int y=0);
+	void Load(sf::Texture *t, int frames, int w, int h, int x=0, int y=0);
+	void LoadHorizontal(sf::Texture *t, int frames, int w, int h, int x=0, int y=0);
 
 	void Draw();
 	void DrawEx(float x, float y, float tx, float ty, float w, float h); // x,y=map coordinates --- w,y=surface w (not scale) --- tx,ty=subimg offset, not abs tex pos

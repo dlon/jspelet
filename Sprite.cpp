@@ -11,19 +11,20 @@ Sprite::Sprite(const char *file, int frames, int w, int h, int _x, int _y) : img
 
 void Sprite::Load(const char *file, int frames, int w, int h, int x, int y)
 {
-	Texture *t = eng->res->textures.Load(file); // load or get
+	sf::Texture *t = eng->res->textures.Load(file); // load or get
 	Load(t, frames, w, h, x, y);
 }
 
-void Sprite::Load(Texture *t, int frames, int w, int h, int x, int y)
+void Sprite::Load(sf::Texture *t, int frames, int w, int h, int x, int y)
 {
 	assert(t); // no texture
 
 	delete[] img;
 	img = new SubImage[frames];
 
-	w = (!w ? t->w : w);
-	h = (!h ? t->h : h);
+	sf::Vector2u sz = t->getSize();
+	w = (!w ? sz.x : w);
+	h = (!h ? sz.y : h);
 
 	for (int i=0; i<frames; i++)
 	{
@@ -44,15 +45,16 @@ void Sprite::Load(Texture *t, int frames, int w, int h, int x, int y)
 	yofs = 0;
 	rot = 0;
 }
-void Sprite::LoadHorizontal(Texture *t, int frames, int w, int h, int x, int y)
+void Sprite::LoadHorizontal(sf::Texture *t, int frames, int w, int h, int x, int y)
 {
 	assert(t); // no texture
 
 	delete[] img;
 	img = new SubImage[frames];
 
-	w = (!w ? t->w : w);
-	h = (!h ? t->h : h);
+	sf::Vector2u sz = t->getSize();
+	w = (!w ? sz.x : w);
+	h = (!h ? sz.y : h);
 
 	for (int i=0; i<frames; i++)
 	{
