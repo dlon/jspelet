@@ -51,8 +51,8 @@ public:
 	float		mLowVol;
 	float		sfxVol;
 
-	Sound		*sndDoKorVi;
-	Sound		*sndBraJobbat;
+	sf::Sound		sndDoKorVi;
+	sf::Sound		sndBraJobbat;
 
 	void ReadjustVolumes();
 	void RewriteConfig();

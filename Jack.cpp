@@ -102,7 +102,7 @@ void Jack::Load(bool loadState)
 	}
 	else {
 		LoadState(CSettings::GameStateFile());
-		sndDoKorVi->Play(false);
+		sndDoKorVi.play();
 	}
 
 	loadedGame = true;
@@ -153,8 +153,8 @@ void Jack::PostInit()
 	postInit = true;
 
 	// audio stuff
-	sndDoKorVi		= eng->res->sounds.Load("data/v_dakorvi.wav");
-	sndBraJobbat	= eng->res->sounds.Load("data/v_brajobat.wav");
+	sndDoKorVi		= sf::Sound(*eng->res->sounds.Load("data/v_dakorvi.wav"));
+	sndBraJobbat	= sf::Sound(*eng->res->sounds.Load("data/v_brajobat.wav"));
 
 	//Load(); // added
 }
@@ -306,11 +306,11 @@ bool Jack::Update()
 	}
 
 	// lower music vol while th snds are playing
-	if (mLowVol==1.0f && (sndDoKorVi->Playing() || sndBraJobbat->Playing())) {
+	if (mLowVol==1.0f && (sndDoKorVi.getStatus()==sf::SoundSource::Status::Playing || sndBraJobbat.getStatus()==sf::SoundSource::Status::Playing)) {
 		mLowVol = 0.7f;
 		ReadjustVolumes();
 	}
-	else if (mLowVol==0.7f && (!sndDoKorVi->Playing() && !sndBraJobbat->Playing())) {
+	else if (mLowVol==0.7f && (!sndDoKorVi.getStatus()==sf::SoundSource::Status::Playing && !sndBraJobbat.getStatus()==sf::SoundSource::Status::Playing)) {
 		mLowVol = 1.0f;
 		ReadjustVolumes();
 	}
@@ -329,7 +329,7 @@ bool Jack::Update()
 			chaseCam.Reset();
 			map.Load(ilikeoverflows);
 
-			sndDoKorVi->Play(false);
+			sndDoKorVi.play();
 			
 			ilikeoverflows[0] = '\0'; // safe here?
 		}
@@ -483,7 +483,7 @@ void Jack::EndLevel(const char *nextMap)
 	pause = true;
 	score = new ScoreBoard;
 	score->nextMap = nextMap; // can't believe I'm doing this!
-	sndBraJobbat->Play(false);
+	sndBraJobbat.play();
 	winrarTimer = eng->time + 1000;
 }
 
