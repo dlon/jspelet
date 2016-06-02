@@ -8,9 +8,6 @@ typedef int LPDIRECTSOUNDBUFFER8; // FIXME-SFML: temporary dummy variable
 
 //typedef IDirectSoundBuffer8 Sound;
 
-extern bool InitDirectSound(HWND hWnd);
-extern void CloseDirectSound();
-
 extern bool LoadWaveFile(const char *file, LPDIRECTSOUNDBUFFER8 *ppDsb8);
 
 class AudioDevice
