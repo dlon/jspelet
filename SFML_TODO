@@ -2,7 +2,7 @@ main.cpp
 	Fix fullscreen mode.
 	Are keys handled correctly? In particular, are shift, alt, etc. recognized?
 
-	Implement sound. (Audio.*, Sound.*)
+	Implement sound. (Audio.*, Sound.*, OggFile.*)
 
 	Process FIXME-SFML comments.
 

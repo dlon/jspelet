@@ -4,7 +4,6 @@
 
 #include <map>
 #include <hash_map>
-#include <windows.h>
 #include <GL/gl.h>
 #include "../Renderer.h"
 
