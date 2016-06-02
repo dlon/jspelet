@@ -6,8 +6,8 @@ main.cpp
 
 	Process FIXME-SFML comments.
 
-	renderer.cpp. constructor and SetVsync
-		WGL_EXT_swap_control. Fix vsync (check old source)
+	renderer.cpp. constructor
+		WGL_EXT_swap_control. Vsync in fullscreen (check old source)
 
 	renderer.cpp
 		use GL_TEXTURE_RECTANGLE_EXT/GL_TEXTURE_RECTANGLE_ARB/GL_TEXTURE_RECTANGLE_NV?

@@ -618,6 +618,7 @@ bool Renderer::HasExtension(const char *extStr) {
 void Renderer::SetVsync(bool enabled)
 {
 	vsync = enabled;
+	window.setVerticalSyncEnabled(enabled);
 }
 
 bool Renderer::GetVsync()
