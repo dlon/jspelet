@@ -6,10 +6,10 @@ extern Engine *eng;
 
 UglyMenu::UglyMenu(const char *sFile, int nargs, int spacing, float xo, float yo)
 {
-	aOpen = eng->res->sounds.Load("data/mmopen.wav");
-	aClose = eng->res->sounds.Load("data/mmclose.wav");
-	aSelect = eng->res->sounds.Load("data/mmselect2.wav");
-	aDecide = eng->res->sounds.Load("data/kesh.wav");
+	aOpen = sf::Sound(*eng->res->sounds.Load("data/mmopen.wav"));
+	aClose = sf::Sound(*eng->res->sounds.Load("data/mmclose.wav"));
+	aSelect = sf::Sound(*eng->res->sounds.Load("data/mmselect2.wav"));
+	aDecide = sf::Sound(*eng->res->sounds.Load("data/kesh.wav"));
 
 	if (sFile)
 		tScreen = eng->res->textures.Load(sFile); // "data/screen.png"
@@ -52,8 +52,7 @@ void UglyMenu::Draw()
 void UglyMenu::Up()
 {
 	if (i) {
-		aSelect->Rewind();
-		aSelect->Play(false);
+		aSelect.play();
 		i--;
 	}
 }
@@ -61,16 +60,14 @@ void UglyMenu::Up()
 void UglyMenu::Down()
 {
 	if (i+1 < nargs) {
-		aSelect->Rewind();
-		aSelect->Play(false);
+		aSelect.play();
 		i++;
 	}
 }
 
 int UglyMenu::Decide()
 {
-	aDecide->Rewind();
-	aDecide->Play(false);
+	aDecide.play();
 	return i;
 }
 
