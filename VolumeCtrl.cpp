@@ -10,7 +10,7 @@ extern Engine	*eng;
 extern Input	*input;
 
 unsigned short VolumeCtrl::refT = 0;
-Texture *VolumeCtrl::volT = 0;
+sf::Texture *VolumeCtrl::volT = 0;
 
 VolumeCtrl::VolumeCtrl(float min, float max, float def)
 {
@@ -21,7 +21,8 @@ VolumeCtrl::VolumeCtrl(float min, float max, float def)
 
 	// load texture
 	if (!refT) // if (!refT++)
-		volT = eng->render->LoadTexture("data/volctrl.png");
+		volT = new sf::Texture;
+		volT->loadFromFile("data/volctrl.png");
 	refT++;
 
 	// load sprites
@@ -33,7 +34,7 @@ VolumeCtrl::~VolumeCtrl()
 {
 	// free textures
 	if (!(--refT)) {
-		eng->render->FreeTexture(volT);
+		delete volT;
 		volT = NULL;
 	}
 }

@@ -6,7 +6,7 @@ class VolumeCtrl {
 	float	m_maxVol,m_minVol;
 	bool	m_selected;
 
-	static Texture *volT;
+	static sf::Texture *volT;
 	static unsigned short refT;
 
 	Sprite	volMeter;
