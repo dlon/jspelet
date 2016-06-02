@@ -194,17 +194,13 @@ void ParticleEmitter::Draw()
 		}
 		else
 		{
-			glEnable(eng->render->textureType);
-			glBindTexture(eng->render->textureType, (unsigned)prop.texture->reserved);
+			sf::Texture::bind(prop.texture, sf::Texture::Pixels);
 			
-			float tw = (float)prop.texture->w;
-			float th = (float)prop.texture->h;
+			sf::Vector2u sz = prop.texture->getSize();
+			float tw = (float)sz.x;
+			float th = (float)sz.y;
 
 			float xw=1.0f, yw=1.0f;
-			if (!eng->render->rectExt) {
-				xw = float(prop.texture->w + prop.texture->paddingW);
-				yw = float(prop.texture->h + prop.texture->paddingH);
-			}
 
 			glBegin(GL_QUADS);
 			for (int i=0; i<limit; i++)
@@ -227,7 +223,7 @@ void ParticleEmitter::Draw()
 				}
 			}
 			glEnd();
-			glDisable(eng->render->textureType);
+			sf::Texture::bind(NULL);
 		}
 	}
 }
@@ -248,9 +244,10 @@ void ParticleEmitter::LoadConfiguration(const char *part_file)
 	FILE *t = fopen(part_file, "rb");
 	if (!t)
 	{
-		char temp[MAX_PATH+64];
-		sprintf(temp, "Cannot read: %s", part_file);
-		MessageBox(NULL, temp, "Configuration file", MB_ICONERROR);
+		//char temp[MAX_PATH+64];
+		//sprintf(temp, "Cannot read: %s", part_file);
+		//MessageBox(NULL, temp, "Configuration file", MB_ICONERROR);
+		//FIXME-SFML ^
 	}
 	fclose(t);
 

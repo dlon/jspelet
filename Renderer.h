@@ -47,7 +47,6 @@ class Renderer
 	bool		vsync;
 	sf::Texture*	tempText;
 public:
-	bool		rectExt;
 	int			textureType;
 
 	Renderer(sf::RenderWindow& window);

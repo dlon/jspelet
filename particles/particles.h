@@ -34,7 +34,7 @@ struct EmitterProperties {
 	int				rate; // particles/sec
 	int				blending;
 	bool			stream;
-	Texture *		texture;
+	sf::Texture *		texture;
 	EmitterFlags	flags;
 	float			grmin,grmax; // gravity: should in principle be reduced to mass, as should almost all elements in this struct
 };
@@ -105,8 +105,8 @@ public:
 
 	void SetProperties(EmitterProperties *prop);
 
-	void		SetTexture(Texture *t)					{ prop.texture = t; }
-	Texture*	GetTexture()							{ return prop.texture; }
+	void		SetTexture(sf::Texture *t)					{ prop.texture = t; }
+	sf::Texture*	GetTexture()							{ return prop.texture; }
 	void		UnsetTexture()							{ prop.texture = 0; }
 
 	ParticleEmitter(float _x, float _y,
