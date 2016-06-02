@@ -11,7 +11,7 @@ public:
 	SoundFactory		sounds;
 	TextureFactory		textures;
 
-	ResourceMng(TextureLoader *textureLoader) : textures(textureLoader) {}
+	ResourceMng() {}
 };
 
 #endif // JACKRESOURCES_H

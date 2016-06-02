@@ -24,7 +24,7 @@ Engine::Engine(sf::RenderWindow& window)
 
 	// todo: error checking
 	render = new Renderer(window);
-	res = new ResourceMng(render);
+	res = new ResourceMng;
 
 	eng = this;
 
