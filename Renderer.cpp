@@ -1,100 +1,11 @@
-//	TODO:
-//	renderer profiler - monitor texture mem usage, etc
-//	#ifndef NDEBUG DrawProfiler()
-
 #include "Renderer.h"
 #include "Sprite.h"
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
-#include "prof.h"
-
-// quicker float operations
-// floor float -> int
-inline int fint(float v) // not sure of the accuracy here
-{
-	int res;
-	float sign = 0.4999999f;
-	__asm {
-		mov eax, v
-		and eax, 0x80000000
-		or  sign, eax
-		fld v
-		fsub sign
-		fistp res;
-	}
-	return res;
-}
-
-// round (default FPU mode) float -> int
-// NOTE: use this if you DON'T CARE whether it rounds up/down/nearest
-inline int rint(float v)
-{
-	int res;
-	__asm {
-		fld v
-		fistp res;
-	}
-	return res;
-}
-// quicker float operations
-
-// vsync
-typedef void (APIENTRY *WGLSWAPINTERVALEXT)(int);
-static WGLSWAPINTERVALEXT wglSwapIntervalEXT = NULL; // static member?
-
-bool Renderer::Init(HWND hWnd) {
-	assert(!m_hWnd);
-	assert(hWnd);
-
-	m_hDC = GetDC(hWnd);
-	m_hWnd = hWnd;
-
-	// create pixel format descriptor
-	PIXELFORMATDESCRIPTOR pfd = {0};
-	pfd.nSize = sizeof(pfd);
-	pfd.nVersion = 1;
-	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-	pfd.iPixelType = PFD_TYPE_RGBA;
-	//pfd.cColorBits = 32;
-	//pfd.cDepthBits = 8;
-	pfd.cColorBits = 24;
-	pfd.iLayerType = PFD_MAIN_PLANE;
-
-	int format = ChoosePixelFormat(m_hDC, &pfd);
-	assert(format);
-
-	SetPixelFormat(m_hDC, format, &pfd);
-
-	// create WGL context
-	m_hGLRC = wglCreateContext(m_hDC);
-	wglMakeCurrent(m_hDC, m_hGLRC);
-
-	// look for required extensions
-	if (//1 ||
-		(
-		!HasExtension("GL_ARB_texture_rectangle") &&
-		!HasExtension("GL_NV_texture_rectangle") &&
-		!HasExtension("GL_EXT_texture_rectangle")
-		))
-	{
-		//MessageBox(0, "Rectangle extension not available.\nTextures may not be visible.", "OpenGL", MB_ICONERROR);
-		rectExt = false;
-		textureType = GL_TEXTURE_2D;
-		printf("Texture type: GL_TEXTURE_2D\n");
-	}
-	else {
-		rectExt = true;
-		textureType = GL_TEXTURE_RECTANGLE_ARB;
-		printf("Texture type: GL_TEXTURE_RECTANGLE_ARB\n");
-	}
-
-	// vsync
-	if (HasExtension("WGL_EXT_swap_control"))
-	{
-		if (!wglSwapIntervalEXT)
-			wglSwapIntervalEXT = (WGLSWAPINTERVALEXT)wglGetProcAddress("wglSwapIntervalEXT");
-	}
+Renderer::Renderer(sf::Window& window) : window(window) {
+	textureType = GL_TEXTURE_2D;
 
 	// set GL defaults
 	glDisable(GL_DEPTH_TEST);
@@ -104,24 +15,10 @@ bool Renderer::Init(HWND hWnd) {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	SetBlendMode(RBLEND_NORMAL, false);
-
-	// resize drawing surface
-	RECT wsz;
-	if (GetClientRect(m_hWnd, &wsz))
-		Resize(wsz.right, wsz.bottom, 640, 480);
-
-	return 1;
+	Resize(640,480, 640,480); // FIXME-SFML: get width and height from window size?
 }
 
 void Renderer::Close() {
-	assert(m_hWnd);
-
-	// destroy context & release gfx dc
-	wglMakeCurrent(NULL, NULL);
-	wglDeleteContext(m_hGLRC);
-	ReleaseDC(m_hWnd, m_hDC);
-
-	m_hWnd = NULL;
 }
 
 void Renderer::Resize(unsigned view_w, unsigned view_h,
@@ -204,7 +101,7 @@ Texture *Renderer::LoadTextureMem(unsigned char *data, unsigned width, unsigned 
 	unsigned gltexture;
 	glGenTextures(1, &gltexture);
 	if (!gltexture) {
-		MessageBox(NULL, "Failed to allocate GL texture", 0, MB_ICONERROR);
+		//MessageBox(NULL, "Failed to allocate GL texture", 0, MB_ICONERROR); // FIXME-SFML: error message
 		return 0;
 	}
 
@@ -258,7 +155,7 @@ void Renderer::BeginFrame()
 }
 
 void Renderer::EndFrame() {
-	SwapBuffers(m_hDC);
+	//SwapBuffers(m_hDC); // FIXME-SFML: What the heck is this?
 }
 
 void Renderer::NoViewBegin()
@@ -353,8 +250,6 @@ void Renderer::GetBlendMode(RBLENDMODE *rbm, bool *blendTextures)
 void Renderer::DrawTexture(Texture *t, float x, float y) {
 	assert(t);
 
-	Prof(Renderer_DrawTexture);
-
 	if (!blendTextures) {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -389,8 +284,6 @@ void Renderer::DrawTexture(Texture *t, float x, float y) {
 void Renderer::DrawSubImage(SubImage *s, float x, float y)
 {
 	assert(s->t);
-
-	Prof(Renderer_DrawSubImage);
 
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
@@ -500,8 +393,6 @@ void Renderer::DrawTextureEx(Texture *t, float x, float y, float rotDeg, float x
 {
 	assert(t);
 
-	Prof(Renderer_DrawTextureEx);
-
 	if (!blendTextures)
 		glColor3f(1.0f, 1.0f, 1.0f);
 
@@ -566,8 +457,6 @@ void Renderer::DrawTextureEx(Texture *t, float x, float y, float rotDeg, float x
 void Renderer::DrawSubImageEx(SubImage *s, float x, float y, float rotDeg, float xscale, float yscale)
 {
 	assert(s->t);
-
-	Prof(Renderer_DrawSubImageEx);
 
 	if (xscale < 0.0f || yscale < 0.0f)
 		glFrontFace(GL_CW);
@@ -663,8 +552,6 @@ void Renderer::DrawSubImageEx(SubImage *s, float x, float y, float rotDeg, float
 }
 
 void Renderer::DrawRect(float x, float y, float w, float h) {
-	Prof(Renderer_DrawRect);
-
 	x = floor(x);
 	y = floor(y);
 	w = floor(w);
@@ -685,8 +572,6 @@ void Renderer::DrawRect(float x, float y, float w, float h) {
 }
 
 void Renderer::DrawRectW(float x, float y, float w, float h) {
-	Prof(Renderer_DrawRectW);
-
 	x = floor(x);
 	y = floor(y);
 	w = floor(w);
@@ -702,8 +587,6 @@ void Renderer::DrawRectW(float x, float y, float w, float h) {
 }
 
 void Renderer::DrawPx(float x, float y) {
-	Prof(Renderer_DrawPx);
-
 	glBegin(GL_POINTS);
 	glVertex2f(floor(x), floor(y));
 	glEnd();
@@ -711,8 +594,6 @@ void Renderer::DrawPx(float x, float y) {
 
 void Renderer::DrawLine(float x1, float y1, float x2, float y2)
 {
-	Prof(Renderer_DrawLine);
-
 	glBegin(GL_LINES);
 	glVertex2f(floor(x1), floor(y1));
 	glVertex2f(floor(x2), floor(y2));
@@ -736,8 +617,6 @@ bool Renderer::HasExtension(const char *extStr) {
 
 void Renderer::SetVsync(bool enabled)
 {
-	if (wglSwapIntervalEXT != NULL)
-		wglSwapIntervalEXT(int(enabled));
 	vsync = enabled;
 }
 
@@ -760,8 +639,6 @@ void Renderer::TranslateEnd()
 
 void Renderer::DrawTrngl(float x1, float y1, float x2, float y2, float x3, float y3)
 {
-	Prof(Renderer_DrawTrngl);
-
 	x1 = floor(x1);
 	y1 = floor(y1);
 	x2 = floor(x2);

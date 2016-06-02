@@ -1,27 +1,17 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include <SFML/Window.hpp>
 #include "Vector2D.h"
 #include "TextureLoader.h"
 
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glext.h>
 
 typedef unsigned char col_t;
 
 struct col3_t { col_t r,g,b; };
 struct col4_t { col_t r,g,b,a; };
-
-// rectangle textures
-#if defined(GL_TEXTURE_RECTANGLE_ARB)
-#elif defined(GL_TEXTURE_RECTANGLE_EXT)
-#define GL_TEXTURE_RECTANGLE_ARB GL_TEXTURE_RECTANGLE_EXT
-#elif defined(GL_TEXTURE_RECTANGLE_NV)
-#define GL_TEXTURE_RECTANGLE_ARB GL_TEXTURE_RECTANGLE_NV
-#else
-#error No GL header files included that contain the rectangle extension!
-#endif
 
 struct Camera : public Vector2f
 {
@@ -59,25 +49,22 @@ struct SubImage
 
 class Renderer : public TextureLoader
 {
-	HDC			m_hDC;
-	HWND		m_hWnd;
-	HGLRC		m_hGLRC;
+	sf::Window&	window;
 	bool		blendTextures;
 	RBLENDMODE	rbm;
 	bool		vsync;
 	Texture*	tempText;
+	bool Init();
 public:
 	bool		rectExt;
 	int			textureType;
 
-	Renderer() : m_hWnd(NULL), vsync(false), rectExt(true) {}
-	//Renderer(HWND hWnd); // RAII
+	Renderer(sf::Window& window);
 
 	// public members
 	Camera cam;
 
 	// init
-	bool Init(HWND hWnd);
 	void Close();
 	void Resize(unsigned view_w, unsigned view_h, unsigned ortho_w, unsigned ortho_h);
 

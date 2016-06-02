@@ -110,7 +110,7 @@ int RunGame(const char *cmdLine)
 {
 	lWindowedMode = !CSettings::ReadFullscreen();
 	sfw::RenderWindow wnd(sf::VideoMode(640,480), GAME_CAPTION);
-	assert(lWindowedMode); // TODO: implement fullscreen mode
+	assert(lWindowedMode); // FIXME-SFML: implement fullscreen mode
 	
 	input = new Input;
 	/*eng =*/ new Engine(hWnd);
