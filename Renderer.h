@@ -1,7 +1,8 @@
+#pragma once
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 #include "Vector2D.h"
 #include "TextureLoader.h"
 
@@ -49,17 +50,16 @@ struct SubImage
 
 class Renderer : public TextureLoader
 {
-	sf::Window&	window;
+	sf::RenderWindow&	window;
 	bool		blendTextures;
 	RBLENDMODE	rbm;
 	bool		vsync;
 	Texture*	tempText;
-	bool Init();
 public:
 	bool		rectExt;
 	int			textureType;
 
-	Renderer(sf::Window& window);
+	Renderer(sf::RenderWindow& window);
 
 	// public members
 	Camera cam;

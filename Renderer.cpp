@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-Renderer::Renderer(sf::Window& window) : window(window) {
+Renderer::Renderer(sf::RenderWindow& window) : window(window) {
 	textureType = GL_TEXTURE_2D;
 
 	// set GL defaults

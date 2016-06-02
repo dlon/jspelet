@@ -113,7 +113,7 @@ int RunGame(const char *cmdLine)
 	assert(lWindowedMode); // FIXME-SFML: implement fullscreen mode
 	
 	input = new Input;
-	/*eng =*/ new Engine(hWnd);
+	/*eng =*/ new Engine(wnd);
 
 	if (!lWindowedMode)
 		eng->render->SetVsync(true); // NOTE: always vsync in fullscreen?

@@ -25,7 +25,7 @@ public:
 
 	void SetSplash(const char *file);
 
-	Engine(HWND wnd);
+	Engine(sf::RenderWindow& window);
 	~Engine();
 };
 

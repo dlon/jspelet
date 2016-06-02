@@ -17,14 +17,13 @@ std::string mapLoadAfterSplash;
 std::string songAfterSplash;
 std::string endingSplash;
 
-Engine::Engine(HWND wnd)
+Engine::Engine(sf::RenderWindow& window)
 {
 	timeBeginPeriod(1);
 	time = timeGetTime();
 
 	// todo: error checking
-	render = new Renderer;
-	render->Init(wnd);
+	render = new Renderer(window);
 	res = new ResourceMng(render);
 
 	eng = this;
