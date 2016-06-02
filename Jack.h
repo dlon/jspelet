@@ -37,9 +37,6 @@ public:
 	TextEngine	font;
 	Texture		*fontTex;
 	ChaseCam	chaseCam;
-#ifndef NDEBUG
-	bool		drawProfile;
-#endif
 	sf::Music	musicPlayer;
 	bool		pause;
 	int			pauseReset;

@@ -10,8 +10,6 @@
 
 extern Engine *eng;
 
-#define DRAW_COLRECTS
-
 Entity::Entity() :
 	x(0), y(0),
 	inWater(false),
@@ -258,14 +256,6 @@ void Entity::PostStep()
 
 void Entity::Draw()
 {
-#if !defined(NDEBUG) && defined(DRAW_COLRECTS)
-	col4_t cbak;
-	eng->render->GetColor4c(&cbak);
-	eng->render->SetColor(0,0,255,150);
-	eng->render->DrawRectW(colRect.GetXnO(),colRect.GetYnO(),colRect.GetW(),colRect.GetH());
-	eng->render->SetColor4c(cbak);
-#endif
-
 	if (spriteIndex)
 	{
 		spriteIndex->x = x;

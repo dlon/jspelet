@@ -72,9 +72,6 @@ int SolidMap::Collision(CollisionObject &col, CollisionObject &actualPos, int fl
 	if (col.GetX()+col.GetW() < 0 || col.GetY()+col.GetH() < 0)
 		return 0; // outside map
 	if (col.GetX()+col.GetW() >= SREGION_ARRAY_W*SREGION_W || col.GetY()+col.GetH() >= SREGION_ARRAY_H*SREGION_H) {
-#ifndef NDEBUG
-		printf("Collision outside of map!\n");
-#endif
 		return 0; // outside grid: to prevent crashes in the unlikely event that it'll happen
 	}
 

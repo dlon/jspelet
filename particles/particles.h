@@ -109,10 +109,6 @@ public:
 	Texture*	GetTexture()							{ return prop.texture; }
 	void		UnsetTexture()							{ prop.texture = 0; }
 
-#ifndef NDEBUG
-	void DInfo();
-#endif
-
 	ParticleEmitter(float _x, float _y,
 		int pMax = 50, EmitterProperties *prop = 0 /* use default */);
 	~ParticleEmitter();

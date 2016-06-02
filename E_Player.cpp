@@ -186,12 +186,6 @@ void E_Player::Step()
 			hspeed = speed;
 	}
 
-	// dev shit
-#ifdef JSDEBUG
-	if (input->Check('F'))
-		vspeed = -5.0f;
-#endif
-
 	// jump
 #if 0
 	if (doubleJumpTimer && doubleJumpTimer > eng->time && input->CheckPressed(VK_SPACE)) {
@@ -520,12 +514,6 @@ void E_Player::PlayDeathSequence2()
 
 void E_Player::Draw()
 {
-#ifndef NDEBUG /* draw colRect */ // FIXME: JSDEBUG
-	Sprite *ss = spriteIndex;
-	spriteIndex = 0;
-	Entity::Draw();
-	spriteIndex = ss;
-#endif
 	/*
 	if (spriteIndex)
 	{

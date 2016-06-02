@@ -13,6 +13,5 @@ main.cpp
 
 	does unordered_map support const char*? if not: fix
 
-	remove presumption of NDEBUG
 	barrel fire sound: re-add stereo/panning effect
 	sound may behave oddly: did the Sound::Play() not replay sounds? if so, fix these cases

@@ -10,9 +10,6 @@ E_MvPlatform::E_MvPlatform(PLATFORM_DIR dir)
 {
 	spr.Load("data/plattform.png", 1, 0,0);
 	colRect.FromSprite(&spr);
-#ifndef NDEBUG
-	printf("cc: %f,%f,%f,%f\n", colRect.GetX(),colRect.GetY(),colRect.GetW(),colRect.GetH());
-#endif
 
 	spriteIndex = &spr;
 

@@ -2,8 +2,6 @@
 #include "Engine.h"
 #include "Input.h"
 
-//#undef NDEBUG
-
 extern Engine *eng;
 extern Input *input;
 
@@ -31,9 +29,6 @@ void OpenMapDialog(char *buffer, int size) {
 
 Jack::Jack() : loadedGame(false),
 		postInit(false),
-#ifndef NDEBUG
-		drawProfile(false),
-#endif
 		pause(false), pauseReset(0)
 {
 	// init vars
@@ -255,31 +250,6 @@ bool Jack::Update()
 			chaseCam.Update();
 		}
 
-#ifdef JSDEBUG
-		// test stuff
-		if (input->Check(VK_CONTROL) && input->CheckPressed('O'))
-			OpenMapDialog(ilikeoverflows, sizeof(ilikeoverflows));
-
-		if (input->CheckPressed('T')) {
-			EndLevel("data/random.jkm");
-		}
-
-		if (input->CheckPressed(VK_F4)) {
-			SaveState(CSettings::GameStateFile());
-		}
-		else if (input->CheckPressed(VK_F5)) {
-			LoadState(CSettings::GameStateFile());
-		}
-
-		if (input->CheckPressed('S'))
-			eng->SetSplash("data/Cathorel2.png");
-
-#ifndef NDEBUG
-		if (input->CheckPressed(VK_F2)) // profiler
-			drawProfile = !drawProfile;
-#endif
-#endif
-
 		// user pause
 		if (!pauseReset && input->CheckPressed(VK_ESCAPE)) {
 			pause = true;
@@ -359,38 +329,6 @@ void Jack::Draw()
 	// scoreboard
 	if (score)
 		score->Draw();
-
-#ifdef JSDEBUG
-	// fps
-	static int fp = 0;
-	if (!fp)
-		fp = eng->time;
-	if (eng->time - fp == 0)
-		fp--; // div by 0
-
-	eng->render->SetColor(255,255,0);
-
-	eng->render->NoViewBegin();
-	font.SetScale(1.5f);
-	font.Printf(5.0f, 450.0f, "FPS: %f", 1000.0f / (float)(eng->time-fp));
-	eng->render->NoViewEnd();
-
-#ifndef NDEBUG
-	// profiler
-	if (drawProfile) {
-		eng->render->NoViewBegin();
-		Prof_draw_gl(5.0f, 5.0f,
-			640.0f, 480.0f,
-			24.0f,
-			2,
-			p_t_draw,
-			p_t_width);
-		eng->render->NoViewEnd();
-	}
-#endif
-
-	fp = eng->time;
-#endif
 
 	eng->render->EndFrame();
 }

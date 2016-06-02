@@ -5,11 +5,6 @@
 #include "ResourceMng.h"
 #include "Renderer.h"
 
-#ifdef NDEBUG
-#define puts(x) {}
-#define printf(fmt,...) {}
-#endif
-
 class Jack;
 
 class Engine

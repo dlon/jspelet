@@ -289,15 +289,6 @@ bool ParticleEmitter::PosFree(float x, float y)
 	return 1;
 }
 
-#ifndef NDEBUG
-void ParticleEmitter::DInfo()
-{
-	char m[256];
-	sprintf(m, "Distribution: %.3f, %.3f\nVelocity: %.3f, %.3f\nDirection: %.3f, %.3f\nColor (RGBA): %.3f %.3f %.3f %.3f, %.3f %.3f %.3f %.3f\nLife: %.3f, %.3f\nTail: %d\nRate: %d\nBlending: %d", prop.rx, prop.ry, prop.vmin, prop.vmax, prop.dmin, prop.dmax, prop.rmin, prop.gmin, prop.bmin, prop.amin, prop.rmax, prop.gmax, prop.bmax, prop.amax, prop.lmin, prop.lmax, prop.tail, prop.rate, prop.blending);
-	MessageBox(0, m, 0, 0);
-}
-#endif
-
 void ParticleEmitter::DeflectAtBounds(float x1, float y1,
 									  float x2, float y2)
 {

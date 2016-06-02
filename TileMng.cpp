@@ -191,10 +191,6 @@ void TileMng::FromFile(FILE *fp, int len, bool detectSize)
 
 	num = len/29;
 
-#ifndef NDEBUG
-	printf("Tiles: %d\n", num);
-#endif
-
 	//bool detectSize = true; // cam-lock via tiles
 	if (eng->render->cam.maxX || eng->render->cam.maxY)
 		detectSize = false;

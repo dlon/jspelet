@@ -62,9 +62,6 @@ public:
 		int activeRadius,
 		bool manualActivation,
 		bool initiallyActive) {
-#ifndef NDEBUG
-			puts("No IEditorSettings");
-#endif
 	}
 
 	Entity();

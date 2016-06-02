@@ -65,40 +65,6 @@ void EntityMng::Free()
 	prevUpdate = 0;
 }
 
-#if 0
-Entity *EntityMng::CreateEntity(const char *name)
-{
-	Entity *e = 0;
-	if (!strcmp(name, "Player"))
-		e = new E_Player;
-	else if (!strcmp(name, "Kitty"))
-		e = new E_Kitty;
-	
-#ifndef NDEBUG
-	printf("CreateEntity(%s)\n", name);
-#endif
-
-	if (e) {
-		ents.push_back(e);
-		if (e->IsPlayer())
-			player = e;
-	}
-	return e;
-}
-#endif
-
-#if 0
-Entity *EntityMng::AddEntity(Entity *e)
-{
-	if (e) {
-		ents.push_back(e);
-		if (e->IsPlayer())
-			player = e;
-	}
-	return e;
-}
-#endif
-
 Entity *EntityMng::CreateEntity(int id)
 {
 	// FIXME: Idea. For future stuff, couldn't this be solved with templates somehow? Alternatively, macros or dynamically
@@ -196,12 +162,6 @@ Entity *EntityMng::CreateEntity(int id)
 		e = new E_Boss2Sequencer;
 		break;
 	}
-
-#ifndef NDEBUG
-	printf("CreateEntity(%d)\n", id);
-	if (!e)
-		printf("Cannot spawn '%d'.\n", id);
-#endif
 
 	if (e) {
 		ents.push_back(e);
@@ -445,10 +405,6 @@ void EntityMng::FromFile(FILE *fp, int len, bool versionFour, bool versionFive)
 					if (versionFive && id == EID_PIGGATTACK)
 						static_cast<E_PiggAttack*>(e)->SetSpeed((float)piggSpeed);
 				}
-#	ifndef NDEBUG
-				else
-					puts("FromFile failed to create entity.");
-#	endif
 			}
 			else {
 				// hack: use delay as timer for moving platforms
@@ -507,20 +463,6 @@ void EntityMng::FromFile(FILE *fp, int len, bool versionFour, bool versionFive)
 			}
 		}
 	}
-
-	// debug position
-#if 0
-#if 1 /*defined(NDEBUG)*/
-	if (lMapParameter && movePlayerX != -1.0f && movePlayerY != -1.0f) {
-#else
-	if (movePlayerX != -1.0f && movePlayerY != -1.0f) {
-#endif
-		if (!player)// spawn
-			player = CreateEntity(EID_PLAYER);
-		player->x = movePlayerX;
-		player->y = movePlayerY;
-	}
-#endif
 	if (lPosParameter) {
 		if (!xplayer)// spawn
 			xplayer = CreateEntity(EID_PLAYER);
