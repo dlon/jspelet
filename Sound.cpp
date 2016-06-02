@@ -9,6 +9,7 @@ float Sound::gvol = 100.0f;
 
 Sound::Sound(const char *file)
 {
+	/*
 	LPDIRECTSOUNDBUFFER8 buffer;
 	if (! (buffer=AudioDevice::LoadWaveFile(file)) )
 		throw SoundFileNotFound(file);
@@ -16,24 +17,27 @@ Sound::Sound(const char *file)
 
 	vol = 100.0f;
 	vLoc = 1.0f;
+	*/
 }
 
 Sound::~Sound()
 {
-	for (size_t i=0; i<buffers.size(); i++)
-		buffers[i]->Release(); // free
+	//for (size_t i=0; i<buffers.size(); i++)
+	//	buffers[i]->Release(); // free
 }
 
 bool Sound::PlayingInd(int i)
 {
-	DWORD st;
+	/*DWORD st;
 	if (FAILED(buffers[i]->GetStatus(&st)))
 		return false;
-	return (st & DSBSTATUS_PLAYING) != 0;
+	return (st & DSBSTATUS_PLAYING) != 0;*/
+	return 0;
 }
 
 void Sound::ReleaseDoubles()
 {
+	/*
 	if (buffers.size() == 1)
 		return;
 
@@ -46,6 +50,7 @@ void Sound::ReleaseDoubles()
 	for (size_t i=1; i<buffers.size(); i++)
 		buffers[i]->Release();
 	buffers.erase(buffers.begin()+1, buffers.end());
+	*/
 }
 
 void Sound::SetGlobalVolume(float f)
@@ -60,6 +65,7 @@ void Sound::SetVolume(float f)
 
 int Sound::CreateBuffer()
 {
+	/*
 	LPDIRECTSOUND8			dev			= AudioDevice::GetDevice();
 	LPDIRECTSOUNDBUFFER8	tBf8;
 	LPDIRECTSOUNDBUFFER		tBf;
@@ -78,10 +84,13 @@ int Sound::CreateBuffer()
 	// save buffer
 	buffers.push_back(tBf8);
 	return buffers.size()-1;
+	*/
+	return 0;
 }
 
 void Sound::PlayBuffer(int i)
 {
+	/*
 	// mix volume
 	buffers[i]->SetVolume(-50); buffers[i]->SetVolume(-25); // ms bug workaround
 	if (gvol > 0.0f) {
@@ -93,10 +102,12 @@ void Sound::PlayBuffer(int i)
 
 	// play
 	buffers[i]->Play(0,0,0);
+	*/
 }
 
 LPDIRECTSOUNDBUFFER8 Sound::ReallyBadFunction()
 {
+	/*
 	LPDIRECTSOUND8			dev			= AudioDevice::GetDevice();
 	LPDIRECTSOUNDBUFFER8	tBf8;
 	LPDIRECTSOUNDBUFFER		tBf;
@@ -113,6 +124,8 @@ LPDIRECTSOUNDBUFFER8 Sound::ReallyBadFunction()
 	tBf->Release();
 
 	return tBf8;
+	*/
+	return 0;
 }
 
 void Sound::PlayLoc(float dx, float dy, bool allowMultiple)
@@ -120,6 +133,7 @@ void Sound::PlayLoc(float dx, float dy, bool allowMultiple)
 	if (!allowMultiple && Playing())
 		return;
 
+	/*
 	// create dup buffer
 	int i;
 	if ((i=CreateBuffer()) == -1)
@@ -141,10 +155,12 @@ void Sound::PlayLoc(float dx, float dy, bool allowMultiple)
 	PlayBuffer(i);
 
 	// TODO: moving audio object? (thread or update func)
+	*/
 }
 
 void Sound::Play(bool allowMultiple)
 {
+	/*
 	vLoc = 1.0f;
 	if (Playing()) {
 		if (allowMultiple) {
@@ -161,6 +177,7 @@ void Sound::Play(bool allowMultiple)
 
 	buffers[0]->SetPan(0);
 	PlayBuffer(0);
+	*/
 }
 
 bool Sound::Playing()
@@ -174,13 +191,15 @@ bool Sound::Playing()
 
 void Sound::Stop()
 {
+	/*
 	for (size_t i=0; i<buffers.size(); i++)
 		buffers[i]->Stop();
 	ReleaseDoubles();
 	buffers[0]->SetCurrentPosition(0);
+	*/
 }
 
 void Sound::Rewind()
 {
-	buffers[0]->SetCurrentPosition(0);
+	//buffers[0]->SetCurrentPosition(0);
 }

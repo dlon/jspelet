@@ -3,7 +3,6 @@
 #define RESOURCEFACTORY_H
 
 #include <string.h>
-#include <windows.h>
 
 // search in linear time, O(n)
 

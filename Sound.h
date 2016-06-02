@@ -3,6 +3,8 @@
 #include <vector>
 #include <exception>
 
+typedef int LPDIRECTSOUNDBUFFER8; // FIXME: remove. temporary dummy definition
+
 class SoundFileNotFound : public std::runtime_error
 {
 public:

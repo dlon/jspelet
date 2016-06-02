@@ -3,15 +3,14 @@
 #include <string.h>
 #include "_wavinfo.h"
 
-static LPDIRECTSOUND8 pDS8;
-static bool dsound_is_init = 0;
-
-LPDIRECTSOUND8 AudioDevice::pDS8;
+//static LPDIRECTSOUND8 pDS8;
+//static bool dsound_is_init = 0;
+//LPDIRECTSOUND8 AudioDevice::pDS8;
 bool AudioDevice::init = false;
 
 bool AudioDevice::Init(HWND hWnd)
 {
-	HRESULT hr;
+	/*HRESULT hr;
 	if (!init)
 	{
 		// create device
@@ -33,14 +32,16 @@ bool AudioDevice::Init(HWND hWnd)
 		init = true;
 	}
 	return init;
+	*/
+	return true;
 }
 
 void AudioDevice::Close()
 {
-	if (init) {
+	/*if (init) {
 		pDS8->Release();
 		init = false;
-	}
+	}*/
 }
 
 bool AudioDevice::CreateWaveBuffer(LPDIRECTSOUNDBUFFER8* ppDsb8,
@@ -48,6 +49,7 @@ bool AudioDevice::CreateWaveBuffer(LPDIRECTSOUNDBUFFER8* ppDsb8,
 								   int bytes_sz,
 								   DWORD flags)
 {
+	/*
 	DSBUFFERDESC dsbdesc;
 	LPDIRECTSOUNDBUFFER pDsb = NULL;
 	HRESULT hr;
@@ -70,24 +72,7 @@ bool AudioDevice::CreateWaveBuffer(LPDIRECTSOUNDBUFFER8* ppDsb8,
 		if (SUCCEEDED(hr))
 			return 1;
 	}
-
-	/*
-	switch (hr)
-	{
-	case DSERR_ALLOCATED: MessageBox(NULL, "DSERR_ALLOCATED", 0, 0); break;
-	case DSERR_BADFORMAT: MessageBox(NULL, "DSERR_BADFORMAT", 0, 0); break;
-	case DSERR_BUFFERTOOSMALL: MessageBox(NULL, "DSERR_BUFFERTOOSMALL", 0, 0); break;
-	case DSERR_CONTROLUNAVAIL: MessageBox(NULL, "DSERR_CONTROLUNAVAIL", 0, 0); break;
-	case DSERR_DS8_REQUIRED: MessageBox(NULL, "DSERR_DS8_REQUIRED", 0, 0); break;
-	case DSERR_INVALIDCALL: MessageBox(NULL, "DSERR_INVALIDCALL", 0, 0); break;
-	case DSERR_INVALIDPARAM: MessageBox(NULL, "DSERR_INVALIDPARAM", 0, 0); break;
-	case DSERR_NOAGGREGATION: MessageBox(NULL, "DSERR_NOAGGREGATION", 0, 0); break;
-	case DSERR_OUTOFMEMORY: MessageBox(NULL, "DSERR_OUTOFMEMORY", 0, 0); break;
-	case DSERR_UNINITIALIZED: MessageBox(NULL, "DSERR_UNINITIALIZED", 0, 0); break;
-	case DSERR_UNSUPPORTED: MessageBox(NULL, "DSERR_UNSUPPORTED", 0, 0); break;
-	}
 	*/
-
 	return 0;
 }
 
@@ -96,7 +81,7 @@ LPDIRECTSOUNDBUFFER8 AudioDevice::LoadWaveFile(const char *file)
 	_wavinfo *wav;
 	if (!init)
 	{
-		MessageBox(NULL, "LoadWaveFile() called without first initializing a device", "Error", MB_ICONERROR);
+		//MessageBox(NULL, "LoadWaveFile() called without first initializing a device", "Error", MB_ICONERROR); // FIXME-SFML: cross-platform error message
 		return 0;
 	}
 
@@ -126,6 +111,7 @@ LPDIRECTSOUNDBUFFER8 AudioDevice::LoadWaveFile(const char *file)
 		LPVOID	lpvWrite;
 		DWORD	dwLength;
 		
+		/*
 		if (pDsb8->Lock(0, 0,
 						&lpvWrite, &dwLength,
 						NULL, NULL,
@@ -140,9 +126,11 @@ LPDIRECTSOUNDBUFFER8 AudioDevice::LoadWaveFile(const char *file)
 			wavinfo_free(wav);
 			return 0;
 		}
+		*/
 
 		wavinfo_free(wav);
-		return pDsb8;
+		//return pDsb8;
+		return 0;
 	}
 	return 0;
 }

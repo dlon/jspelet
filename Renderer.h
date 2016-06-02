@@ -2,7 +2,6 @@
 #define RENDERER_H
 
 #include "Vector2D.h"
-#include <windows.h>
 #include "TextureLoader.h"
 
 #include <GL/gl.h>

@@ -2,8 +2,9 @@
 #ifndef AUDIO_H
 #define AUDIO_H
 
-#include <windows.h>
-#include <dsound.h>
+//#include <windows.h>
+//#include <dsound.h>
+typedef int LPDIRECTSOUNDBUFFER8; // FIXME-SFML: temporary dummy variable
 
 //typedef IDirectSoundBuffer8 Sound;
 
@@ -27,7 +28,8 @@ public:
 	static bool CreateWaveBuffer(LPDIRECTSOUNDBUFFER8* ppDsb8,
 		WAVEFORMATEX *wfx,
 		int bytes_sz,
-		DWORD flags = DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLPAN | DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRLFREQUENCY /*| DSBCAPS_GETCURRENTPOSITION2*/);
+		//DWORD flags = DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLPAN | DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRLFREQUENCY /*| DSBCAPS_GETCURRENTPOSITION2*/);
+		DWORD flags = 0); // FIXME-SFML
 	static LPDIRECTSOUNDBUFFER8 LoadWaveFile(const char *file);
 };
 
