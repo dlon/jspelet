@@ -1,0 +1,45 @@
+normal
+
+SubImageEx:   ~2		count: ~830
+SubImage      ~1.3
+JackeDraw     ~0.2
+
+no tiles
+
+SubImageEx:   ~2 (tiles call only non-ex)   count: ~830
+SubImage:     ???
+JackeDraw:    ~0.2
+
+
+
+
+opt
+
+pre  TileMng_Draw:  ~0.8    hier, 2.35
+
+     TileMng_Draw:  ~1.1    hier, 1.1    (dock är DrawSubImage borta från listan)
+=>   TileMng_Draw:  ~0.07   hier, 0.07   (display lists!)
+
+
+
+
+pre  Renderer_DrawSubImageEx	~1.9,   hier ~1.9,   count ~820
+=>   TextEngine_Draw		~0.3,   hier, ~0.3   count ~97
+     Renderer_DrawSubImageEx    ~0.08,  hier, ~0.08  count ~18
+
+
+
+multiple glBegin
+	TextEngine_Draw		0.28
+	TileMng_Draw		0.06
+
+
+LINEAR?
+
+Lesson learned: You're optimizing the wrong things!
+Among the things in most need of optimization is rendering.
+Loading things is relatively cheap
+
+See if culling helps
+
+En del tiles på samma lager hamnar fel ibland då jag sorterat efter tileset (och förstört ordningen inom lagret).

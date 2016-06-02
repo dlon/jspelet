@@ -1,0 +1,12 @@
+Collisions - F5 (my save), renders ~25 fps and ~36.8 msec SolidMap_Collision_AABB per frame
+
+FIX:
+	Less solids - different route altogether...
+	Larger bound test as well as smaller (but how do we organize it - sort?)
+	...
+
+	std::map? some kind of grid; array with predefined grid
+		- sounds memory expensive, though
+		- unless the grid is like 512x512
+
+UPDATE: Okay, region thing made the thing hugely faster
