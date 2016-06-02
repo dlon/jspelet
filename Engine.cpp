@@ -1,5 +1,4 @@
 #include "Engine.h"
-#include "Audio.h"
 #include "Jack.h"
 #include "SplashImage.h"
 #include "Input.h"
@@ -26,7 +25,6 @@ Engine::Engine(HWND wnd)
 	// todo: error checking
 	render = new Renderer;
 	render->Init(wnd);
-	AudioDevice::Init(wnd);
 	res = new ResourceMng(render);
 
 	eng = this;
@@ -40,7 +38,6 @@ Engine::~Engine()
 	delete jack;
 
 	delete res;
-	AudioDevice::Close();
 	render->Close();
 	delete render;
 
