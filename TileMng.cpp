@@ -4,8 +4,6 @@
 #include <gl/gl.h>
 #include <algorithm>
 
-#include "prof.h"
-
 extern Engine *eng;
 
 void TileMng::Free()
@@ -258,8 +256,6 @@ void TileMng::FromFile(FILE *fp, int len, bool detectSize)
 
 void TileMng::Draw(int depth)
 {
-	Prof(TileMng_Draw);
-
 	if (depth >= -99)
 		depth = 0;
 	else if (depth >= -100)

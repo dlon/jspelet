@@ -2,8 +2,6 @@
 #include "Engine.h"
 #include "Input.h"
 
-#include "prof.h"
-
 //#undef NDEBUG
 
 extern Engine *eng;
@@ -230,10 +228,6 @@ bool Jack::Frame()
 
 bool Jack::Update()
 {
-	Prof_update(1);
-
-	Prof(Jacke_Update);
-
 	bool tick = true;
 	if (!pause)
 		tick = map.Update();
@@ -358,8 +352,6 @@ static void p_t_draw(float x, float y, char *str)
 
 void Jack::Draw()
 {
-	Prof(Jacke_Draw);
-
 	eng->render->BeginFrame();
 	map.Draw();
 	hud.Draw();

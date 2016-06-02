@@ -8,8 +8,6 @@
 #include "E_WoodenBox.h"
 #include "E_Barrel.h"
 
-#include "prof.h"
-
 extern Engine *eng;
 
 #define DRAW_COLRECTS
@@ -43,8 +41,6 @@ void Entity::Step()
 
 void Entity::CheckTiles(SolidMap *tileMng)
 {
-	Prof(Entities_CheckTiles);
-
 	CollisionObject actualPos(x,y,colRect.GetW(),colRect.GetH());
 
 	if (vspeed+gravity < GRAVITY_LIMIT)
@@ -269,7 +265,6 @@ void Entity::Draw()
 	eng->render->DrawRectW(colRect.GetXnO(),colRect.GetYnO(),colRect.GetW(),colRect.GetH());
 	eng->render->SetColor4c(cbak);
 #endif
-	Prof(Entity_Draw);
 
 	if (spriteIndex)
 	{

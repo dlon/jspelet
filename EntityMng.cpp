@@ -4,8 +4,6 @@
 #include "AllEntities.h"
 #include <sstream>
 
-#include "prof.h"
-
 extern Engine *eng;
 extern bool lMapParameter;
 extern bool lPosParameter;
@@ -338,8 +336,6 @@ bool EntityMng::Update(/*TileMng*/SolidMap *tiles)
 
 void EntityMng::Draw()
 {
-	Prof(EntityMng_Draw);
-
 	std::list<Entity*>::iterator it;
 	for (it = ents.begin(); it != ents.end(); it++)
 	{

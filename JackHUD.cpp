@@ -3,8 +3,6 @@
 #include "Input.h"
 #include "Jack.h"
 
-#include "prof.h"
-
 extern Engine *eng;
 extern Input *input;
 
@@ -121,8 +119,6 @@ void JackHUD::CheckPoint()
 
 void JackHUD::Draw()
 {
-	Prof(JackHUD_Draw);
-
 	eng->render->NoViewBegin();
 	{
 		eng->render->SetColor(0,0,0);

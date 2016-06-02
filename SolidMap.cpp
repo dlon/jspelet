@@ -1,8 +1,6 @@
 #include "SolidMap.h"
 #include "MapMng.h"
 
-#include "prof.h"
-
 bool PointInRightTrng(float tx, float ty, float x, float y) {
 	return (x - tx) - (y - ty) < 0; // hypo
 }
@@ -68,8 +66,6 @@ void SolidMap::FromFile(FILE *fp, int len)
 
 int SolidMap::Collision(CollisionObject &col, CollisionObject &actualPos, int flags)
 {
-	Prof(SolidMap_Collision);
-
 	// Detect solid region (huge optimization)
 	std::vector<SolidContainer>* regions[4];
 
@@ -120,8 +116,6 @@ int SolidMap::Collision(CollisionObject &col, CollisionObject &actualPos, int fl
 		size_t num = solids.size();
 		for (unsigned i=0; i<num; i++)
 		{
-			Prof(SolidMap_Collision_AABB);
-
 			// AABB check
 			if ((solids[i].flags & flags) &&
 				solids[i].x < col.GetX()+col.GetW() && // <= not < (nope)
@@ -129,8 +123,6 @@ int SolidMap::Collision(CollisionObject &col, CollisionObject &actualPos, int fl
 				solids[i].x > col.GetX()-SOLID_W &&
 				solids[i].y > col.GetY()-SOLID_H)
 			{
-				Prof(SolidMap_Collision_SubRoutines);
-
 				// test for requested direction(s)
 				int ret = solids[i].flags & flags;
 

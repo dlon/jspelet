@@ -4,8 +4,6 @@
 #include "Engine.h"
 #include "Jack.h"
 
-#include "prof.h"
-
 extern Engine *eng;
 
 extern bool		plResetChkPt;
@@ -323,8 +321,6 @@ bool MapMng::Update()
 
 void MapMng::Draw()
 {
-	Prof(MapMng_Draw);
-
 	geom.Draw(GEOM_LAYER_BG);
 	tiles.Draw(-99);
 	geom.Draw(GEOM_LAYER_NORMAL);

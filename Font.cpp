@@ -6,9 +6,7 @@
 #include <assert.h>
 #include "Engine.h"
 
-#include <gl/gl.h>
-
-#include "prof.h"
+#include <GL/gl.h>
 
 extern Engine *eng;
 
@@ -30,8 +28,6 @@ void TextEngine::SetFont(Texture *t, unsigned rows, unsigned maxChars)
 void TextEngine::Draw(float x, float y, const char *str)
 {
 	assert(font); // no font loaded
-
-	Prof(TextEngine_Draw);
 
 	glEnable(eng->render->textureType);
 	glBindTexture(eng->render->textureType, font->reserved);

@@ -1,13 +1,9 @@
 #include "GeomMng.h"
 #include "Engine.h"
 
-#include "prof.h"
-
 extern Engine *eng;
 
 void GeomMng::Draw(GeomLayer depth) {
-	Prof(GeomMng_Draw);
-
 	std::vector<QuadInfo>::iterator it = quads[depth].begin();
 	for (; it != quads[depth].end(); ++it)
 	{
