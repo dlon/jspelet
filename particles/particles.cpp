@@ -410,7 +410,7 @@ ParticleEmitter* ParticleManager::NewEmitter(const char *name,
 
 ParticleEmitter * ParticleManager::GetEmitter(const char *name) const
 {
-	stdext::hash_map<const char*,ParticleEmitter*>::const_iterator it = emitters.find(name);
+	std::unordered_map<const char*,ParticleEmitter*>::const_iterator it = emitters.find(name); // FIXME-SFML: switched from hash_map
 	if (it == emitters.end())
 		return 0;
 	return it->second;

@@ -3,7 +3,7 @@
 #define PARTICLES_S_H
 
 #include <map>
-#include <hash_map>
+#include <unordered_map>
 #include <GL/gl.h>
 #include "../Renderer.h"
 
@@ -44,7 +44,7 @@ class ParticleEmitter;
 
 class ParticleManager
 {
-	stdext::hash_map<const char *, ParticleEmitter*>	emitters;			// std::string?
+	std::unordered_map<const char *, ParticleEmitter*>	emitters;			// std::string?
 	std::multimap<int, ParticleEmitter*>				orderedEmitters;	// depth
 public:
 	~ParticleManager();
