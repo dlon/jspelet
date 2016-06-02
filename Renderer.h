@@ -4,7 +4,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "Vector2D.h"
-#include "TextureLoader.h"
 
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -28,17 +27,9 @@ enum RBLENDMODE {
 	RBLEND_REPLACE
 };
 
-struct Texture {
-	unsigned reserved;
-	unsigned w;
-	unsigned h;
-	unsigned paddingW;
-	unsigned paddingH;
-};
-
 struct SubImage
 {
-	Texture *t;
+	sf::Texture* t;
 	int tx;
 	int ty;
 	int w;
@@ -48,13 +39,13 @@ struct SubImage
 	SubImage() {}*/
 };
 
-class Renderer : public TextureLoader
+class Renderer
 {
 	sf::RenderWindow&	window;
 	bool		blendTextures;
 	RBLENDMODE	rbm;
 	bool		vsync;
-	Texture*	tempText;
+	sf::Texture*	tempText;
 public:
 	bool		rectExt;
 	int			textureType;
@@ -67,10 +58,6 @@ public:
 	// init
 	void Close();
 	void Resize(unsigned view_w, unsigned view_h, unsigned ortho_w, unsigned ortho_h);
-
-	// texture loading
-	//Texture *LoadTexture(const char *file);
-	void FreeTexture(Texture *t);
 
 	// pre/post ops
 	void BeginFrame();
@@ -91,18 +78,18 @@ public:
 	void GetBlendMode(RBLENDMODE *rbm, bool *blendTextures);
 	
 	// textures
-	void DrawTexture(Texture *t, float x, float y);
-	void DrawTextureEx(Texture *t, float x, float y, float rotDeg, float xscale, float yscale);
+	void DrawTexture(sf::Texture *t, float x, float y);
+	void DrawTextureEx(sf::Texture *t, float x, float y, float rotDeg, float xscale, float yscale);
 	void DrawSubImage(SubImage *s, float x, float y);
 	void DrawSubImageEx(SubImage *s, float x, float y, float rotDeg, float xscale, float yscale);
 	
 	// quad array
-	void SetArrayTextureBegin(Texture *t);
+	void SetArrayTextureBegin(sf::Texture *t);
 	void SetArrayTextureEnd();
 	void DrawArray(int num, Vector2f coord[], Vector2f texCoord[], Vector2f sizes[]);
 
 	// hack
-	void lfSetTexture(Texture *t);
+	void lfSetTexture(sf::Texture *t);
 	void lfSetColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a=255);
 	void lfUnsetTexture();
 	void lfBeginQuads();
@@ -121,8 +108,6 @@ public:
 	bool HasExtension(const char *extStr);
 	void SetVsync(bool enabled);
 	bool GetVsync();
-protected:
-	Texture *LoadTextureMem(unsigned char *data, unsigned width, unsigned height, unsigned format);
 };
 
 #endif // RENDERER_H

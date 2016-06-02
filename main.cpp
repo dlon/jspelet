@@ -146,10 +146,8 @@ int RunGame(const char *cmdLine)
 				break;
 			}
 		}
-		window.clear();
 		if (eng->Frame())
 			input->UnPress();
-		window.display();
 	}
 	delete eng;
 	delete input;

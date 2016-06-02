@@ -48,103 +48,10 @@ static int find_pow_2(int num)
 	return i;
 }
 
-Texture *Renderer::LoadTextureMem(unsigned char *data, unsigned width, unsigned height, unsigned format)
-{
-	GLenum glformat;
-	switch (format)
-	{
-	case 1:
-		glformat = GL_LUMINANCE; /* grayscale */
-		break;
-	case 2:
-		glformat = GL_LUMINANCE_ALPHA; /* grayscale with alpha channel */
-		break;
-	case 3:
-		glformat = GL_RGB;
-		break;
-	case 4:
-		glformat = GL_RGBA;
-		break;
-	default:
-		assert(0); // unknown format!
-	}
-
-	// padding
-	int pw=0; 
-	int ph=0;
-	
-	if (!rectExt) {
-		pw = find_pow_2(width);
-		ph = find_pow_2(height);
-		if (pw > ph) ph = pw;
-		if (ph > pw) pw = ph;
-		pw -= width;
-		ph -= height;
-
-		//printf("IMG: %dx%d\nPADDING: %dx%d\nTOTAL: %dx%d\n",width,height,pw,ph,width+pw,height+ph);
-	}
-
-	unsigned char *glData;
-	if (pw || ph) {
-		glData = new unsigned char[(width+pw)*(height+ph)*format];
-		for (int i=0; i < height; i++) {
-			memcpy(glData + i*(width+pw)*format,
-				data + i*width*format,
-				width*format);
-		}
-		// note: uninitialized data
-	}
-	else
-		glData = data;
-
-	/* create GL texture */
-	unsigned gltexture;
-	glGenTextures(1, &gltexture);
-	if (!gltexture) {
-		//MessageBox(NULL, "Failed to allocate GL texture", 0, MB_ICONERROR); // FIXME-SFML: error message
-		return 0;
-	}
-
-	// create texture
-	glBindTexture(textureType, gltexture);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	
-	//glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
-	glTexImage2D(textureType,
-	             0, /* level-of-detail: no mipmap */
-	             format,
-	             width + pw,
-	             height + ph,
-	             0, /* border: 0 or 1 */
-	             glformat,
-	             GL_UNSIGNED_BYTE,
-	             glData);
-
-	Texture *ret = new Texture;
-	ret->reserved = gltexture; // internal GL texture
-	ret->w = width;
-	ret->h = height;
-	ret->paddingH = (unsigned)ph;
-	ret->paddingW = (unsigned)pw;
-
-	// free padded texture
-	if (pw || ph)
-		delete[] glData;
-	return ret;
-}
-
-void Renderer::FreeTexture(Texture *t)
-{
-	glDeleteTextures(1, &t->reserved);
-	delete t;
-}
-
 void Renderer::BeginFrame()
 {
+	window.clear();
+
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -156,6 +63,7 @@ void Renderer::BeginFrame()
 
 void Renderer::EndFrame() {
 	//SwapBuffers(m_hDC); // FIXME-SFML: What the heck is this?
+	window.display();
 }
 
 void Renderer::NoViewBegin()
@@ -247,7 +155,7 @@ void Renderer::GetBlendMode(RBLENDMODE *rbm, bool *blendTextures)
 	*blendTextures = this->blendTextures;
 }
 
-void Renderer::DrawTexture(Texture *t, float x, float y) {
+void Renderer::DrawTexture(sf::Texture *t, float x, float y) {
 	assert(t);
 
 	if (!blendTextures) {
@@ -255,30 +163,21 @@ void Renderer::DrawTexture(Texture *t, float x, float y) {
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
-	glEnable(textureType);
-	glBindTexture(textureType, t->reserved);
+	sf::Texture::bind(t, sf::Texture::Pixels);
 
 	x = floor(x);
 	y = floor(y);
+
+	sf::Vector2u sz = t->getSize();
 	
 	glBegin(GL_TRIANGLE_STRIP);
-	if (rectExt) {
-		glTexCoord2i(0,0); glVertex2f(x, y);
-		glTexCoord2i(0,t->h); glVertex2f(x, y+t->h);
-		glTexCoord2i(t->w,0); glVertex2f(x+t->w, y);
-		glTexCoord2i(t->w, t->h); glVertex2f(x+t->w, y+t->h);
-	}
-	else {
-		float xw = float(t->w + t->paddingW);
-		float yw = float(t->h + t->paddingH);
-		glTexCoord2f(0,             0); glVertex2f(x, y);
-		glTexCoord2f(0,       t->h/yw); glVertex2f(x, y+(float)t->h);
-		glTexCoord2f(t->w/xw,       0); glVertex2f(x+(float)t->w, y);
-		glTexCoord2f(t->w/xw, t->h/yw); glVertex2f(x+(float)t->w, y+(float)t->h);
-	}
+	glTexCoord2i(0,0); glVertex2f(x, y);
+	glTexCoord2i(0,sz.y); glVertex2f(x, y+sz.y);
+	glTexCoord2i(sz.x,0); glVertex2f(x+sz.x, y);
+	glTexCoord2i(sz.x, sz.y); glVertex2f(x+sz.x, y+sz.y);
 	glEnd();
 
-	glDisable(textureType);
+	sf::Texture::bind(NULL);
 }
 
 void Renderer::DrawSubImage(SubImage *s, float x, float y)
@@ -291,105 +190,62 @@ void Renderer::DrawSubImage(SubImage *s, float x, float y)
 	if (!blendTextures)
 		glColor3f(1.0f, 1.0f, 1.0f);
 
-	glEnable(textureType);
-	glBindTexture(textureType, s->t->reserved);
+	sf::Texture::bind(s->t, sf::Texture::Pixels);
 
 	x = floor(x);
 	y = floor(y);
 	
-	if (rectExt) {
-		glBegin(GL_QUADS);
-		{
-			glTexCoord2i(s->tx, s->ty);
-			glVertex2f(x, y);
-			glTexCoord2i(s->tx, s->ty+s->h);
-			glVertex2f(x, y+s->h);
-			glTexCoord2i(s->tx+s->w, s->ty+s->h);
-			glVertex2f(x+s->w, y+s->h);
-			glTexCoord2i(s->tx+s->w, s->ty);
-			glVertex2f(x+s->w, y);
-		}
-		glEnd();
+	glBegin(GL_QUADS);
+	{
+		glTexCoord2i(s->tx, s->ty);
+		glVertex2f(x, y);
+		glTexCoord2i(s->tx, s->ty+s->h);
+		glVertex2f(x, y+s->h);
+		glTexCoord2i(s->tx+s->w, s->ty+s->h);
+		glVertex2f(x+s->w, y+s->h);
+		glTexCoord2i(s->tx+s->w, s->ty);
+		glVertex2f(x+s->w, y);
 	}
-	else {
-		float xw = float(s->t->w + s->t->paddingW);
-		float yw = float(s->t->h + s->t->paddingH);
-
-		glBegin(GL_QUADS);
-		{
-			glTexCoord2f(s->tx / xw, s->ty / yw);
-			glVertex2f(x, y);
-			glTexCoord2f(s->tx / xw, (s->ty+s->h) / yw);
-			glVertex2f(x, y+s->h);
-			glTexCoord2f((s->tx+s->w) / xw, (s->ty+s->h) / yw);
-			glVertex2f(x+s->w, y+s->h);
-			glTexCoord2f((s->tx+s->w) / xw, s->ty / yw);
-			glVertex2f(x+s->w, y);
-		}
-		glEnd();
-	}
-	glDisable(textureType);
+	glEnd();
+	sf::Texture::bind(NULL);
 	glDisable(GL_CULL_FACE);
 }
 
-void Renderer::SetArrayTextureBegin(Texture *t)
+void Renderer::SetArrayTextureBegin(sf::Texture *t)
 {
 	if (!blendTextures)
 		glColor3f(1.0f, 1.0f, 1.0f);
 
-	glEnable(textureType);
-	glBindTexture(textureType, t->reserved);
+	sf::Texture::bind(t, sf::Texture::Pixels);
 
 	tempText = t; //
 }
 
 void Renderer::SetArrayTextureEnd()
 {
-	glDisable(textureType);
+	sf::Texture::bind(NULL);
 }
 
 void Renderer::DrawArray(int num, Vector2f coord[], Vector2f texCoord[], Vector2f sizes[])
 {
-	if (rectExt) {
-		glBegin(GL_TRIANGLE_STRIP);
+	glBegin(GL_TRIANGLE_STRIP);
+	{
+		for (int i=0; i<num; i++)
 		{
-			for (int i=0; i<num; i++)
-			{
-				glTexCoord2f(texCoord[i].x, texCoord[i].y);
-				glVertex2f(coord[i].x, coord[i].y);
-				glTexCoord2f(texCoord[i].x, texCoord[i].y+sizes[i].y);
-				glVertex2f(coord[i].x, coord[i].y+sizes[i].y);
-				glTexCoord2f(texCoord[i].x+sizes[i].x, texCoord[i].y);
-				glVertex2f(coord[i].x+sizes[i].x, coord[i].y);
-				glTexCoord2f(texCoord[i].x+sizes[i].x, texCoord[i].y+sizes[i].y);
-				glVertex2f(coord[i].x+sizes[i].x, coord[i].y+sizes[i].y);
-			}
+			glTexCoord2f(texCoord[i].x, texCoord[i].y);
+			glVertex2f(coord[i].x, coord[i].y);
+			glTexCoord2f(texCoord[i].x, texCoord[i].y+sizes[i].y);
+			glVertex2f(coord[i].x, coord[i].y+sizes[i].y);
+			glTexCoord2f(texCoord[i].x+sizes[i].x, texCoord[i].y);
+			glVertex2f(coord[i].x+sizes[i].x, coord[i].y);
+			glTexCoord2f(texCoord[i].x+sizes[i].x, texCoord[i].y+sizes[i].y);
+			glVertex2f(coord[i].x+sizes[i].x, coord[i].y+sizes[i].y);
 		}
-		glEnd();
 	}
-	else {
-		float xw = float(tempText->w + tempText->paddingW);
-		float yw = float(tempText->h + tempText->paddingH);
-
-		glBegin(GL_TRIANGLE_STRIP);
-		{
-			for (int i=0; i<num; i++)
-			{
-				glTexCoord2f(texCoord[i].x / xw, texCoord[i].y / yw);
-				glVertex2f(coord[i].x, coord[i].y);
-				glTexCoord2f(texCoord[i].x / xw, (texCoord[i].y+sizes[i].y) / yw);
-				glVertex2f(coord[i].x, coord[i].y+sizes[i].y);
-				glTexCoord2f((texCoord[i].x+sizes[i].x) / xw, texCoord[i].y / yw);
-				glVertex2f(coord[i].x+sizes[i].x, coord[i].y);
-				glTexCoord2f((texCoord[i].x+sizes[i].x) / xw, (texCoord[i].y+sizes[i].y) / yw);
-				glVertex2f(coord[i].x+sizes[i].x, coord[i].y+sizes[i].y);
-			}
-		}
-		glEnd();
-	}
+	glEnd();
 }
 
-void Renderer::DrawTextureEx(Texture *t, float x, float y, float rotDeg, float xscale, float yscale)
+void Renderer::DrawTextureEx(sf::Texture *t, float x, float y, float rotDeg, float xscale, float yscale)
 {
 	assert(t);
 
@@ -398,14 +254,15 @@ void Renderer::DrawTextureEx(Texture *t, float x, float y, float rotDeg, float x
 
 	glPushMatrix();
 
-	glEnable(textureType);
-	glBindTexture(textureType, t->reserved);
+	sf::Texture::bind(t, sf::Texture::Pixels);
 
 	glTranslatef(floor(x), floor(y), 0);
 
+	sf::Vector2u sz = t->getSize();
+
 	// scale
-	float nWidth = xscale*t->w;
-	float nHeight = yscale*t->h;
+	float nWidth = xscale*sz.x;
+	float nHeight = yscale*sz.y;
 
 	// rotate
 	if (rotDeg > 0.0f) {
@@ -417,40 +274,14 @@ void Renderer::DrawTextureEx(Texture *t, float x, float y, float rotDeg, float x
 	glScalef(xscale, yscale, 0);
 
 	// draw texture
-	if (rectExt) {
-		/*
-		glBegin(GL_TRIANGLE_STRIP);
-			glTexCoord2i(0, 0);			glVertex2i(0, 0);
-			glTexCoord2i(0, t->h);		glVertex2i(0, t->h);
-			glTexCoord2i(t->w, 0);		glVertex2i(t->w, 0);
-			glTexCoord2i(t->w, t->h);	glVertex2i(t->w, t->h);
-		glEnd();
-		*/
-		glBegin(GL_QUADS);
-			glTexCoord2i(0, 0);			glVertex2i(0, 0);
-			glTexCoord2i(0, t->h);		glVertex2i(0, t->h);
-			glTexCoord2i(t->w, t->h);	glVertex2i(t->w, t->h);
-			glTexCoord2i(t->w, 0);		glVertex2i(t->w, 0);
-		glEnd();
-	}
-	else {
-		/*
-		glBegin(GL_TRIANGLE_STRIP);
-			glTexCoord2i(0, 0);	glVertex2i(0, 0);
-			glTexCoord2i(0, 1);	glVertex2i(0, t->h);
-			glTexCoord2i(1, 0);	glVertex2i(t->w, 0);
-			glTexCoord2i(1, 1);	glVertex2i(t->w, t->h);
-		glEnd();
-		*/
-		glBegin(GL_QUADS);
-			glTexCoord2i(0, 0);	glVertex2i(0, 0);
-			glTexCoord2i(0, 1);	glVertex2i(0, t->h);
-			glTexCoord2i(1, 1);	glVertex2i(t->w, t->h);
-			glTexCoord2i(1, 0);	glVertex2i(t->w, 0);
-		glEnd();
-	}
+	glBegin(GL_QUADS);
+		glTexCoord2i(0, 0);			glVertex2i(0, 0);
+		glTexCoord2i(0, sz.y);		glVertex2i(0, sz.y);
+		glTexCoord2i(sz.x, sz.y);	glVertex2i(sz.x, sz.y);
+		glTexCoord2i(sz.x, 0);		glVertex2i(sz.x, 0);
+	glEnd();
 
-	glDisable(textureType);
+	sf::Texture::bind(NULL);
 	glPopMatrix();
 }
 
@@ -467,8 +298,7 @@ void Renderer::DrawSubImageEx(SubImage *s, float x, float y, float rotDeg, float
 	if (!blendTextures)
 		glColor3f(1.0f, 1.0f, 1.0f);
 
-	glEnable(textureType);
-	glBindTexture(textureType, s->t->reserved);
+	sf::Texture::bind(s->t, sf::Texture::Pixels);
 
 	// pos
 	glPushMatrix();
@@ -487,67 +317,20 @@ void Renderer::DrawSubImageEx(SubImage *s, float x, float y, float rotDeg, float
 	glScalef(xscale, yscale, 0);
 
 	// draw image
-	if (rectExt) {
-		/*
-		glBegin(GL_TRIANGLE_STRIP);
-		{
-			glTexCoord2i(s->tx, s->ty);
-			glVertex2i(0, 0);
-			glTexCoord2i(s->tx, s->ty+s->h);
-			glVertex2i(0, s->h);
-			glTexCoord2i(s->tx+s->w, s->ty);
-			glVertex2i(s->w, 0);
-			glTexCoord2i(s->tx+s->w, s->ty+s->h);
-			glVertex2i(s->w, s->h);
-		}
-		glEnd();
-		*/
-		glBegin(GL_QUADS);
-		{
-			glTexCoord2i(s->tx, s->ty);
-			glVertex2i(0, 0);
-			glTexCoord2i(s->tx, s->ty+s->h);
-			glVertex2i(0, s->h);
-			glTexCoord2i(s->tx+s->w, s->ty+s->h);
-			glVertex2i(s->w, s->h);
-			glTexCoord2i(s->tx+s->w, s->ty);
-			glVertex2i(s->w, 0);
-		}
-		glEnd();
+	glBegin(GL_QUADS);
+	{
+		glTexCoord2i(s->tx, s->ty);
+		glVertex2i(0, 0);
+		glTexCoord2i(s->tx, s->ty+s->h);
+		glVertex2i(0, s->h);
+		glTexCoord2i(s->tx+s->w, s->ty+s->h);
+		glVertex2i(s->w, s->h);
+		glTexCoord2i(s->tx+s->w, s->ty);
+		glVertex2i(s->w, 0);
 	}
-	else {
-		float xw = float(s->t->w + s->t->paddingW);
-		float yw = float(s->t->h + s->t->paddingH);
-
-		/*
-		glBegin(GL_TRIANGLE_STRIP);
-		{
-			glTexCoord2f(s->tx / xw, s->ty / yw);
-			glVertex2i(0, 0);
-			glTexCoord2f(s->tx / xw, (s->ty+s->h) / yw);
-			glVertex2i(0, s->h);
-			glTexCoord2f((s->tx+s->w) / xw, s->ty / yw);
-			glVertex2i(s->w, 0);
-			glTexCoord2f((s->tx+s->w) / xw, (s->ty+s->h) / yw);
-			glVertex2i(s->w, s->h);
-		}
-		glEnd();
-		*/
-		glBegin(GL_QUADS);
-		{
-			glTexCoord2f(s->tx / xw, s->ty / yw);
-			glVertex2i(0, 0);
-			glTexCoord2f(s->tx / xw, (s->ty+s->h) / yw);
-			glVertex2i(0, s->h);
-			glTexCoord2f((s->tx+s->w) / xw, (s->ty+s->h) / yw);
-			glVertex2i(s->w, s->h);
-			glTexCoord2f((s->tx+s->w) / xw, s->ty / yw);
-			glVertex2i(s->w, 0);
-		}
-		glEnd();
-	}
+	glEnd();
 	glPopMatrix();
-	glDisable(textureType);
+	sf::Texture::bind(NULL);
 	glDisable(GL_CULL_FACE);
 }
 
@@ -557,12 +340,6 @@ void Renderer::DrawRect(float x, float y, float w, float h) {
 	w = floor(w);
 	h = floor(h);
 
-	/*glBegin(GL_TRIANGLE_STRIP);
-		glVertex2f(x, y);
-		glVertex2f(x+w, y);
-		glVertex2f(x, y+h);
-		glVertex2f(x+w, y+h);
-	glEnd();*/
 	glBegin(GL_QUADS);
 		glVertex2f(x, y);
 		glVertex2f(x+w, y);
@@ -655,16 +432,15 @@ void Renderer::DrawTrngl(float x1, float y1, float x2, float y2, float x3, float
 }
 
 // lf hack
-void Renderer::lfSetTexture(Texture *t)
+void Renderer::lfSetTexture(sf::Texture *t)
 {
-	glEnable(textureType);
-	glBindTexture(textureType, t->reserved);
+	sf::Texture::bind(t, sf::Texture::Pixels);
 	tempText = t;
 }
 
 void Renderer::lfUnsetTexture()
 {
-	glDisable(textureType);
+	sf::Texture::bind(NULL);
 }
 
 void Renderer::lfSetColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
@@ -703,27 +479,12 @@ void Renderer::lfDrawTexturedQuad(float x, float y, float w, float h, float tx, 
 	tx = floor(tx);
 	ty = floor(ty);
 
-	if (rectExt) {
-		glTexCoord2f(tx, ty);
-		glVertex2f(x, y);
-		glTexCoord2f(tx+w, ty);
-		glVertex2f(x+w, y);
-		glTexCoord2f(tx+w, ty+h);
-		glVertex2f(x+w, y+h);
-		glTexCoord2f(tx, ty+h);
-		glVertex2f(x, y+h);
-	}
-	else {
-		float xw = float(tempText->w + tempText->paddingW);
-		float yw = float(tempText->h + tempText->paddingH);
-
-		glTexCoord2f(tx / xw, ty / yw);
-		glVertex2f(x, y);
-		glTexCoord2f((tx+w) / xw, ty / yw);
-		glVertex2f(x+w, y);
-		glTexCoord2f((tx+w) / xw, (ty+h) / yw);
-		glVertex2f(x+w, y+h);
-		glTexCoord2f(tx / xw, (ty+h) / yw);
-		glVertex2f(x, y+h);
-	}
+	glTexCoord2f(tx, ty);
+	glVertex2f(x, y);
+	glTexCoord2f(tx+w, ty);
+	glVertex2f(x+w, y);
+	glTexCoord2f(tx+w, ty+h);
+	glVertex2f(x+w, y+h);
+	glTexCoord2f(tx, ty+h);
+	glVertex2f(x, y+h);
 }
