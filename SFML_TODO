@@ -19,5 +19,3 @@ main.cpp
 	replace my own Vector2D with SFML's Vector2
 
 	<use SFML's timers better
-
-	socket errors, jack server error. what are these? I'm not using sockets

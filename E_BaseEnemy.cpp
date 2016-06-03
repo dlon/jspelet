@@ -8,8 +8,6 @@
 
 extern Engine *eng;
 
-sf::Sound E_BaseEnemy::sndSpltr;
-
 E_BaseEnemy::E_BaseEnemy(float maxHealth) : active(false) {
 	health		= maxHealth;
 	hurtTimer	= eng->time;
@@ -21,8 +19,7 @@ E_BaseEnemy::E_BaseEnemy(float maxHealth) : active(false) {
 	manualActivation = false;
 	lifeSpan	= -1;
 
-	if (!sndSpltr.getBuffer())
-		sndSpltr = sf::Sound(*eng->res->sounds.Load("data/spltr.wav"));
+	sndSpltr = sf::Sound(*eng->res->sounds.Load("data/spltr.wav"));
 }
 void E_BaseEnemy::PostCreate()
 {
