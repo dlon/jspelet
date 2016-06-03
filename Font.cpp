@@ -30,7 +30,8 @@ void TextEngine::Draw(float x, float y, const char *str)
 {
 	assert(font); // no font loaded
 
-	sf::Texture::bind(font);
+	sf::Texture::bind(font, sf::Texture::Pixels);
+	glEnable(GL_TEXTURE_2D);
 
 	glBegin(GL_QUADS); // GL_QUAD_STRIP (FIXME: Strip looks weird. Neglegible speed impact? ---- It's because I'm using an extra vertex every call. I'm not sure if it's possible to set the texture coordinates otherwise)
 	for (unsigned i=0; str[i] != '\0'; i++)
@@ -62,6 +63,7 @@ void TextEngine::Draw(float x, float y, const char *str)
 	}
 	glEnd();
 
+	glDisable(GL_TEXTURE_2D);
 	sf::Texture::bind(NULL);
 }
 

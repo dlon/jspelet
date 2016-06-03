@@ -20,5 +20,9 @@ main.cpp
 
 	<use SFML's timers better
 	enable volume controls
-	fix font/text rendering
 	bug: cannot shoot while sprinting. problem: if shift is held, SFML returns the key code -1 (unknown) when pressing any letter. SFML returns -1 for uppercase letters
+	remove msgs from Input
+
+	partikeltexturerna. det är något fel på blend
+	fel på kollisionerna. är det ett problem med timern i main?
+	byt ut skärmen när man förlorar alla liv
