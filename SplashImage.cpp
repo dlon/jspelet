@@ -68,9 +68,9 @@ void SplashImage::Draw() {
 
 void SplashImage::SetImage(sf::Texture *tex) {
 	bg = tex;
-	sf::Vector2u sz = tex->getSize();
 
 	if (bg) {
+		sf::Vector2u sz = tex->getSize();
 		x=320.0f - sz.x/2.0f;
 		y=240.0f - sz.y/2.0f;
 	}
