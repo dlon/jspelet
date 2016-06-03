@@ -311,7 +311,7 @@ void EntityMng::Serialize(Archiver &arc)
 	// save/load the entity map (general information)
 	if (arc.Writable())
 	{
-		arc << ents.size();
+		arc << (int)ents.size();
 		for (it = ents.begin(); it != ents.end(); it++)
 		{
 			arc << (*it)->GetID();
