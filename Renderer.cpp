@@ -50,7 +50,7 @@ static int find_pow_2(int num)
 
 void Renderer::BeginFrame()
 {
-	window.clear();
+	//window.clear(); // FIXME-SFML: is it ok to skip this? it seems to call glClearColor, messing up Renderer::SetClearColor
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
