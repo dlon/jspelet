@@ -8,7 +8,7 @@ extern Engine *eng;
 
 E_WoodenBox::E_WoodenBox(WoodenType type)
 {
-	sprite.Load("data/tileset3.PNG", 1, 64,64, 128,64);
+	sprite.Load("data/tileset3.png", 1, 64,64, 128,64);
 	spriteIndex = &sprite;
 
 	colRect.SetW(64.0f);

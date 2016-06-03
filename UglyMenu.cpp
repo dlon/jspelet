@@ -12,7 +12,7 @@ UglyMenu::UglyMenu(const char *sFile, int nargs, int spacing, float xo, float yo
 	aDecide = sf::Sound(*eng->res->sounds.Load("data/kesh.wav"));
 
 	tScreen = eng->res->textures.Load(sFile);
-	tCursor = eng->res->textures.Load("data/screencur.png");
+	tCursor = eng->res->textures.Load("data/screencur.PNG");
 
 	i = 0;
 	this->nargs = nargs; // 2
