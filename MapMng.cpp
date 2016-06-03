@@ -107,26 +107,8 @@ static void FixPath(const char *file, std::string *ret)
 
 MapMng::MapMng() : solids(*this)
 {
-	Texture *t1 = eng->render->LoadTextureEx("data/fire.tga", TextureLoader::Swap2Channels); // inefficient as hell, but whatever
-	Texture *t2 = eng->render->LoadTextureEx("data/smoke.tga", TextureLoader::Swap2Channels);
-
-	if (t1 && t2) {
-		eng->res->textures.Add("data/fire.tga", t1);
-		eng->res->textures.Add("data/smoke.tga", t2);
-
-		/*
-		ParticleEmitter *pe1 = partMng.NewEmitter("rocket", 100.0f, 100.0f, 50, &rocketP);
-		ParticleEmitter *pe2 = partMng.NewEmitter("rocketSmoke", 100.0f, 100.0f, 80, &rSmokeProp);
-		pe1->SetTexture(t1->reserved, t1->w, t1->h);
-		pe2->SetTexture(t2->reserved, t2->w, t2->h);
-		*/
-	}
-	else {
-		if (t1)
-			eng->render->FreeTexture(t1);
-		if (t2)
-			eng->render->FreeTexture(t2);
-	}
+	eng->res->textures.Load("data/fire.tga"); // FIXME-SFML: Why are these loaded here?
+	eng->res->textures.Load("data/smoke.tga");
 }
 
 void MapMng::Reload()

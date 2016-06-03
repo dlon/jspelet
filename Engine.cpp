@@ -4,7 +4,7 @@
 #include "Input.h"
 
 Engine *	eng = 0;
-Texture *	splash = 0;
+sf::Texture *	splash = 0;
 bool		leaveSplash;
 SplashImage	splashObject;
 extern Input *input;

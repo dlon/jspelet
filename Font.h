@@ -2,8 +2,8 @@
 #ifndef GAME_TEXT_H
 #define GAME_TEXT_H
 
+#include <SFML/Graphics.hpp>
 class Renderer;
-struct Texture;
 
 class TextEngine {
 	unsigned lw;
@@ -11,10 +11,10 @@ class TextEngine {
 	unsigned lpr; // per row
 	unsigned rows;
 	unsigned maxChars;
-	Texture *font;
+	sf::Texture *font;
 	float scale;
 public:
-	void SetFont(Texture *t, unsigned rows, unsigned maxChars);
+	void SetFont(sf::Texture *t, unsigned rows, unsigned maxChars);
 	void SetScale(float f) { scale = f; }
 	
 	void Draw(float x, float y, const char *str);

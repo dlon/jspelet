@@ -8,7 +8,7 @@
 #define SPLASH_H 480
 
 class SplashImage {
-	Texture *bg;
+	sf::Texture *bg;
 	//int MapPauseStatePrev;
 	bool isActive;
 
@@ -21,10 +21,10 @@ public:
 	int timeOutTicks;
 
 	SplashImage();
-	SplashImage(Texture *tex);
+	SplashImage(sf::Texture *tex);
 	~SplashImage();
 
-	void SetImage(Texture *tex);
+	void SetImage(sf::Texture *tex);
 	bool HasTexture() { return bg != NULL; }
 
 	void Show();

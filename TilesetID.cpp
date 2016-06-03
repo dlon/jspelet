@@ -32,7 +32,7 @@ const char *TilesetID::GetString(int i)
 	return tilesets[i];
 }
 
-Texture *TilesetID::GetTexture(int i)
+sf::Texture *TilesetID::GetTexture(int i)
 {
 	//MessageBox(0,GetString(i),0,0);
 	return eng->res->textures.Load(GetString(i));

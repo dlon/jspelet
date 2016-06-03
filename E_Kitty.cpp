@@ -12,12 +12,12 @@ E_Kitty::E_Kitty() : E_BaseEnemy(30.0f)
 	//mainSpr.Load("data/unchat.png", 3, 75, 64);
 	//jumpSpr.Load("data/unchat.png", 2, 67, 64, 0, 64);
 
-	TextureLoader::SetColorKey(255, 0, 255); // magneta
+	//TextureLoader::SetColorKey(255, 0, 255); // magneta
 
 	//Texture *mT = eng->res->textures.LoadEx("data/kattmjau.png", TextureLoader::RemoveColorKey); // load texture + remove chroma
 	// FIXME:	The above code sometimes causes other textures to be loaded using the chroma key...
 	//			I think it has to do with the "switch" (bool) in TextureFactory
-	Texture *mT = eng->res->textures.Load("data/kattmjau.png");
+	sf::Texture *mT = eng->res->textures.Load("data/kattmjau.png");
 
 	mainSpr.Load(mT, 3, 79, 40);
 	jumpSpr.Load(mT, 2, 75, 56, 0, 40);

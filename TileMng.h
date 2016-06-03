@@ -12,7 +12,7 @@
 #include <vector>
 #include <map>
 
-//#define TILEMNG_USE_DISPLAY_LISTS
+//#define TILEMNG_USE_DISPLAY_LISTS // FIXME-SFML: Enable these?
 
 #ifndef SOLIDMAP_H
 enum

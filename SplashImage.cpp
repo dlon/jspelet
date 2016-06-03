@@ -54,33 +54,6 @@ void SplashImage::Update() {
 	}
 }
 
-#if 0
-void SplashImage::ShowBlocking(Renderer *render) {
-	// Synchronous update and drawing
-	if (!isActive && bg != NULL) {
-		isActive=1;
-		alpha = 0.0f;
-
-		double EndTime = GetTime() + 5.0;
-		double NextTick = GetTime() + 0.02;
-
-		while (GetTime() < EndTime && !GetAsyncKeyState(VK_RETURN) ) {
-			if (GetTime() >= NextTick) {
-				alpha = (alpha + 25 < 255 ? alpha+25 : 255);
-				NextTick = GetTime() + 0.02;
-			}
-
-			gRender->BeginFrame();
-			Draw();
-			gRender->EndFrame();
-
-			Sleep(1);
-		}
-	}
-	isActive = 0;
-}
-#endif
-
 void SplashImage::Draw() {
 	if (isActive && bg != NULL) {
 		eng->render->SetColor(0, 0, 0, 255);
@@ -93,12 +66,13 @@ void SplashImage::Draw() {
 	}
 }
 
-void SplashImage::SetImage(Texture *tex) {
+void SplashImage::SetImage(sf::Texture *tex) {
 	bg = tex;
+	sf::Vector2u sz = tex->getSize();
 
 	if (bg) {
-		x=320.0f - tex->w/2.0f;
-		y=240.0f - tex->h/2.0f;
+		x=320.0f - sz.x/2.0f;
+		y=240.0f - sz.y/2.0f;
 	}
 }
 
@@ -114,7 +88,7 @@ SplashImage::SplashImage() {
 	hide = false;
 }
 
-SplashImage::SplashImage(Texture *tex) {
+SplashImage::SplashImage(sf::Texture *tex) {
 	alpha=0.0f;
 	isActive=0;
 	bg = NULL;

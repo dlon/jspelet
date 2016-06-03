@@ -44,140 +44,38 @@ void TileMng::GenDisplayList()
 		glEnable(GL_CULL_FACE);
 
 		glColor3f(1.0f, 1.0f, 1.0f);
-		glEnable(eng->render->textureType);
-#if 0
-		Texture *tt = tileV[depth][0].sub.t;
-		glBindTexture(eng->render->textureType, tt->reserved);
-		
-		if (eng->render->rectExt) { // move this if-statement outside of loop if it helps
-			glBegin(GL_QUADS);
-			
-			for (unsigned int i=0; i<tileV[depth].size(); i++) {
-				if (tileV[depth][i].sub.t != tt) {
-					glEnd();
-					
-					tt = tileV[depth][i].sub.t;
-					glBindTexture(eng->render->textureType, tt->reserved);
-					
-					glBegin(GL_QUADS);
-				}
-
-				SubImage *s = &tileV[depth][i].sub;
-				float &x = tileV[depth][i].x;
-				float &y = tileV[depth][i].y;
-
-				// draw tile
-				glTexCoord2i(s->tx, s->ty);
-				glVertex2f(x, y);
-				glTexCoord2i(s->tx, s->ty+s->h);
-				glVertex2f(x, y+s->h);
-				glTexCoord2i(s->tx+s->w, s->ty+s->h);
-				glVertex2f(x+s->w, y+s->h);
-				glTexCoord2i(s->tx+s->w, s->ty);
-				glVertex2f(x+s->w, y);
-			}
-			glEnd();
-		}
-		else {
-			glBegin(GL_QUADS);
-			
-			for (unsigned int i=0; i<tileV[depth].size(); i++) {
-				if (tileV[depth][i].sub.t != tt) {
-					glEnd();
-					
-					tt = tileV[depth][i].sub.t;
-					glBindTexture(eng->render->textureType, tt->reserved);
-					
-					glBegin(GL_QUADS);
-				}
-
-				SubImage *s = &tileV[depth][i].sub;
-				float &x = tileV[depth][i].x;
-				float &y = tileV[depth][i].y;
-
-				// draw tile
-				float xw = float(s->t->w + s->t->paddingW);
-				float yw = float(s->t->h + s->t->paddingH);
-
-				glTexCoord2f(s->tx / xw, s->ty / yw);
-				glVertex2f(x, y);
-				glTexCoord2f(s->tx / xw, (s->ty+s->h) / yw);
-				glVertex2f(x, y+s->h);
-				glTexCoord2f((s->tx+s->w) / xw, (s->ty+s->h) / yw);
-				glVertex2f(x+s->w, y+s->h);
-				glTexCoord2f((s->tx+s->w) / xw, s->ty / yw);
-				glVertex2f(x+s->w, y);
-			}
-			glEnd();
-		}
-#endif
 		Texture *tt = 0;
 		
-		if (eng->render->rectExt) { // move this if-statement outside of loop if it helps
-			for (unsigned int i=0; i<tileV[depth].size(); i++) {
-				if (tileV[depth][i].sub.t != tt) {
-					if (tt)
-						glEnd();
-					
-					tt = tileV[depth][i].sub.t;
-					glEnable(eng->render->textureType);
-					glBindTexture(eng->render->textureType, tt->reserved);
-					
-					glBegin(GL_QUADS);
-				}
-
-				SubImage *s = &tileV[depth][i].sub;
-				float &x = tileV[depth][i].x;
-				float &y = tileV[depth][i].y;
-
-				// draw tile
-				glTexCoord2i(s->tx, s->ty);
-				glVertex2f(x, y);
-				glTexCoord2i(s->tx, s->ty+s->h);
-				glVertex2f(x, y+s->h);
-				glTexCoord2i(s->tx+s->w, s->ty+s->h);
-				glVertex2f(x+s->w, y+s->h);
-				glTexCoord2i(s->tx+s->w, s->ty);
-				glVertex2f(x+s->w, y);
+		for (unsigned int i=0; i<tileV[depth].size(); i++) {
+			if (tileV[depth][i].sub.t != tt) {
+				if (tt)
+					glEnd();
+				
+				tt = tileV[depth][i].sub.t;
+				sf::Texture::bind(tt);
+				
+				glBegin(GL_QUADS);
 			}
-			if (tt)
-				glEnd();
+
+			SubImage *s = &tileV[depth][i].sub;
+			float &x = tileV[depth][i].x;
+			float &y = tileV[depth][i].y;
+
+			// draw tile
+			glTexCoord2i(s->tx, s->ty);
+			glVertex2f(x, y);
+			glTexCoord2i(s->tx, s->ty+s->h);
+			glVertex2f(x, y+s->h);
+			glTexCoord2i(s->tx+s->w, s->ty+s->h);
+			glVertex2f(x+s->w, y+s->h);
+			glTexCoord2i(s->tx+s->w, s->ty);
+			glVertex2f(x+s->w, y);
 		}
-		else {
-			for (unsigned int i=0; i<tileV[depth].size(); i++) {
-				if (tileV[depth][i].sub.t != tt) {
-					if (tt)
-						glEnd();
-					
-					tt = tileV[depth][i].sub.t;
-					glEnable(eng->render->textureType);
-					glBindTexture(eng->render->textureType, tt->reserved);
-					
-					glBegin(GL_QUADS);
-				}
-
-				SubImage *s = &tileV[depth][i].sub;
-				float &x = tileV[depth][i].x;
-				float &y = tileV[depth][i].y;
-
-				// draw tile
-				float xw = float(s->t->w + s->t->paddingW);
-				float yw = float(s->t->h + s->t->paddingH);
-
-				glTexCoord2f(s->tx / xw, s->ty / yw);
-				glVertex2f(x, y);
-				glTexCoord2f(s->tx / xw, (s->ty+s->h) / yw);
-				glVertex2f(x, y+s->h);
-				glTexCoord2f((s->tx+s->w) / xw, (s->ty+s->h) / yw);
-				glVertex2f(x+s->w, y+s->h);
-				glTexCoord2f((s->tx+s->w) / xw, s->ty / yw);
-				glVertex2f(x+s->w, y);
-			}
-			if (tt)
-				glEnd();
+		if (tt)
+			glEnd();
 		}
 
-		glDisable(eng->render->textureType);
+		sf::Texture::bind(NULL);
 		glDisable(GL_CULL_FACE);
 
 		glEndList();

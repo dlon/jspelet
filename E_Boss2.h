@@ -3,6 +3,7 @@
 #include "E_BaseBoss.h"
 #include "JackHUD.h"
 #include "E_Player.h"
+#include <SFML/Graphics.hpp>
 
 class E_Boss2Trigger : public Entity
 {
@@ -131,7 +132,7 @@ public:
 	int			wallN;
 	E_Player *	player;
 	float		wallHeight;
-	Texture		*tset;
+	sf::Texture		*tset;
 
 	E_Boss2Door();
 	~E_Boss2Door();

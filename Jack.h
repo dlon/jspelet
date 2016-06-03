@@ -16,6 +16,7 @@
 #include "JackeGui.h"
 #include "CSettings.h"
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 
 class Jack
 {
@@ -35,7 +36,7 @@ public:
 	JackHUD		hud;
 	MapMng		map;
 	TextEngine	font;
-	Texture		*fontTex;
+	sf::Texture		*fontTex;
 	ChaseCam	chaseCam;
 	sf::Music	musicPlayer;
 	bool		pause;

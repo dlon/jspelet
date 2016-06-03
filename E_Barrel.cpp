@@ -143,8 +143,8 @@ void E_Barrel::CallTimer(int num)
 			em4 = eng->jack->map.partMng.NewEmitter("barrelSmokeIdle", 49, x, y, 80, &smokePIdle);
 
 		// set texture
-		Texture *t1 = eng->res->textures.GetByFile("data/fire.tga");
-		Texture *t2 = eng->res->textures.GetByFile("data/smoke.tga");
+		sf::Texture *t1 = eng->res->textures.GetByFile("data/fire.tga");
+		sf::Texture *t2 = eng->res->textures.GetByFile("data/smoke.tga");
 
 		em1->SetTexture(t1);
 		em2->SetTexture(t2);
@@ -231,7 +231,8 @@ void E_Barrel::Collision(Entity *with)
 				if (!em5)
 					em5 = eng->jack->map.partMng.NewEmitter("testBlood", -5, x, y, 150, &bloodP);
 				if (!em5->GetTexture()) {
-					Texture *t = eng->res->textures.LoadEx("data/part3.tga", TextureLoader::Swap2Channels); // FIXME (note): on the fly load
+					//Texture *t = eng->res->textures.LoadEx("data/part3.tga", TextureLoader::Swap2Channels); // FIXME (note): on the fly load
+					sf::Texture *t = eng->res->textures.Load("data/part3.tga"); // FIXME: is this freed?
 					em5->SetTexture(t);
 				}
 				em5->x = with->x + with->colRect.GetW() / 2.0f;
