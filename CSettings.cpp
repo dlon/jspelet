@@ -1,11 +1,18 @@
 #include "CSettings.h"
 #include <sstream>
 #include <string>
+#include <stdlib.h> // getenv
+
+#ifdef _WIN32
+#include <windows.h> // CreateDirectory
+#define APPDIR_APPNAME "JackeSpelet"
+#else
+#include <sys/stat.h> // mkdir
+#define APPDIR_APPNAME ".JackeSpelet"
+#endif
 
 std::string CSettings::appDir;
 bool CSettings::fullscreen = true;			// default
-
-#define APPDIR_APPNAME "JackeSpelet"
 
 const char *CSettings::GetAppDir()
 {
@@ -16,15 +23,16 @@ const char *CSettings::GetAppDir()
 #ifdef _WIN32
 		path << getenv("APPDATA") << "/" << APPDIR_APPNAME;
 		appDir = path.str();
+		CreateDirectory(appDir, NULL); // create directory if necessary
 #elif __linux__
 		path << getenv("HOME") << "/" << APPDIR_APPNAME;
 		appDir = path.str();
+		mkdir(appDir.c_str(), 0755); // create directory if necessary. FIXME: handle errors
 #else
 		#warning "Don't know what environment variable to use. Using working directory to store data."
 		appDir = "./data/user";
+		mkdir(appDir.c_str(), 0755); // this may not work
 #endif
-		// construct folder if necessary
-		CreateDirectory(appDir, NULL);
 	}
 	return appDir.c_str();
 }
