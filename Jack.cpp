@@ -144,6 +144,8 @@ bool Jack::Frame()
 
 bool Jack::Update()
 {
+	int time = eng->time;
+
 	bool tick = true;
 	if (!pause)
 		tick = map.Update();
@@ -196,7 +198,7 @@ bool Jack::Update()
 	// load map (safe?)
 	if (ilikeoverflows[0] != 0)
 	{
-		if (eng->time >= overflowDelay) {
+		if (time >= overflowDelay) {
 			delete score; score = NULL;
 			pause = false;
 			pauseReset = 0;
@@ -215,14 +217,14 @@ bool Jack::Update()
 
 	// unpause timer
 	if (pause && pauseReset) {
-		if (eng->time >= pauseReset) {
+		if (time >= pauseReset) {
 			pause = false;
 			pauseReset = 0;
 		}
 	}
 
 	// play winner song
-	if (winrarTimer && eng->time >= winrarTimer) {
+	if (winrarTimer && time >= winrarTimer) {
 		SetSongOnce("data/winlyfe.ogg");
 		winrarTimer = 0;
 	}

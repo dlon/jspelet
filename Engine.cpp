@@ -2,6 +2,7 @@
 #include "Jack.h"
 #include "SplashImage.h"
 #include "Input.h"
+#include <SFML/System.hpp>
 
 Engine *	eng = 0;
 sf::Texture *	splash = 0;
@@ -19,14 +20,12 @@ std::string endingSplash;
 
 Engine::Engine(sf::RenderWindow& window)
 {
-	timeBeginPeriod(1);
-	time = timeGetTime();
-
 	// todo: error checking
 	render = new Renderer(window);
 	res = new ResourceMng;
 
 	eng = this;
+	time = 0;
 
 	// init game
 	jack = new Jack; // 'jack' won't be assigned until after construction!
@@ -39,21 +38,18 @@ Engine::~Engine()
 	delete res;
 	render->Close();
 	delete render;
-
-	timeEndPeriod(1);
 }
 
 bool Engine::Frame()
 {
-	time = timeGetTime();
+	time = clock.getElapsedTime().asMilliseconds();
 	if (!splash) {
 		return jack->Frame();
 	}
 	else {
-		static int pf = 0;
-		if (!pf) pf = time;
+		static sf::Clock pf;
 
-		if (time-pf > 16) {
+		if (pf.getElapsedTime().asMilliseconds() > 16) {
 			splashObject.Update();
 
 			if (!splashObject.IsActive()) {
@@ -93,7 +89,7 @@ bool Engine::Frame()
 			render->NoViewEnd();
 			render->EndFrame();
 			
-			pf = time;
+			pf.restart();
 			return true;
 		}
 		return false;

@@ -12,7 +12,7 @@ inline float randFloat(float largest)
 	return fmod(x, largest);
 }
 
-ChainedParticle::ChainedParticle(/*float x, float y, */PropagationInfo *_pInfo, bool first) : update(0), child(0)
+ChainedParticle::ChainedParticle(/*float x, float y, */PropagationInfo *_pInfo, bool first) : child(0)
 {
 	pInfo = *_pInfo;
 
@@ -24,6 +24,7 @@ ChainedParticle::ChainedParticle(/*float x, float y, */PropagationInfo *_pInfo, 
 	// update propagation
 	if (!first)
 		pInfo.spawn--;
+	update = 0;
 	initialTime = eng->time;
 
 	// random direction
@@ -41,12 +42,12 @@ void ChainedParticle::Update()
 	// spawn child
 	if (!child && pInfo.spawn)
 	{
-		if (eng->time >= initialTime + pInfo.bachelorTime)
+		if (eng->time - initialTime >= pInfo.bachelorTime)
 			child = new ChainedParticle(/*x, y,*/ &pInfo, false);
 	}
 
 	// update particle & propagation
-	if (eng->time - update > 15)
+	if (update - eng->time > 15)
 	{
 		//x += pInfo.speed * cos(pInfo.dir);
 		//y += pInfo.speed * sin(pInfo.dir);

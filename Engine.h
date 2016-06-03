@@ -4,17 +4,19 @@
 
 #include "ResourceMng.h"
 #include "Renderer.h"
+#include <SFML/System.hpp>
 
 class Jack;
 
 class Engine
 {
+	sf::Clock	clock;
 public:
 	//Console		*con;
 	ResourceMng	*res;
 	Renderer	*render;
-	int			time;
 	Jack		*jack;
+	int		time;
 
 	bool Frame();
 

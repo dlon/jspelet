@@ -2,6 +2,8 @@
 #include "Jack.h"
 #include "Input.h"
 
+#include <SFML/System.hpp>
+
 extern Engine *eng;
 extern Input *input;
 
