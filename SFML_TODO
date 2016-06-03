@@ -19,3 +19,4 @@ main.cpp
 	replace my own Vector2D with SFML's Vector2
 
 	<use SFML's timers better
+	throw/display error messages when resources fail to load (stderr?)
