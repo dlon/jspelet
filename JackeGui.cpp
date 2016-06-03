@@ -79,7 +79,7 @@ bool JackeGui::Update()
 				eng->jack->pause = false; // resume
 			}
 			else if (menuType == MENU_STARTUP || menuType == MENU_STARTUP_CONT) {
-				PostQuitMessage(0);
+				eng->render->window.close(); // FIXME-SFML: Do we quit gracefully here? Does the loop in main.cpp break in the next update?
 			}
 			else if (menuType == MENU_OPTIONS) {
 				Set(prevMenu); // return to prev menu

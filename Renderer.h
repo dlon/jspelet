@@ -13,6 +13,8 @@ typedef unsigned char col_t;
 struct col3_t { col_t r,g,b; };
 struct col4_t { col_t r,g,b,a; };
 
+class JackeGui;
+
 struct Camera : public Vector2f
 {
 	float maxX,maxY;
@@ -46,6 +48,7 @@ class Renderer
 	RBLENDMODE	rbm;
 	bool		vsync;
 	sf::Texture*	tempText;
+	friend		JackeGui; // FIXME: needs window access to quit
 public:
 	int			textureType;
 

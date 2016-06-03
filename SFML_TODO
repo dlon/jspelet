@@ -17,3 +17,7 @@ main.cpp
 	I expect sounds to behave oddly. did the old method Sound::Play() not replay sounds? if so, fix these cases
 
 	Fix Archiver and CSettings. Select an appropriate directory for storing user data. (platform-dependent)
+
+	replace my own Vector2D with SFML's Vector2
+
+	<use SFML's timers better
