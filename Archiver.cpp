@@ -100,28 +100,3 @@ int Archiver::ReadByte()
 	assert(!write);
 	return fgetc(fp);
 }
-
-static char *FindAppStr(char *env)
-{
-#ifdef _WIN32
-	char *ptr = env;
-	while (*ptr != 0)
-	{
-		size_t len = strlen(ptr);
-		if (len > 7 && !strncmp(ptr, "APPDATA", 7))
-			return ptr+8;
-		ptr += len+1;
-	}
-#endif
-	return 0;
-}
-
-std::string& Archiver::GetAppDir(std::string &str)
-{
-	char *env = GetEnvironmentStrings();
-	char *ret = FindAppStr(env);
-	if (ret)
-		str.assign(ret);
-	FreeEnvironmentStrings(env);
-	return str;
-}

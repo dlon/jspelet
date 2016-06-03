@@ -28,8 +28,6 @@ public:
 	Archiver(const char *file, bool read) { fp=fopen(file, read?"rb":"wb"); write=!read; }
 	~Archiver() { if (fp) fclose(fp); }
 
-	static std::string& GetAppDir(std::string &str);
-
 	bool Readable() { return !write; }
 	bool Writable() { return write; }
 	bool EndOfFile() { return feof(fp) != 0; }
