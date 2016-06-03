@@ -22,4 +22,3 @@ main.cpp
 	enable volume controls
 	fix font/text rendering
 	fix background. it's black now
-	correct cat sprites. give the PNGs true transparency instead of relying on a color code (that is currently disabled)
