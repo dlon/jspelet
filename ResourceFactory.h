@@ -3,6 +3,7 @@
 #define RESOURCEFACTORY_H
 
 #include <string.h>
+#include <stdio.h>
 
 // search in linear time, O(n)
 
@@ -28,7 +29,8 @@ public:
 			mres->fileName = new char[strlen(file)+1];
 			strcpy(mres->fileName, file);
 			mres->t = t;
-		}
+		} else
+			fprintf(stderr, "Couldn't load resource: %s.\n", file);
 		return t;
 	}
 	T *Add(const char *accessFilename, T *t) { // accessFilename: used by 'GetByFile'

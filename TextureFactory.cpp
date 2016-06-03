@@ -1,9 +1,13 @@
 #include "TextureFactory.h"
+#include <stdio.h>
 
 sf::Texture *TextureFactory::LoadRes(const char *file)
 {
 	sf::Texture *t = new sf::Texture;
-	t->loadFromFile(file);
+	if (!t->loadFromFile(file)) {
+		delete t;
+		return 0;
+	}
 	return t;
 }
 
