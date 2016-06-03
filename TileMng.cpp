@@ -53,6 +53,7 @@ void TileMng::GenDisplayList()
 				
 				tt = tileV[depth][i].sub.t;
 				sf::Texture::bind(tt);
+				glEnable(GL_TEXTURE_2D);
 				
 				glBegin(GL_QUADS);
 			}
@@ -75,6 +76,7 @@ void TileMng::GenDisplayList()
 			glEnd();
 		}
 
+		glDisable(GL_TEXTURE_2D);
 		sf::Texture::bind(NULL);
 		glDisable(GL_CULL_FACE);
 

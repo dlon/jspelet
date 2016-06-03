@@ -164,6 +164,7 @@ void Renderer::DrawTexture(sf::Texture *t, float x, float y) {
 	}
 
 	sf::Texture::bind(t, sf::Texture::Pixels);
+	glEnable(GL_TEXTURE_2D);
 
 	x = floor(x);
 	y = floor(y);
@@ -177,6 +178,7 @@ void Renderer::DrawTexture(sf::Texture *t, float x, float y) {
 	glTexCoord2i(sz.x, sz.y); glVertex2f(x+sz.x, y+sz.y);
 	glEnd();
 
+	glDisable(GL_TEXTURE_2D);
 	sf::Texture::bind(NULL);
 }
 
@@ -191,6 +193,7 @@ void Renderer::DrawSubImage(SubImage *s, float x, float y)
 		glColor3f(1.0f, 1.0f, 1.0f);
 
 	sf::Texture::bind(s->t, sf::Texture::Pixels);
+	glEnable(GL_TEXTURE_2D);
 
 	x = floor(x);
 	y = floor(y);
@@ -207,6 +210,7 @@ void Renderer::DrawSubImage(SubImage *s, float x, float y)
 		glVertex2f(x+s->w, y);
 	}
 	glEnd();
+	glDisable(GL_TEXTURE_2D);
 	sf::Texture::bind(NULL);
 	glDisable(GL_CULL_FACE);
 }
@@ -217,12 +221,14 @@ void Renderer::SetArrayTextureBegin(sf::Texture *t)
 		glColor3f(1.0f, 1.0f, 1.0f);
 
 	sf::Texture::bind(t, sf::Texture::Pixels);
+	glEnable(GL_TEXTURE_2D);
 
 	tempText = t; //
 }
 
 void Renderer::SetArrayTextureEnd()
 {
+	glDisable(GL_TEXTURE_2D);
 	sf::Texture::bind(NULL);
 }
 
@@ -255,6 +261,7 @@ void Renderer::DrawTextureEx(sf::Texture *t, float x, float y, float rotDeg, flo
 	glPushMatrix();
 
 	sf::Texture::bind(t, sf::Texture::Pixels);
+	glEnable(GL_TEXTURE_2D);
 
 	glTranslatef(floor(x), floor(y), 0);
 
@@ -281,6 +288,7 @@ void Renderer::DrawTextureEx(sf::Texture *t, float x, float y, float rotDeg, flo
 		glTexCoord2i(sz.x, 0);		glVertex2i(sz.x, 0);
 	glEnd();
 
+	glDisable(GL_TEXTURE_2D);
 	sf::Texture::bind(NULL);
 	glPopMatrix();
 }
@@ -299,6 +307,7 @@ void Renderer::DrawSubImageEx(SubImage *s, float x, float y, float rotDeg, float
 		glColor3f(1.0f, 1.0f, 1.0f);
 
 	sf::Texture::bind(s->t, sf::Texture::Pixels);
+	glEnable(GL_TEXTURE_2D);
 
 	// pos
 	glPushMatrix();
@@ -330,6 +339,7 @@ void Renderer::DrawSubImageEx(SubImage *s, float x, float y, float rotDeg, float
 	}
 	glEnd();
 	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
 	sf::Texture::bind(NULL);
 	glDisable(GL_CULL_FACE);
 }
@@ -435,11 +445,13 @@ void Renderer::DrawTrngl(float x1, float y1, float x2, float y2, float x3, float
 void Renderer::lfSetTexture(sf::Texture *t)
 {
 	sf::Texture::bind(t, sf::Texture::Pixels);
+	glEnable(GL_TEXTURE_2D);
 	tempText = t;
 }
 
 void Renderer::lfUnsetTexture()
 {
+	glDisable(GL_TEXTURE_2D);
 	sf::Texture::bind(NULL);
 }
 

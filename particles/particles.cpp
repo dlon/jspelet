@@ -195,6 +195,7 @@ void ParticleEmitter::Draw()
 		else
 		{
 			sf::Texture::bind(prop.texture, sf::Texture::Pixels);
+			glEnable(GL_TEXTURE_2D);
 			
 			sf::Vector2u sz = prop.texture->getSize();
 			float tw = (float)sz.x;
@@ -223,6 +224,7 @@ void ParticleEmitter::Draw()
 				}
 			}
 			glEnd();
+			glDisable(GL_TEXTURE_2D);
 			sf::Texture::bind(NULL);
 		}
 	}
