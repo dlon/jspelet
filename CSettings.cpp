@@ -1,34 +1,38 @@
 #include "CSettings.h"
+#include <sstream>
+#include <string>
 
-const char *CSettings::appDir = NULL;
-char CSettings::appBuffer[1024];
+std::string CSettings::appDir;
 bool CSettings::fullscreen = true;			// default
 
 #define APPDIR_APPNAME "JackeSpelet"
 
 const char *CSettings::GetAppDir()
 {
-	if (!appDir) {
-		size_t pp = strlen(APPDIR_APPNAME); // really static
+	if (appDir.empty()) {
+		const char* appData = 0;
+		std::stringstream path;
 
-		if (GetEnvironmentVariable("APPDATA", appBuffer, sizeof(appBuffer) - 1 - pp) != 0) { // success
-			strcat(appBuffer, "\\" APPDIR_APPNAME);
-			appDir = appBuffer;
-		}
-		else {
-			// use default path
-			appDir = ".\\data\\user";
-		}
+#ifdef _WIN32
+		path << getenv("APPDATA") << "/" << APPDIR_APPNAME;
+		appDir = path.str();
+#elif __linux__
+		path << getenv("HOME") << "/" << APPDIR_APPNAME;
+		appDir = path.str();
+#else
+		#warning "Don't know what environment variable to use. Using working directory to store data."
+		appDir = "./data/user";
+#endif
 		// construct folder if necessary
 		CreateDirectory(appDir, NULL);
 	}
-	return appDir;
+	return appDir.c_str();
 }
 
 void CSettings::ReadSettings(Jack *jack)
 {
 	std::string s(GetAppDir());
-	s += "\\jack.jfg";
+	s += "/jack.jfg";
 
 	if (!FileExists(s.c_str()))
 		return;
@@ -57,7 +61,7 @@ void CSettings::ReadSettings(Jack *jack)
 bool CSettings::ReadFullscreen()
 {
 	std::string s(GetAppDir());
-	s += "\\jack.jfg";
+	s += "/jack.jfg";
 
 	if (!FileExists(s.c_str()))
 		return fullscreen;
@@ -90,7 +94,7 @@ bool CSettings::ReadFullscreen()
 void CSettings::SaveSettings(Jack *jack)
 {
 	std::string s(GetAppDir());
-	s += "\\jack.jfg";
+	s += "/jack.jfg";
 
 	Archiver arc(s.c_str(), false);
 
@@ -105,7 +109,7 @@ const char * CSettings::GameStateFile()
 	static std::string sv;
 	if (sv.empty()) {
 		sv = GetAppDir();
-		sv += "\\state.jks";
+		sv += "/state.jks";
 	}
 	return sv.c_str();
 }
