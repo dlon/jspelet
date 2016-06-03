@@ -6,8 +6,7 @@
 #include <sstream>
 #include <assert.h>
 
-#define GAME_CAPTION "Jackespele!"
-#define GAME_CLASS_NAME "jjkbspele"
+#define GAME_CAPTION "Jackespelet"
 
 bool lWindowedMode = true;
 bool lMapParameter = false;
@@ -111,7 +110,7 @@ int RunGame(const char *cmdLine)
 {
 	lWindowedMode = !CSettings::ReadFullscreen();
 	sf::RenderWindow window(sf::VideoMode(640,480), GAME_CAPTION);
-	assert(lWindowedMode); // FIXME-SFML: implement fullscreen mode
+	//assert(lWindowedMode); // FIXME-SFML: implement fullscreen mode
 	
 	input = new Input;
 	/*eng =*/ new Engine(window);
