@@ -3,6 +3,7 @@
 #include "SplashImage.h"
 #include "Input.h"
 #include <SFML/System.hpp>
+#include <assert.h>
 
 Engine *	eng = 0;
 sf::Texture *	splash = 0;
@@ -20,6 +21,7 @@ std::string endingSplash;
 
 Engine::Engine(sf::RenderWindow& window)
 {
+	assert(eng == 0); // this should not run more than once
 	// todo: error checking
 	render = new Renderer(window);
 	res = new ResourceMng;

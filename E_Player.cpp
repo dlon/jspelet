@@ -153,7 +153,7 @@ void E_Player::Step()
 		sprint = false;
 
 	// lazer
-	if (!lockInput && eng->time >= blasterTimer && input->CheckPressed('D')) {
+	if (!lockInput && eng->time >= blasterTimer && input->CheckPressed(sf::Keyboard::D)) {
 		//aBlaster->Stop();
 		//aBlaster->SetCurrentPosition(0);
 		//aBlaster->Play(0,0,0);
