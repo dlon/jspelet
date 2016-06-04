@@ -1,6 +1,7 @@
 #include "Jack.h"
 #include "Engine.h"
 #include "Input.h"
+#include <stdio.h>
 
 extern Engine *eng;
 extern Input *input;
@@ -292,8 +293,7 @@ void Jack::LoadState(const char *stateFile)
 	arc >> sig;
 
 	if (sig.compare("StateFile")) {
-		//MessageBox(0, "Not a state file.", stateFile, 0);
-		// FIXME-SFML: give error message
+		fprintf(stderr, "%s: Not a state file.", stateFile);
 		return;
 	}
 	//map.Serialize(arc); // good bye, oh elaborate scheme for nothing!

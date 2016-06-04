@@ -244,12 +244,9 @@ int ParticleEmitter::CountParticles()
 void ParticleEmitter::LoadConfiguration(const char *part_file)
 {
 	FILE *t = fopen(part_file, "rb");
-	if (!t)
-	{
-		//char temp[MAX_PATH+64];
-		//sprintf(temp, "Cannot read: %s", part_file);
-		//MessageBox(NULL, temp, "Configuration file", MB_ICONERROR);
-		//FIXME-SFML ^
+	if (!t) {
+		fprintf(stderr, "ParticleEmitter::LoadConfiguration: Cannot open file: %s.", part_file);
+		return;
 	}
 	fclose(t);
 

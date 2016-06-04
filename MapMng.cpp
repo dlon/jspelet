@@ -214,7 +214,7 @@ void MapMng::Load(const char *file, bool loadTiles, bool loadSolids, bool loadEn
 				fseek(fp, len-4, SEEK_CUR);
 			break;
 		case ENTITY_TAGV2:
-			//MessageBox(0, "Old entity tag", 0, 0);
+			fprintf(stderr, "ENTITY_TAGV2: Old entity tag.\n");
 			break;
 		case ENTITY_TAGV3:
 			if (loadEntities)

@@ -20,7 +20,6 @@ main.cpp
 
 	<use SFML's timers better
 	enable volume controls
-	remove msgs from Input
 
 	partikeltexturerna. det är något fel på blend
 	fel på kollisionerna. är det ett problem med timern i main?
