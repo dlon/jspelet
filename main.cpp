@@ -138,13 +138,24 @@ int RunGame(const char *cmdLine)
 				window.close();
 				break;
 			case sf::Event::KeyPressed:
+				if (event.key.code == -1 || event.key.code == sf::Keyboard::D) // HACKY BUGFIX
+					break;
 				input->HitKey(event.key.code);
 				break;
 			case sf::Event::KeyReleased:
+				if (event.key.code == -1 || event.key.code == sf::Keyboard::D) // HACKY BUGFIX
+					break;
 				input->RelKey(event.key.code);
 				break;
 			}
 		}
+
+		// HACKY BUGFIX: SFML would not give the correct key event for D when shift was held
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			input->HitKey(sf::Keyboard::D);
+		else if (input->Check(sf::Keyboard::D))
+			input->RelKey(sf::Keyboard::D);
+
 		if (eng->Frame())
 			input->UnPress();
 	}
