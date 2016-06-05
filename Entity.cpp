@@ -67,7 +67,7 @@ void Entity::CheckTiles(SolidMap *tileMng)
 				do {
 					y = colRect.SetY(colRect.GetY() - 0.1f);
 				} while (tileMng->Collision(colRect, actualPos, TFLAG_BLOCK_N));
-				y = colRect.SetY(ceilf(colRect.GetY())); // FIXME
+				y = colRect.SetY(roundf(colRect.GetY())); // FIXME
 			}
 
 			firstYTest = true;
@@ -75,23 +75,6 @@ void Entity::CheckTiles(SolidMap *tileMng)
 		}
 	}
 
-	// walking down a slope?
-#if 0
-	if (hspeed > 0.0f) {
-		float yBack = colRect.GetY();
-		colRect.SetY(colRect.GetY() + 5.0f);
-		int n=tileMng->Collision(colRect, actualPos, TFLAG_SLOPE_E|TFLAG_SLOPE_HE | TFLAG_BLOCK_N);
-		if (!(n & (TFLAG_SLOPE_E|TFLAG_SLOPE_HE)))
-			colRect.SetY(yBack);
-	}
-	else if (hspeed < 0.0f) {
-		float yBack = colRect.GetY();
-		colRect.SetY(colRect.GetY() + 5.0f);
-		int n=tileMng->Collision(colRect, actualPos, TFLAG_SLOPE_W|TFLAG_SLOPE_HW | TFLAG_BLOCK_N);
-		if (!(n & (TFLAG_SLOPE_W|TFLAG_SLOPE_HW)))
-			colRect.SetY(yBack);
-	}
-#endif
 	// slope fix 2009-08-18
 	if (hspeed > 0.0f) {
 		float yBack = colRect.GetY();
