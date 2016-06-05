@@ -506,9 +506,6 @@ Entity *EntityMng::FindClosestInstance(float x, float y, float maxDist, int id) 
 		if (id == -1 || id == e->GetID()) {
 			float xx = x - e->x;
 			float yy = y - e->y;
-
-			if (id == EID_PLAYER)
-				printf("dwzzjiowd: %f %f\n", xx, yy);
 		
 			//if (sqrt(xx*xx + yy*yy) <= maxDist)
 			if (xx*xx + yy*yy <= maxDist*maxDist)
