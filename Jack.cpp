@@ -103,7 +103,7 @@ void Jack::SetSongOnce(const char *file)
 	// play song
 	if (!musicPlayer.openFromFile(file))
 		return;
-	musicPlayer.setLoop(true);
+	musicPlayer.setLoop(false);
 	musicPlayer.play();
 
 	ReadjustVolumes();
