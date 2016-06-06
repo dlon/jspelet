@@ -71,7 +71,7 @@ bool Engine::Frame()
 				allowEnterSplash = true;
 
 				if (endingSplash != "") {
-					allowEnterSplash = true;
+					allowEnterSplash = false;
 					tticks = -1;
 					SetSplash(endingSplash.c_str());
 					endingSplash = "";
