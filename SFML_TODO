@@ -14,12 +14,13 @@ main.cpp
 	does unordered_map support const char*? if not: fix
 
 	barrel fire sound: re-add stereo/panning effect
+		use sf::Listener to accomplish this
 	I expect sounds to behave oddly. did the old method Sound::Play() not replay sounds? if so, fix these cases
 
 	replace my own Vector2D with SFML's Vector2
 
 	<use SFML's timers better
-	enable volume controls
+	enable volume control for sound effects
 
 	byt ut skärmen när man förlorar alla liv
 

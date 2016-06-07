@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Input.h"
 #include <stdio.h>
+#include <algorithm>
 
 extern Engine *eng;
 extern Input *input;
@@ -24,9 +25,9 @@ Jack::Jack() : loadedGame(false),
 		gui.Set(std::auto_ptr<UglyMenu>(new StartupMenu));
 
 	// read config
-	musicVol			= 88.0f;
-	mLowVol				= 1.0f;
-	sfxVol				= 90.0f;
+	musicVol			= 88.0f; // 0 <= musicvol <= 100
+	mLowVol				= 1.0f; // 0 <= mLowVol <= 1 (musicVol multiplier)
+	sfxVol				= 90.0f; // 0 <= sfxVol <= 100
 	
 	CSettings::ReadSettings(this);
 
@@ -42,18 +43,11 @@ Jack::~Jack()
 
 void Jack::ReadjustVolumes()
 {
-	// sfx vol
+	// set volume for sound effects
+	// NOTE: only sounds in the resource manager
 	//Sound::SetGlobalVolume(sfxVol); // FIXME-SFML
 
-	// music vol
-	/*
-	if (musicVol > 0.0f) {
-		long mvol = -5000 + long(musicVol * mLowVol * 50.0f);
-		musicPlayer.SetVolume(mvol);
-	}
-	else
-		musicPlayer.SetVolume(-10000); // dead 0
-	*/ // FIXME-SFML: adjust music volume based on what's going on
+	musicPlayer.setVolume(mLowVol*musicVol);
 
 	//CSettings::SaveSettings(this);
 }
