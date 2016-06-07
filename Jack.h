@@ -7,7 +7,6 @@
 #include "EntityMng.h"
 #include "JackHUD.h"
 #include "MapMng.h"
-#include "Groovyizer.h"
 #include "Archiver.h"
 #include "Font.h"
 #include "ChaseCam.h"
