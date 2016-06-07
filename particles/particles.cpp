@@ -196,7 +196,18 @@ void ParticleEmitter::Draw()
 		{
 			sf::Texture::bind(prop.texture, sf::Texture::Pixels);
 			glEnable(GL_TEXTURE_2D);
-			
+
+			switch (prop.blending) // SFML bug fix (2016)
+			{
+			case 0:
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				break;
+			case 1:
+			default:
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+				break;
+			}
+
 			sf::Vector2u sz = prop.texture->getSize();
 			float tw = (float)sz.x;
 			float th = (float)sz.y;
