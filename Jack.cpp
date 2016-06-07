@@ -179,10 +179,10 @@ bool Jack::Update()
 
 	// lower music vol while th snds are playing
 	if (mLowVol==1.0f && (sndDoKorVi.getStatus()==sf::SoundSource::Playing || sndBraJobbat.getStatus()==sf::SoundSource::Playing)) {
-		mLowVol = 0.7f;
+		mLowVol = 0.4f;
 		ReadjustVolumes();
 	}
-	else if (mLowVol==0.7f && (!sndDoKorVi.getStatus()==sf::SoundSource::Playing && !sndBraJobbat.getStatus()==sf::SoundSource::Playing)) {
+	else if (mLowVol<1.0f && (sndDoKorVi.getStatus()!=sf::SoundSource::Playing && sndBraJobbat.getStatus()!=sf::SoundSource::Playing)) {
 		mLowVol = 1.0f;
 		ReadjustVolumes();
 	}

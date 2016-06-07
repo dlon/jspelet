@@ -14,8 +14,8 @@ enum {
 class JackeGui {
 	std::auto_ptr<UglyMenu>		menu;
 	std::auto_ptr<UglyMenu>		prevMenu;
-	int							tick;
-	int							menuType;
+	int				tick;
+	int				menuType;
 public:
 	JackeGui();
 
