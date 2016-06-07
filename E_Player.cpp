@@ -32,14 +32,14 @@ E_Player::E_Player()
 	sPlayerDead.Load("data/jakob_ded.png", 1, 0, 0);
 	sPlayerDead2.Load("data/ks.PNG", 2, 37, 0);
 
-	aJump		= sf::Sound(*eng->res->sounds.Load("data/hepp2.wav"));
-	aPlunge		= sf::Sound(*eng->res->sounds.Load("data/splash3.wav"));
-	aBlaster	= sf::Sound(*eng->res->sounds.Load("data/lazer2.wav"));
-	aHurt		= sf::Sound(*eng->res->sounds.Load("data/hurt.wav"));
-	aDying		= sf::Sound(*eng->res->sounds.Load("data/dying2.wav"));
-	aDead		= sf::Sound(*eng->res->sounds.Load("data/dead.wav"));
-	aSwim		= sf::Sound(*eng->res->sounds.Load("data/swim10.wav"));
-	aCp			= sf::Sound(*eng->res->sounds.Load("data/cp.wav"));
+	aJump		= Sound(*eng->res->sounds.Load("data/hepp2.wav"));
+	aPlunge		= Sound(*eng->res->sounds.Load("data/splash3.wav"));
+	aBlaster	= Sound(*eng->res->sounds.Load("data/lazer2.wav"));
+	aHurt		= Sound(*eng->res->sounds.Load("data/hurt.wav"));
+	aDying		= Sound(*eng->res->sounds.Load("data/dying2.wav"));
+	aDead		= Sound(*eng->res->sounds.Load("data/dead.wav"));
+	aSwim		= Sound(*eng->res->sounds.Load("data/swim10.wav"));
+	aCp			= Sound(*eng->res->sounds.Load("data/cp.wav"));
 
 	//aPlunge->SetVolume(-500);
 	

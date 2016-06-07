@@ -10,7 +10,7 @@ class E_Skjutarn : public E_BaseEnemy
 	bool	shAllow;
 public:
 	Sprite	mainSpr;
-	sf::Sound	aLazer;
+	Sound	aLazer;
 
 	int		GetID() { return EID_SKJUTARN; }
 	void	Step();

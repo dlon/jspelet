@@ -6,6 +6,7 @@
 #include "CollisionObject.h"
 #include "Archiver.h"
 #include "EntityID.h"
+#include "Sound.h"
 #include <SFML/Audio.hpp>
 
 #define GRAVITY_LIMIT 10.0f

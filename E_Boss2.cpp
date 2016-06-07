@@ -32,7 +32,7 @@ static const float		kAttack2AnimStep = 1.0f;
 E_Boss2Trigger::E_Boss2Trigger() : player(NULL)
 {
 	shake = trigger1 = false;
-	sndShake = sf::Sound(*eng->res->sounds.Load("data/grnd0.wav"));
+	sndShake = Sound(*eng->res->sounds.Load("data/grnd0.wav"));
 }
 
 void E_Boss2Trigger::Step()
@@ -282,7 +282,7 @@ E_Boss2::E_Boss2()
 	spr1.Load("data/d3.png", 3, 320, 0); // FIXME: free when done - FIXME2: we only need 3 frames! (but there are 4)
 	spr2.Load("data/d4.png", 4, 320, 0); // FIXME: free when done
 
-	sndShake = sf::Sound(*eng->res->sounds.Load("data/grnd0.wav")); // FIXME: up frequency towards end?
+	sndShake = Sound(*eng->res->sounds.Load("data/grnd0.wav")); // FIXME: up frequency towards end?
 
 	spriteIndex = &spr1;
 
@@ -482,7 +482,7 @@ E_Boss2Fireball::E_Boss2Fireball()
 	//hspeed = -10.0f;
 	gravity = 0;
 
-	snd1 = sf::Sound(*eng->res->sounds.Load("data/fball3.wav"));
+	snd1 = Sound(*eng->res->sounds.Load("data/fball3.wav"));
 	snd1.play();
 	// FIXME-SFML: Stop the old fireball sound
 
@@ -569,7 +569,7 @@ E_Boss2GrndFire::E_Boss2GrndFire()
 
 	// TODO: shake ground
 
-	snd1 = sf::Sound(*eng->res->sounds.Load("data/grnd2.wav"));
+	snd1 = Sound(*eng->res->sounds.Load("data/grnd2.wav"));
 
 	// animate fire
 	spr1.imgInd = (float)(rand()%2);
@@ -684,8 +684,8 @@ E_Boss2Shield::E_Boss2Shield()
 	a = 0;
 	fMode = 0; // 0=fade in,1=standby,2=fade out
 
-	snd1 = sf::Sound(*eng->res->sounds.Load("data/tp.wav"));
-	snd2 = sf::Sound(*eng->res->sounds.Load("data/tp2.wav"));
+	snd1 = Sound(*eng->res->sounds.Load("data/tp.wav"));
+	snd2 = Sound(*eng->res->sounds.Load("data/tp2.wav"));
 
 	snd1.play();
 
@@ -808,8 +808,8 @@ E_Boss2Door::E_Boss2Door()
 
 	nSndRef++;
 
-	snd = sf::Sound(*eng->res->sounds.Load("data/shitclose.wav"));
-	sndOpen = sf::Sound(*eng->res->sounds.Load("data/shitopen.wav"));
+	snd = Sound(*eng->res->sounds.Load("data/shitclose.wav"));
+	sndOpen = Sound(*eng->res->sounds.Load("data/shitopen.wav"));
 
 	//CreateWall();
 }

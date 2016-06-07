@@ -10,7 +10,7 @@ extern Engine *eng;
 E_Skjutarn::E_Skjutarn() : E_BaseEnemy(40.0f)
 {
 	mainSpr.Load("data/skjutarn.png", 1, 0,0);
-	aLazer = sf::Sound(*eng->res->sounds.Load("data/zap.wav"));
+	aLazer = Sound(*eng->res->sounds.Load("data/zap.wav"));
 	
 	spriteIndex = &mainSpr;
 

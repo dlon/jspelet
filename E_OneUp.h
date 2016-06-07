@@ -5,7 +5,7 @@ class E_OneUp : public Entity
 {
 public:
 	Sprite	sprite;
-	sf::Sound	snd;
+	Sound	snd;
 
 	int		GetID() { return EID_ONEUP; }
 

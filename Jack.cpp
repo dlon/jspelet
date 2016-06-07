@@ -31,7 +31,7 @@ Jack::Jack() : loadedGame(false),
 	
 	CSettings::ReadSettings(this);
 
-	//Sound::SetGlobalVolume(sfxVol); // FIXME-SFML
+	ReadjustVolumes();
 	//SetSong("data/asaszszx3.ogg");
 	//SetSong("data/shjak.ogg");
 }
@@ -43,10 +43,7 @@ Jack::~Jack()
 
 void Jack::ReadjustVolumes()
 {
-	// set volume for sound effects
-	// NOTE: only sounds in the resource manager
-	//Sound::SetGlobalVolume(sfxVol); // FIXME-SFML
-
+	Sound::setGlobalVolume(sfxVol);
 	musicPlayer.setVolume(mLowVol*musicVol);
 
 	//CSettings::SaveSettings(this);
@@ -112,8 +109,8 @@ void Jack::PostInit()
 	postInit = true;
 
 	// audio stuff
-	sndDoKorVi		= sf::Sound(*eng->res->sounds.Load("data/v_dakorvi.wav"));
-	sndBraJobbat	= sf::Sound(*eng->res->sounds.Load("data/v_brajobat.wav"));
+	sndDoKorVi		= Sound(*eng->res->sounds.Load("data/v_dakorvi.wav"));
+	sndBraJobbat	= Sound(*eng->res->sounds.Load("data/v_brajobat.wav"));
 
 	//Load(); // added
 }

@@ -19,7 +19,7 @@ E_BaseEnemy::E_BaseEnemy(float maxHealth) : active(false) {
 	manualActivation = false;
 	lifeSpan	= -1;
 
-	sndSpltr = sf::Sound(*eng->res->sounds.Load("data/spltr.wav"));
+	sndSpltr = Sound(*eng->res->sounds.Load("data/spltr.wav"));
 }
 void E_BaseEnemy::PostCreate()
 {

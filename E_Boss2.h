@@ -8,7 +8,7 @@
 class E_Boss2Trigger : public Entity
 {
 	E_Player	*player;
-	sf::Sound		sndShake;
+	Sound		sndShake;
 	bool		trigger1;
 	bool		shake;
 public:
@@ -47,7 +47,7 @@ public:
 
 	Sprite	spr1;
 	Sprite	spr2;
-	sf::Sound	sndShake;
+	Sound	sndShake;
 
 	E_Boss2Sequencer *seq;
 
@@ -69,7 +69,7 @@ public:
 
 	Entity	*pl;
 	Sprite	sprFireball;
-	sf::Sound	snd1;
+	Sound	snd1;
 
 	bool	IsEnemy()	{ return true; }
 	int		GetID()		{ return EID_BOSS2FIREBALL; }
@@ -90,7 +90,7 @@ public:
 	E_Boss2GrndFire();
 
 	Sprite	spr1;
-	sf::Sound	snd1;
+	Sound	snd1;
 
 	bool	IsEnemy()	{ return true; }
 	int		GetID()		{ return EID_BOSS2GRNDFIRE; }
@@ -109,8 +109,8 @@ class E_Boss2Shield : public Entity
 	bool	solid;
 public:
 	Sprite	spr1;
-	sf::Sound	snd1;
-	sf::Sound	snd2;
+	Sound	snd1;
+	Sound	snd2;
 
 	E_Boss2Shield();
 
@@ -127,12 +127,12 @@ public:
 class E_Boss2Door : public Entity
 {
 public:
-	sf::Sound		snd;
-	sf::Sound		sndOpen;
-	int			wallN;
+	Sound		snd;
+	Sound		sndOpen;
+	int		wallN;
 	E_Player *	player;
 	float		wallHeight;
-	sf::Texture		*tset;
+	sf::Texture	*tset;
 
 	E_Boss2Door();
 	~E_Boss2Door();

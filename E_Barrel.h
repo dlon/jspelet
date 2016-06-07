@@ -17,8 +17,8 @@ class E_Barrel : public Entity
 	bool solid;
 	float dmg;
 
-	sf::Sound					sndFire;
-	sf::Sound						sndExplo;
+	Sound					sndFire;
+	Sound						sndExplo;
 	Entity						*player;
 public:
 	bool		onPlatform;

@@ -6,10 +6,10 @@ extern Engine *eng;
 
 UglyMenu::UglyMenu(const char *sFile, int nargs, int spacing, float xo, float yo)
 {
-	aOpen = sf::Sound(*eng->res->sounds.Load("data/mmopen.wav"));
-	aClose = sf::Sound(*eng->res->sounds.Load("data/mmclose.wav"));
-	aSelect = sf::Sound(*eng->res->sounds.Load("data/mmselect2.wav"));
-	aDecide = sf::Sound(*eng->res->sounds.Load("data/kesh.wav"));
+	aOpen = Sound(*eng->res->sounds.Load("data/mmopen.wav"));
+	aClose = Sound(*eng->res->sounds.Load("data/mmclose.wav"));
+	aSelect = Sound(*eng->res->sounds.Load("data/mmselect2.wav"));
+	aDecide = Sound(*eng->res->sounds.Load("data/kesh.wav"));
 
 	tScreen = eng->res->textures.Load(sFile);
 	tCursor = eng->res->textures.Load("data/screencur.PNG");

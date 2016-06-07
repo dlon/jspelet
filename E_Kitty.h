@@ -11,7 +11,7 @@ class E_Kitty : public E_BaseEnemy
 public:
 	Sprite	mainSpr;
 	Sprite	jumpSpr;
-	sf::Sound	meowSnd;
+	Sound	meowSnd;
 
 	int GetID() { return EID_KITTY; }
 

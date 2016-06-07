@@ -14,7 +14,7 @@ E_OneUp::E_OneUp()
 	sprite.Load("data/1up.PNG", 1, 0,0);
 	spriteIndex = &sprite;
 	colRect.FromSprite(spriteIndex);
-	snd = sf::Sound(*eng->res->sounds.Load("data/oneup3.wav"));
+	snd = Sound(*eng->res->sounds.Load("data/oneup3.wav"));
 }
 
 void E_OneUp::Collision(Entity *with)

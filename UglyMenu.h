@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "VolumeCtrl.h"
 #include <SFML/Audio.hpp>
+#include "Sound.h"
 
 //
 // base
@@ -19,10 +20,10 @@ public:
 	UglyMenu(const char *sFile, int nargs, int spacing, float xo=87.0f, float yo=117.0f);
 	virtual ~UglyMenu();
 
-	sf::Sound	aOpen;
-	sf::Sound	aClose;
-	sf::Sound	aSelect;
-	sf::Sound	aDecide;
+	Sound		aOpen;
+	Sound		aClose;
+	Sound		aSelect;
+	Sound		aDecide;
 	sf::Texture*	tScreen;
 	sf::Texture*	tCursor;
 

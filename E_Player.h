@@ -32,14 +32,14 @@ public:
 	Sprite sPlayerJmp[3];
 	Sprite sPlayerDead;
 	Sprite sPlayerDead2;
-	sf::Sound aJump;
-	sf::Sound aPlunge;
-	sf::Sound aBlaster;
-	sf::Sound aHurt;
-	sf::Sound aDying;
-	sf::Sound aDead;
-	sf::Sound aSwim;
-	sf::Sound aCp;
+	Sound aJump;
+	Sound aPlunge;
+	Sound aBlaster;
+	Sound aHurt;
+	Sound aDying;
+	Sound aDead;
+	Sound aSwim;
+	Sound aCp;
 
 	void	UpdateHealth(float newHealth);
 	float	Life() { return health; }

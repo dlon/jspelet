@@ -27,7 +27,7 @@ E_Kitty::E_Kitty() : E_BaseEnemy(30.0f)
 	//spriteIndex->imgSpeed = .25f;
 	spriteIndex->imgSpeed = .25f;
 
-	meowSnd = sf::Sound(*eng->res->sounds.Load("data/kattmjau.wav"));
+	meowSnd = Sound(*eng->res->sounds.Load("data/kattmjau.wav"));
 
 	colRect.SetX(15.0f); // FIXME: isn't this supposed to be XOffs?
 	colRect.SetW(70.0f);

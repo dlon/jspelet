@@ -11,13 +11,13 @@ protected:
 	bool			active; // activate when player gets in range
 	bool			manualActivation;
 	float			health;
-	int				hurtTimer;
+	int			hurtTimer;
 	float			blendMp;
 	float			playerDamage;
 	E_Player	*	player;				// static E_Player *player
 	float			activRadius;
-	sf::Sound	sndSpltr;
-	int				lifeSpan;
+	Sound			sndSpltr; // FIXME-SFML: share this Sound to avoid many instances
+	int			lifeSpan;
 public:
 	E_BaseEnemy(float maxHealth);
 	virtual ~E_BaseEnemy() {}

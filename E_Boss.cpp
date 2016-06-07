@@ -50,7 +50,7 @@ E_Boss::E_Boss() : maxHealth(3000.0f), E_BaseBoss()
 	spr.Load("data/boss.png", 2, 155, 173);
 	sprShoot.Load("data/boss.png", 1, 155, 173, 310, 0);
 
-	sndStep = sf::Sound(*eng->res->sounds.Load("data/boss1steg.wav"));
+	sndStep = Sound(*eng->res->sounds.Load("data/boss1steg.wav"));
 
 	attack2 = false;
 	shooting = false;
@@ -286,8 +286,8 @@ E_BossRocket::E_BossRocket()
 	spriteIndex = &sprRocket;
 	sprRocket.imgSpeed = 0.1f;
 
-	sndRocket = sf::Sound(*eng->res->sounds.Load("data/explosion.wav"));
-	sndShoot = sf::Sound(*eng->res->sounds.Load("data/sht.wav"));
+	sndRocket = Sound(*eng->res->sounds.Load("data/explosion.wav"));
+	sndShoot = Sound(*eng->res->sounds.Load("data/sht.wav"));
 
 	pl = eng->jack->map.GetEntities().FindInstanceById(NULL, EID_PLAYER); // FIXME: Slow?
 
@@ -342,8 +342,8 @@ E_BossSurprise::E_BossSurprise()
 	sprSurprise.Load("data/boss1raket.png", 1, 64, 0);
 	spriteIndex = &sprSurprise;
 
-	sndDrop		= sf::Sound(*eng->res->sounds.Load("data/boss1drop.wav"));
-	sndExplode	= sf::Sound(*eng->res->sounds.Load("data/explosion.wav"));
+	sndDrop		= Sound(*eng->res->sounds.Load("data/boss1drop.wav"));
+	sndExplode	= Sound(*eng->res->sounds.Load("data/explosion.wav"));
 
 	pl = eng->jack->map.GetEntities().FindInstanceById(NULL, EID_PLAYER); // FIXME: Slow?
 

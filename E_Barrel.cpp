@@ -112,8 +112,8 @@ E_Barrel::E_Barrel()
 
 	player = 0;
 
-	sndFire = sf::Sound(*eng->res->sounds.Load("data/fire2.wav"));
-	sndExplo = sf::Sound(*eng->res->sounds.Load("data/adl.wav"));
+	sndFire = Sound(*eng->res->sounds.Load("data/fire2.wav"));
+	sndExplo = Sound(*eng->res->sounds.Load("data/adl.wav"));
 
 	onPlatform = false;
 	platformV = platformH = 0;

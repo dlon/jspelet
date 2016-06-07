@@ -20,7 +20,6 @@ main.cpp
 	replace my own Vector2D with SFML's Vector2
 
 	<use SFML's timers better
-	enable volume control for sound effects
 
 	byt ut skärmen när man förlorar alla liv
 
