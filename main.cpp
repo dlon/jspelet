@@ -120,8 +120,12 @@ int RunGame(const char *cmdLine)
 
 	ProcessCmdLine(cmdLine);
 
-	if (initialMap != "")
+	if (initialMap != "") {
 		eng->jack->SetInitialMap(initialMap.c_str());
+		// skip selection screen when using -map
+		eng->jack->Load(false);
+		eng->jack->gui.Close();
+	}
 
 	// intro
 	tticks = 180;

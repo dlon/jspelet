@@ -109,7 +109,7 @@ void Jack::PostInit()
 	postInit = true;
 
 	// audio stuff
-	sndDoKorVi		= Sound(*eng->res->sounds.Load("data/v_dakorvi.wav"));
+	sndDoKorVi	= Sound(*eng->res->sounds.Load("data/v_dakorvi.wav"));
 	sndBraJobbat	= Sound(*eng->res->sounds.Load("data/v_brajobat.wav"));
 
 	//Load(); // added
